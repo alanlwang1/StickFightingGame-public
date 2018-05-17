@@ -1,5 +1,5 @@
 /**
-* this superclass defines the general player class that we can implement custom characters out of. 
+* @summary This superclass defines the general player class that we can implement custom characters out of. 
 * (defines in game playable things' methods and basic variables)
 * @author D. Chen
 * @created 05-17-18
@@ -20,14 +20,19 @@ public abstract class Player
   public abstract void fire() {}
   
   /**
-  * @summary changes the y position by either a positive or negative amount
+  * @summary Changes the y position by either a positive or negative amount
   **/
   public abstract void jump() {}
   
   /**
-  * @summary changes the x position by either a positive or negative amount, dependent on speed
+  * @summary Changes the x position by either a positive or negative amount, dependent on speed
   **/
   public abstract void move() {}
+  
+  /**
+  * @summary Gives each player a unique, one game use skill (work on this later)
+  **/
+  public abstract void superpower() {}
   
   /**
   * @summary Adds a win if player won the game
