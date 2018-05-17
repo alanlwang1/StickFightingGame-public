@@ -9,20 +9,51 @@ public abstract class Game
 {
   //instantiate the variables needed for the game
   private boolean endGame = false;
+  private boolean endMatch = false;
   private int numWins;
   private int totalGames; 
   private Player player1, player2; 
   /**
-  * @summary Checks to see if the game is over, or if one player is dead. 
-  * @return if one player is dead (true if so, false otherwise)
+  * @summary Checks to see if the game is over.
+  * @return if game is over (true if so, false otherwise)
   **/
   public boolean gameState() 
   {
     return !endGame;
   }
   
+  /**
+  * @summary Checks to see if the match is over.
+  * @return if match is over (true if so, false otherwise)
+  **/
+  public boolean matchState() 
+  {
+    return !endMatch;
+  }
+  
+  /**
+  * @summary Checks if one player is dead. 
+  **/
   public void checkWinCondition()
   {
-    if 
+    if (player1.isDead() || player2.isDead())
+    {  
+      endGame = true;
+     
+    }
   }
+  
+  /**
+  * @summary returns the winner of the game.
+  * @return the winner of the game.
+  **/
+  public Player getWinner()
+  {
+    if (player1.isDead()
+    {
+      
+    }
+          
+  }
+  
 }
