@@ -1,9 +1,8 @@
 /**
-* @summary This class will contain the rules of the game, instantiate the players and map, and deal with how the 
+* This class will contain the rules of the game, instantiate the players and map, and deal with how the 
 * graphics should be set up. 
 * @author D. Chen
-* @created 05-17-18
-* @modified 05-17-18
+* @version b1.0
 **/
 public abstract class Game
 {
@@ -15,19 +14,19 @@ public abstract class Game
   private Player player1, player2; 
   
   /**
-  * @summary Checks to see if the game is over.
+  * Checks to see if the game is over.
   * @return If game is over (true if so, false otherwise)
   **/
-  public abstract boolean gameState() {}
+  public abstract boolean gameState();
   
   /**
-  * @summary Checks to see if the match is over.
+  * Checks to see if the match is over.
   * @return If match is over (true if so, false otherwise)
   **/
-  public abstract boolean matchState() {}
+  public abstract boolean matchState();
   
   /**
-  * @summary Checks if one player is dead. Adds a win to the players who won, if necessary. 
+  * Checks if one player is dead. Adds a win to the players who won, if necessary. 
   **/
   public void checkWinCondition()
   {
@@ -42,8 +41,8 @@ public abstract class Game
   }
   
   /**
-  * @summary Returns the winner of the game.
-  * @return The winner of the game.
+  * Returns the winner of the game.
+  * @return The winner of the game
   **/
   public Player getWinner()
   {
