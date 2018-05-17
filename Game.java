@@ -16,13 +16,13 @@ public abstract class Game
   
   /**
   * @summary Checks to see if the game is over.
-  * @return if game is over (true if so, false otherwise)
+  * @return If game is over (true if so, false otherwise)
   **/
   public abstract boolean gameState() {}
   
   /**
   * @summary Checks to see if the match is over.
-  * @return if match is over (true if so, false otherwise)
+  * @return If match is over (true if so, false otherwise)
   **/
   public abstract boolean matchState() {}
   
@@ -42,8 +42,8 @@ public abstract class Game
   }
   
   /**
-  * @summary returns the winner of the game.
-  * @return the winner of the game.
+  * @summary Returns the winner of the game.
+  * @return The winner of the game.
   **/
   public Player getWinner()
   {
