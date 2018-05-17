@@ -18,29 +18,26 @@ public abstract class Game
   * @summary Checks to see if the game is over.
   * @return if game is over (true if so, false otherwise)
   **/
-  public boolean gameState() 
-  {
-    return !endGame;
-  }
+  public abstract boolean gameState() {}
   
   /**
   * @summary Checks to see if the match is over.
   * @return if match is over (true if so, false otherwise)
   **/
-  public boolean matchState() 
-  {
-    return !endMatch;
-  }
+  public abstract boolean matchState() {}
   
   /**
-  * @summary Checks if one player is dead. 
+  * @summary Checks if one player is dead. Adds a win to the players who won, if necessary. 
   **/
   public void checkWinCondition()
   {
-    if (player1.isDead() || player2.isDead())
+    if (player1.isDead() || player2.isDead()) //if either player is dead
     {  
-      endGame = true;
-     
+      endGame = true; //end the game
+      if (player1.isDead()) //give the win to the player who won 
+        player2.addWin();
+      else
+        player1.addWin();
     }
   }
   
