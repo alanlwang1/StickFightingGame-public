@@ -1,9 +1,8 @@
 /**
-* @summary This superclass defines the general player class that we can implement custom characters out of. 
-* (defines in game playable things' methods and basic variables)
+* This superclass defines the general player class that we can implement custom characters out of 
+* (defines in game playable things' methods and basic variables).
 * @author D. Chen
-* @created 05-17-18
-* @modified 05-17-18
+* @version b1.0
 **/
 public abstract class Player
 {
@@ -15,35 +14,41 @@ public abstract class Player
   //image of the player? 
   
   /**
-  * @summary Fires or uses weapon (can be melee or ranged)
+  * Fires or uses weapon (can be melee or ranged).
   **/
-  public abstract void fire() {}
+  public abstract void fire();
   
   /**
-  * @summary Changes the y position by either a positive or negative amount
+  * Picks up a weapon.
   **/
-  public abstract void jump() {}
+  public abstract void pickUp();
   
   /**
-  * @summary Changes the x position by either a positive or negative amount, dependent on speed
+  * Changes the y position by either a positive or negative amount.
   **/
-  public abstract void move() {}
+  public abstract void jump();
   
   /**
-  * @summary Gives each player a unique, one game use skill (work on this later)
+  * Changes the x position by either a positive or negative amount, dependent on speed.
   **/
-  public abstract void superpower() {}
+  public abstract void move();
   
   /**
-  * @summary Adds a win if player won the game
+  * Gives each player a unique, one game use skill (work on this later).
+  **/
+  public abstract void superpower();
+  
+  /**
+  * Adds a win if player won the game.
   **/ 
   public void addWin()
   {
     wins++;
   }
+  
   /**
-  * @summary Recalculates player health when damage is taken.
-  * @param damage: the amount of damage the player takes
+  * Recalculates player health when damage is taken.
+  * @param Damage the amount of damage the player takes
   **/
   public void takeDamage(int damage) 
   {
@@ -51,8 +56,8 @@ public abstract class Player
   }
   
   /**
-  * @summary Sees if the player is dead. If dead, return true. 
-  * @return true if player is dead (D:), false if player survived.
+  * Sees if the player is dead. If dead, return true. 
+  * @return True if player is dead (D:), false otherwise
   **/
   public boolean isDead()
   {
@@ -60,8 +65,8 @@ public abstract class Player
   }
   
   /**
-  * @summary Returns the health of the player
-  * @return health of the player
+  * Returns the health of the player.
+  * @return Health of the player
   **/
   public int getHealth()
   {
@@ -69,8 +74,8 @@ public abstract class Player
   }
   
   /**
-  * @summary Returns the speed of a player
-  * @return the speed of the player
+  * Returns the speed of a player.
+  * @return The speed of the player
   **/
   public int getSpeed()
   {
@@ -78,8 +83,8 @@ public abstract class Player
   }
   
   /**
-  * @summary Returns the x coordinate of a player
-  * @return the x coordinate of the player
+  * Returns the x coordinate of a player.
+  * @return The x coordinate of the player
   **/
   public int getX()
   {
@@ -87,8 +92,8 @@ public abstract class Player
   }
   
   /**
-  * @summary Returns the y coordinate of a player
-  * @return the y coordinate of the player
+  * Returns the y coordinate of a player.
+  * @return The y coordinate of the player
   **/
   public int getY()
   {
@@ -96,16 +101,16 @@ public abstract class Player
   }
   
   /**
-  * @summary Returns the wins of a player
-  * @return the wins of a player
+  * Returns the wins of a player.
+  * @return The wins of a player
   **/
   public int getWins()
   {
     return wins;
   }
   /**
-  * @summary Returns the image of a player
-  * @return the image of the player
+  * Returns the image of a player.
+  * @return The image of the player
   **/
   //public idk getImage()
   //{
