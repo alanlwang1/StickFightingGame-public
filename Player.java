@@ -5,12 +5,13 @@
 * @created 05-17-18
 * @modified 05-17-18
 **/
-public abstract class Players
+public abstract class Player
 {
   //needed characteristics of each player: health, speed, coordinates, image
   protected int health;
   protected int speed;
   protected int x, y;
+  protected int wins;
   //image of the player? 
   
   /**
@@ -28,6 +29,13 @@ public abstract class Players
   **/
   public abstract void move() {}
   
+  /**
+  * Adds a win if player won the game
+  **/ 
+  public void addWin()
+  {
+    wins++;
+  }
   /**
   * Recalculates player health when damage is taken.
   * @param damage: the amount of damage the player takes
@@ -82,6 +90,14 @@ public abstract class Players
     return y;
   }
   
+  /**
+  * Returns the wins of a player
+  * @return the wins of a player
+  **/
+  public int getWins()
+  {
+    return wins;
+  }
   /**
   * Returns the image of a player
   * @return the image of the player
