@@ -13,6 +13,7 @@ public abstract class Game
   private int numWins;
   private int totalGames; 
   private Player player1, player2; 
+  
   /**
   * @summary Checks to see if the game is over.
   * @return if game is over (true if so, false otherwise)
@@ -49,11 +50,14 @@ public abstract class Game
   **/
   public Player getWinner()
   {
-    if (player1.isDead()
-    {
-      
+    if (player1.isDead())
+      return player2;
+    else 
+    {  
+      if (player2.isDead())
+        return player1;
     }
-          
+    return null;
   }
   
 }
