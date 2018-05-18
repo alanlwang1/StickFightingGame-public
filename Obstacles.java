@@ -16,12 +16,12 @@ public abstract class Obstacles
   public abstract void place();
   
   /**
-  * Recalculates health upon damage done
-  * @param damage the amount of damage the wall takes
+  * Recalculates player health when damage is taken.
+  * @param Damage the amount of damage the player takes
   **/
-  public void takeDamage(int damage)
+  public void takeDamage(int damage) 
   {
-    dam
+    health -= damage;
   }
   
 }
