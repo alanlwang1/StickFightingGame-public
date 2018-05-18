@@ -5,15 +5,5 @@
 **/
 public class Thomas extends Player
 {
-  /**
-  * Thomas gains 1000 health, 605 ms, and 0 wins by default.
-  **/
-  public static void main(String[] args)
-  {
-    health = 1000;
-    speed = 605;
-    wins = 0;
-  }
-  public 
-  
+    
 }
