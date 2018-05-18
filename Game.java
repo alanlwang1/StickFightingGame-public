@@ -13,6 +13,43 @@ public abstract class Game
   private int totalGames; 
   private Player player1, player2; 
   
+  //I don't think we need getters and setterrs for this. Endgame doesn't need a setter, endmatch doesn't,
+  //numWins and totalGames are pretty much the same imo and we should onl need one. 
+  /**
+   * Returns the number of wins in the current match. 
+   * @return the number of wins in the current match
+   */
+  public int getWins()
+  {
+      return numWins;
+  }
+  
+  /**
+   * Returns the total number of games in the current match. 
+   * @return the number of games in the current match
+   */
+  public int getGames()
+  {
+      return totalGames;
+  }
+  
+  /**
+   * Returns player one in the match.
+   * @return player one
+   */
+  public Player getPlayer1()
+  {
+      return player1;
+  }
+  
+  /**
+   * Returns player two in the match.
+   * @return player two
+   */
+  public Player getPlayer2()
+  {
+      return player2;
+  }
   /**
   * Checks to see if the game is over.
   * @return If game is over (true if so, false otherwise)
