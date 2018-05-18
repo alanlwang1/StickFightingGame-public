@@ -1,33 +1,29 @@
 
 /**
- * Write a description of class Weapon here.
+ * Builds a custom weapon from this class (need to make a subclass for it).  
  *
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Weapon
+public abstract class Weapon
 {
     // instance variables - replace the example below with your own
-    private int x;
-
+    protected int attackSpeed;
+    protected int onHitDmg;
+    
     /**
-     * Constructor for objects of class Weapon
+     * Makes someone take damage
      */
-    public Weapon()
+    public void dealDamage(Player player)
     {
-        // initialise instance variables
-        x = 0;
+        exception();
+        player.takeDamage(onHitDmg);
     }
-
+    
     /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
+     * Accounts for exceptions (unique attributes) weapons may have when dealing damage. 
      */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
-    }
+    public abstract void exception();
+    
+    
 }
