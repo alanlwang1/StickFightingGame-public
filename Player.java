@@ -7,11 +7,48 @@
 public abstract class Player
 {
   //needed characteristics of each player: health, speed, coordinates, image
-  protected int health;
-  protected int speed;
-  protected int x, y;
-  protected int wins;
+  private int health;
+  private int speed;
+  private int x, y;
+  private int wins;
   //image of the player? 
+  
+  /**
+   * Sets the new health of the player. 
+   * @param newHealth the new health of the player
+   */
+  public void setHealth(int newHealth)
+  {
+     health = newHealth;
+  }
+  
+  /**
+   * Sets the new speed of the player.
+   * @param newSpeed the new speed of the player
+   */
+  public void setSpeed(int newSpeed)
+  {
+      speed = newSpeed;
+  }
+  
+  /**
+   * Sets the new x coordinate of the player.
+   * @param newX the new x coordinate of the player
+   */
+  public void setX(int newX)
+  {
+      x = newX;
+  }
+  
+  /**
+   * Sets the new y coordinate of the player.
+   * @param newY the new y coordinate of the player
+   */
+  public void setY(int newY)
+  {
+      y = newY;
+  }
+ 
   
   /**
   * Fires or uses weapon (can be melee or ranged).
