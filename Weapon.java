@@ -2,8 +2,8 @@
 /**
  * Builds a custom weapon from this class (need to make a subclass for it).  
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author D.Chen 
+ * @version b1.0
  */
 public abstract class Weapon
 {
