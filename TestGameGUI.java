@@ -16,8 +16,9 @@ import javafx.stage.Stage;
  */
 public class TestGameGUI extends Application
 {
-    public TestGameGUI()
+    public static void main(String[] args)
     {
+        launch(args);
     }
     
     @Override
@@ -28,7 +29,7 @@ public class TestGameGUI extends Application
         Canvas canvas = new Canvas(300, 300); 
         GraphicsContext gc = canvas.getGraphicsContext2D(); 
         Image image = new Image("stick figure.png"); 
-        gc.drawImage(image, 150, 150); 
+        gc.drawImage(image, 0, 0); 
         root.getChildren().add(canvas); 
         primaryStage.setScene(new Scene(root));
         primaryStage.show(); 
