@@ -14,8 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.VPos;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 
 /**
  * TestGui for the game
@@ -23,7 +21,7 @@ import javafx.event.EventHandler;
  * @author Alan Wang
  * @version 052118
  */
-public class danielTest extends Application implements EventHandler<ActionEvent>
+public class danielTest extends Application 
 {
     private Button playButton;
     public static void main(String[] args)
@@ -44,7 +42,7 @@ public class danielTest extends Application implements EventHandler<ActionEvent>
         
         playButton = new Button();
         playButton.setText("Play");
-        playButton.setOnAction(this);
+        playButton.setOnAction(e -> {});
         
         Canvas canvas = new Canvas(1800, 900); 
         GraphicsContext gc = canvas.getGraphicsContext2D(); 
@@ -75,14 +73,6 @@ public class danielTest extends Application implements EventHandler<ActionEvent>
         primaryStage.setTitle("Stick Figure Game");
         primaryStage.setScene(scene);
         primaryStage.show(); 
-    }
-    @Override
-    public void handle(ActionEvent event)
-    {
-        if (event.getSource() == playButton)
-        {
-            //load up actual game GUI
-        }
     }
     
     /**
