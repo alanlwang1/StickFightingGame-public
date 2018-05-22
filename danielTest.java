@@ -46,7 +46,7 @@ public class danielTest extends Application implements EventHandler<ActionEvent>
         playButton.setText("Play");
         playButton.setOnAction(this);
         
-        Canvas canvas = new Canvas(300, 300); 
+        Canvas canvas = new Canvas(1800, 900); 
         GraphicsContext gc = canvas.getGraphicsContext2D(); 
         Image image = new Image("stick figure.png"); 
         gc.drawImage(image, 0, 0); 
@@ -61,7 +61,7 @@ public class danielTest extends Application implements EventHandler<ActionEvent>
         //list.add(start);
         //list.add(canvas);
         
-        Scene scene = new Scene(root, 300, 300);
+        Scene scene = new Scene(root, 1800, 900);
         //credit: https://www.youtube.com/watch?v=o-f-rryAHPw
         start.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2));
         start.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(200));
