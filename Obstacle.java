@@ -3,7 +3,7 @@
 * @author D. Chen
 * @version b1.0
 **/
-public abstract class Obstacles
+public abstract class Obstacle
 {
   //instantiate needed variables
   protected int health;
