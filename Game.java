@@ -1,20 +1,30 @@
+import java.util.ArrayList;
 /**
 * This class will contain the rules of the game, instantiate the players and map, and deal with how the 
 * graphics should be set up. 
 * @author D. Chen
 * @version b1.0
 **/
-public abstract class Game
+public class Game
 {
   //instantiate the variables needed for the game
-  private boolean endGame = false;
-  private boolean endMatch = false;
-  private int numWins;
-  private int totalGames; 
-  private Player player1, player2; 
+  protected boolean endGame = false;
+  protected boolean endMatch = false;
+  protected int numWins;
+  protected int totalGames; 
+  protected Player player1, player2;
+  protected ArrayList<Obstacle> obstacles; 
   
   //I don't think we need getters and setterrs for this. Endgame doesn't need a setter, endmatch doesn't,
   //numWins and totalGames are pretty much the same imo and we should onl need one. 
+  public Game(Player playerOne, Player playerTwo, int wins, int games)
+  {
+      numWins = wins;
+      totalGames = games;
+      player1 = playerOne;
+      player2 = playerTwo;
+      obstacles = new ArrayList<Obstacle>(); 
+  }
   /**
    * Returns the number of wins in the current match. 
    * @return the number of wins in the current match
@@ -54,14 +64,26 @@ public abstract class Game
   * Checks to see if the game is over.
   * @return If game is over (true if so, false otherwise)
   **/
-  public abstract boolean gameState();
+  public boolean gameState()
+  {
+        return endGame;
+  }
   
   /**
   * Checks to see if the match is over.
   * @return If match is over (true if so, false otherwise)
   **/
-  public abstract boolean matchState();
-  
+  public boolean matchState()
+  {
+    if(gameState())
+    {
+        if (player1.getWins() >= numWins || player2.getWins() >= numWins)
+        {
+            endMatch = true;
+        }
+    }
+    return endMatch; 
+  }
   /**
   * Checks if one player is dead. Adds a win to the players who won, if necessary. 
   **/
