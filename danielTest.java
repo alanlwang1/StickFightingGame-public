@@ -1,6 +1,4 @@
 import javafx.application.Application;
-
-
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -13,6 +11,11 @@ import javafx.scene.text.*;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
 import javafx.collections.ObservableList;
+import javafx.geometry.VPos;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.Button;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 /**
  * TestGui for the game
@@ -20,8 +23,9 @@ import javafx.collections.ObservableList;
  * @author Alan Wang
  * @version 052118
  */
-public class danielTest extends Application
+public class danielTest extends Application implements EventHandler<ActionEvent>
 {
+    private Button playButton;
     public static void main(String[] args)
     {
         launch(args);
@@ -33,22 +37,80 @@ public class danielTest extends Application
         Text start = new Text();
         start.setFont(new Font(45));
         start.setText("Welcome to the Game of Honorable Summoners");
+        start.setFill(Color.RED);
+        start.setStrokeWidth(1.5);
+        start.setStroke(Color.BLACK);
+        start.setTextOrigin(VPos.TOP);
         
-        StackPane root = new StackPane(); 
+        playButton = new Button();
+        playButton.setText("Play");
+        playButton.setOnAction(this);
+        
         Canvas canvas = new Canvas(300, 300); 
         GraphicsContext gc = canvas.getGraphicsContext2D(); 
         Image image = new Image("stick figure.png"); 
         gc.drawImage(image, 0, 0); 
+        //Image img = new Image("stick figure.png");
+        //ImageView.setImage(img);
+        
+        Group root = new Group(); 
         root.getChildren().add(canvas); 
-        ObservableList list = root.getChildren();
-        list.add(start);
+        root.getChildren().add(start);
+        root.getChildren().add(playButton);
+        //ObservableList list = root.getChildren();
+        //list.add(start);
+        //list.add(canvas);
         
-        Scene scene = new Scene(root, 600, 300);
-        StackPane.setAlignment(start, Pos.CENTER);
+        Scene scene = new Scene(root, 300, 300);
+        //credit: https://www.youtube.com/watch?v=o-f-rryAHPw
+        start.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2));
+        start.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(200));
         
-        primaryStage.setScene(scene);
+        canvas.layoutXProperty().bind(scene.widthProperty().subtract(800));
+        canvas.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(200));
+        
+        playButton.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2));
+        playButton.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(200));
+        
         primaryStage.setTitle("Stick Figure Game");
+        primaryStage.setScene(scene);
         primaryStage.show(); 
     }
+    @Override
+    public void handle(ActionEvent event)
+    {
+        if (event.getSource() == playButton)
+        {
+            //load up actual game GUI
+        }
+    }
     
+    /**
+     * Credit: https://stackoverflow.com/questions/32781362/centering-an-image-in-an-imageview?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+     
+    public void centerImage() {
+        Image img = imageView.getImage();
+        if (img != null) {
+            double w = 0;
+            double h = 0;
+
+            double ratioX = imageView.getFitWidth() / img.getWidth();
+            double ratioY = imageView.getFitHeight() / img.getHeight();
+
+            double reducCoeff = 0;
+            if(ratioX >= ratioY) {
+                reducCoeff = ratioY;
+            } else {
+                reducCoeff = ratioX;
+            }
+
+            w = img.getWidth() * reducCoeff;
+            h = img.getHeight() * reducCoeff;
+
+            imageView.setX((imageView.getFitWidth() - w) / 2);
+            imageView.setY((imageView.getFitHeight() - h) / 2);
+
+        }
+    }
+    */
 }
