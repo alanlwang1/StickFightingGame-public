@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  */
 public class Runner extends Application {
 
-    private static final double W = 600, H = 400;
+    private static final double W = 1800, H = 900;
 
     private static final String HERO_IMAGE_LOC =
             "http://icons.iconarchive.com/icons/raindropmemory/legendora/64/Hero-icon.png";
@@ -32,14 +32,14 @@ public class Runner extends Application {
 
         moveHeroTo(W / 2, H / 2);
 
-        Scene scene = new Scene(dungeon, W, H, Color.FORESTGREEN);
+        Scene scene = new Scene(dungeon, 1800, 900, Color.FORESTGREEN);
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
                     case UP:    goNorth = true; break;
-                    case DOWN:  goSouth = true; break;
+                    //case DOWN:  goSouth = true; break;
                     case LEFT:  goWest  = true; break;
                     case RIGHT: goEast  = true; break;
                     case SHIFT: running = true; break;
@@ -52,7 +52,7 @@ public class Runner extends Application {
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
                     case UP:    goNorth = false; break;
-                    case DOWN:  goSouth = false; break;
+                    //case DOWN:  goSouth = false; break;
                     case LEFT:  goWest  = false; break;
                     case RIGHT: goEast  = false; break;
                     case SHIFT: running = false; break;
@@ -68,12 +68,13 @@ public class Runner extends Application {
             public void handle(long now) {
                 int dx = 0, dy = 0;
 
-                if (goNorth) dy -= 1;
-                if (goSouth) dy += 1;
                 if (goEast)  dx += 1;
                 if (goWest)  dx -= 1;
+                if (goNorth) dy -= 1;
+                if (!(goNorth)) dy += 1;
                 if (running) { dx *= 3; dy *= 3; }
-
+                dx += 10;
+                dx -= 10;
                 moveHeroBy(dx, dy);
             }
         };
