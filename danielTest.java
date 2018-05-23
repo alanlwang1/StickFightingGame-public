@@ -23,8 +23,7 @@ import javafx.scene.control.Button;
  */
 public class danielTest extends Application 
 {
-    private Button playButton;
-    private Button closeButton;
+    private Button playButton, closeButton, bestOfThree, bestOfFive;
     private Stage window;
     public static void main(String[] args)
     {
@@ -34,8 +33,9 @@ public class danielTest extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        window = primaryStage;
+        window = primaryStage; //make any changes to the private variable, not the passed stage
         
+        //make the text box for the main screen (welcome to game...)
         Text start = new Text();
         start.setFont(new Font(45));
         start.setText("Welcome to the Game of Honorable Summoners");
@@ -44,7 +44,7 @@ public class danielTest extends Application
         start.setStroke(Color.BLACK);
         start.setTextOrigin(VPos.TOP);
         
-        
+        //make the picture for the stick figure (might add some other art later)
         Canvas canvas = new Canvas(1800, 900); 
         GraphicsContext gc = canvas.getGraphicsContext2D(); 
         Image image = new Image("stick figure.png"); 
@@ -55,6 +55,7 @@ public class danielTest extends Application
         //hello Daniel
         playButton = new Button();
         playButton.setText("Play");
+        playButton.setFont(new Font(45));
         playButton.setOnAction
         (e -> {
             CharacterSelect cs = new CharacterSelect(1);
@@ -62,13 +63,30 @@ public class danielTest extends Application
             window.setScene(characterSelect);   
         });
         
+        bestOfThree = new Button();
+        bestOfThree.setText("Best of Three");
+        bestOfThree.setOnAction(e ->
+        {
+            
+        });
+        
+        bestOfFive = new Button();
+        bestOfFive.setText("Best of Five");
+        bestOfFive.setOnAction(e ->
+        {
+        });
+        
         closeButton = new Button("Close Program");
         closeButton.setOnAction(e -> closeProgram());
+        closeButton.setFont(new Font(30));
         
         Group root = new Group(); 
         root.getChildren().add(canvas); 
         root.getChildren().add(start);
         root.getChildren().add(playButton);
+        root.getChildren().add(closeButton);
+        root.getChildren().add(bestOfThree);
+        root.getChildren().add(bestOfFive);
         //ObservableList list = root.getChildren();
         //list.add(start);
         //list.add(canvas);
@@ -76,16 +94,29 @@ public class danielTest extends Application
         
         Scene scene = new Scene(root, 1800, 900);
         //credit: https://www.youtube.com/watch?v=o-f-rryAHPw
+        
+        scene.getStylesheets().add("mainGUI.css");
+        
+        //format the stick figure to be centered by x, a bit up on y
         start.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2));
         start.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(200));
         
+        //format the picture to be centered by x, maybe down on y
         canvas.layoutXProperty().bind(scene.widthProperty().subtract(800));
-        canvas.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(200));
+        canvas.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(10));
         
-        playButton.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2));
-        playButton.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(200));
+        //format the first play button to be centered by x, at the bottom of the screen below the screen
+        playButton.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2).add(100));
+        playButton.layoutYProperty().bind(scene.heightProperty().divide(2).add(200));
         
+        //format bo3 button to be at the same y position of play but more towards the center
+        bestOfThree.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2).add(200));
+        bestOfThree.layoutYProperty().bind(scene.heightProperty().divide(2).add(200));
+        bestOfThree.setMaxHeight(200);
         
+        //format bo5 button to be at the same y position of play but more towards the right
+        bestOfFive.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2).add(300));
+        bestOfFive.layoutYProperty().bind(scene.heightProperty().divide(2).add(200));
         
         window.setOnCloseRequest(e -> 
         {
