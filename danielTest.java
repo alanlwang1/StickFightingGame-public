@@ -56,7 +56,7 @@ public class danielTest extends Application
         playButton.setOnAction
         (e -> {
             CharacterSelect cs = new CharacterSelect(1);
-            Scene characterSelect = new Scene(cs.getGroup(), 1800, 900);
+            Scene characterSelect = cs.getScene();
             primaryStage.setScene(characterSelect);   
         });
         
