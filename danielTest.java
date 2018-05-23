@@ -34,6 +34,8 @@ public class danielTest extends Application
     @Override
     public void start(Stage primaryStage)
     {
+        window = primaryStage;
+        
         Text start = new Text();
         start.setFont(new Font(45));
         start.setText("Welcome to the Game of Honorable Summoners");
@@ -57,7 +59,7 @@ public class danielTest extends Application
         (e -> {
             CharacterSelect cs = new CharacterSelect(1);
             Scene characterSelect = cs.getScene();
-            primaryStage.setScene(characterSelect);   
+            window.setScene(characterSelect);   
         });
         
         closeButton = new Button("Close Program");
@@ -84,7 +86,7 @@ public class danielTest extends Application
         playButton.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(200));
         
         
-        window = primaryStage;
+        
         window.setOnCloseRequest(e -> 
         {
            e.consume();
