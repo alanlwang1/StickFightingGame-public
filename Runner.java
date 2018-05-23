@@ -58,11 +58,7 @@ public class Runner extends Application {
                 @Override
                 public void handle(KeyEvent event) {
                     switch (event.getCode()) {
-                        case UP: 
-                        
-                        
-                            moveHeroBy(0,1);
-                        
+                        case UP:
                         break;
                     }
                 }
