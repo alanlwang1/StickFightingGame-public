@@ -21,7 +21,7 @@ public class Runner extends Application {
     private Image heroImage;
     private Node  hero;
 
-    boolean running, goNorth, goSouth, goEast, goWest;
+    boolean running, goNorth, goSouth, goEast, goWest, yesG;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -30,7 +30,7 @@ public class Runner extends Application {
 
         Group dungeon = new Group(hero);
 
-        moveHeroTo(W / 2, H / 2);
+        hero.relocate(W / 2, H / 2);
 
         Scene scene = new Scene(dungeon, 1800, 900, Color.FORESTGREEN);
 
@@ -38,17 +38,9 @@ public class Runner extends Application {
                 @Override
                 public void handle(KeyEvent event) {
                     switch (event.getCode()) {
-                        case UP: 
-                        for (int i = 0; i < 100; i++)
-                        {
-                            moveHeroBy(0,-1);
-                        }
-                        break;
-                        case DOWN: 
-                        for (int i = 0; i < 100; i++)
-                        {
-                            moveHeroBy(0,1);
-                        }
+                        case UP:
+                            goNorth = true;
+                            yesG = false;
                         break;
                     }
                 }
@@ -59,6 +51,8 @@ public class Runner extends Application {
                 public void handle(KeyEvent event) {
                     switch (event.getCode()) {
                         case UP:
+                            goNorth = false;
+                            yesG = true;
                         break;
                     }
                 }
@@ -70,14 +64,14 @@ public class Runner extends Application {
         AnimationTimer timer = new AnimationTimer() {
                 @Override
                 public void handle(long now) {
-                    int dy = 0;
-                    int dx = 0;
+                    if (yesG)
+                    {
+                        hero.setTranslateY(1);
+                    }
                     if (goNorth)
                     {
-                        dy-=1;
-                        goNorth = false;
+                        hero.setTranslateY(-15);
                     }
-                    moveHeroBy(dx, dy);
                 }
             };
         timer.start();
