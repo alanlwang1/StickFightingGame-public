@@ -61,7 +61,6 @@ public class CharacterSelect
         pane.getChildren().add(layer2);
         layer2.toFront();
         root = new Group(pane);
-        Scene scene = new Scene(root, 1800, 900); 
     }
     public Group getGroup()
     {
