@@ -48,6 +48,7 @@ public class danielTest extends Application
         //Image img = new Image("stick figure.png");
         //ImageView.setImage(img);
         
+        
         playButton = new Button();
         playButton.setText("Play");
         playButton.setOnAction
