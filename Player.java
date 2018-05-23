@@ -1,8 +1,9 @@
+import javafx.scene.image.Image;
 /**
 * This superclass defines the general player class that we can implement custom characters out of 
 * (defines in game playable things' methods and basic variables).
-* @author D. Chen
-* @version b1.0
+* @author D. Chen, updated by Alan Wang
+* @version b1.1
 **/
 public abstract class Player
 {
@@ -11,7 +12,8 @@ public abstract class Player
   private int speed;
   private int x, y;
   private int wins;
-  //image of the player? 
+  protected Image image;
+  protected String name;
   
   /**
    * Sets the new health of the player. 
@@ -144,6 +146,14 @@ public abstract class Player
   public int getWins()
   {
     return wins;
+  }
+  public Image getImage()
+  {
+      return image;
+  }
+  public String getName()
+  {
+      return name; 
   }
   /**
   * Returns the image of a player.

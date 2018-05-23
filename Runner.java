@@ -27,7 +27,7 @@ public class Runner extends Application {
     public void start(Stage stage) throws Exception {
         heroImage = new Image(HERO_IMAGE_LOC);
         hero = new ImageView(heroImage);
-
+        
         Group dungeon = new Group(hero);
 
         moveHeroTo(W / 2, H / 2);

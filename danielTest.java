@@ -40,9 +40,6 @@ public class danielTest extends Application
         start.setStroke(Color.BLACK);
         start.setTextOrigin(VPos.TOP);
         
-        playButton = new Button();
-        playButton.setText("Play");
-        playButton.setOnAction(e -> {});
         
         Canvas canvas = new Canvas(1800, 900); 
         GraphicsContext gc = canvas.getGraphicsContext2D(); 
@@ -51,6 +48,13 @@ public class danielTest extends Application
         //Image img = new Image("stick figure.png");
         //ImageView.setImage(img);
         
+        playButton = new Button();
+        playButton.setText("Play");
+        playButton.setOnAction
+        (e -> {
+            CharacterSelect cs = new CharacterSelect(1);
+            primaryStage.getScene().setRoot(cs.getGroup());     
+        });
         Group root = new Group(); 
         root.getChildren().add(canvas); 
         root.getChildren().add(start);
@@ -58,6 +62,7 @@ public class danielTest extends Application
         //ObservableList list = root.getChildren();
         //list.add(start);
         //list.add(canvas);
+        
         
         Scene scene = new Scene(root, 1800, 900);
         //credit: https://www.youtube.com/watch?v=o-f-rryAHPw
