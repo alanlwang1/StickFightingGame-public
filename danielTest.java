@@ -24,6 +24,8 @@ import javafx.scene.control.Button;
 public class danielTest extends Application 
 {
     private Button playButton;
+    private Button closeButton;
+    private Stage window;
     public static void main(String[] args)
     {
         launch(args);
@@ -57,6 +59,10 @@ public class danielTest extends Application
             Scene characterSelect = new Scene(cs.getGroup(), 1800, 900);
             primaryStage.setScene(characterSelect);   
         });
+        
+        closeButton = new Button("Close Program");
+        closeButton.setOnAction(e -> closeProgram());
+        
         Group root = new Group(); 
         root.getChildren().add(canvas); 
         root.getChildren().add(start);
@@ -77,11 +83,24 @@ public class danielTest extends Application
         playButton.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2));
         playButton.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(200));
         
-        primaryStage.setTitle("Stick Figure Game");
-        primaryStage.setScene(scene);
-        primaryStage.show(); 
+        
+        window = primaryStage;
+        window.setOnCloseRequest(e -> 
+        {
+           e.consume();
+           closeProgram();
+        });
+        window.setTitle("Stick Figure Game");
+        window.setScene(scene);
+        window.show(); 
     }
     
+    private void closeProgram()
+    {
+        boolean answer = testConfirm.display("exit", "Do you really wish to quit the game of honorable summoners?");
+        if (answer)
+            window.close();
+    }
     /**
      * Credit: https://stackoverflow.com/questions/32781362/centering-an-image-in-an-imageview?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
      
