@@ -17,7 +17,7 @@ public class testConfirm
         Stage window = new Stage();
         
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Error: " + title);
+        window.setTitle("Are you sure you want to " + title + "?");
         window.setMinWidth(250);
         
         Label label = new Label();
