@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
 /**
  * class CharacterSelect - class models character Select screen
  *
@@ -30,38 +31,60 @@ public class CharacterSelect
     private Pane pane;
     private Group root;
     private Canvas layer1; 
-    private Canvas layer2;
+    private Canvas layer;
+    private Image cursor1 = new Image("cursor1.png");
+    private Image cursor2 = new Image("cursor2.png");
+    private ImageView cursorOne = new ImageView(cursor1);
+    private ImageView cursorTwo = new ImageView(cursor2); 
     private Player player1;
-    private Player player2;
+    private Player player;
     private Player[] availablePlayers = {new Normal(), new Ninja(), null, null, null};
     public CharacterSelect(int gameType)
-    {
-        layer1 = new Canvas(WIDTH, HEIGHT);
-        GraphicsContext gc1 = layer1.getGraphicsContext2D();
-        gc1.setFill(Color.WHITE);
-        
-        layer2 = new Canvas(WIDTH, HEIGHT);
-        GraphicsContext gc2 = layer2.getGraphicsContext2D();
+    {        
+        layer = new Canvas(WIDTH, HEIGHT);
+        GraphicsContext gc = layer.getGraphicsContext2D();
         Image notApplicable = new Image("notapplicable.png");
-        gc2.setLineWidth(5); 
+        gc.setLineWidth(5); 
         for(int i = 0; i < availablePlayers.length; i++)
         {
             if(availablePlayers[i] != null)
-                gc2.drawImage(availablePlayers[i].getImage(), 350 * i, 0);
+                gc.drawImage(availablePlayers[i].getImage(), 350 * i, 0);
             else
-                gc2.drawImage(notApplicable, 350 * i, 0);
-            gc2.strokeLine(350 * i, 0, 350 * i, HEIGHT);
+                gc.drawImage(notApplicable, 350 * i, 0);
+            gc.strokeLine(350 * i, 0, 350 * i, HEIGHT);
         }
-        
+        cursorOne.relocate(0 + 100, HEIGHT - 200);
+        cursorTwo.relocate(WIDTH - 300, HEIGHT - 100);
         
         
         
         pane = new Pane();
-        pane.getChildren().add(layer1);
-        pane.getChildren().add(layer2);
-        layer2.toFront();
-        root = new Group(pane);
+        pane.getChildren().add(layer);
+        root = new Group(pane, cursorOne, cursorTwo);
         scene = new Scene(root, 1800, 900);
+        scene.setOnKeyPressed(ke -> {
+            KeyCode keyCode = ke.getCode();
+            if(keyCode.equals(KeyCode.A))
+            {
+                moveCursor(cursorOne , -350);
+                return;
+            }
+            if (keyCode.equals(KeyCode.D))
+            {
+                moveCursor(cursorOne, 350);
+                return;
+            }
+            if(keyCode.equals(KeyCode.LEFT))
+            {
+                moveCursor(cursorTwo, -350);
+                return;
+            }
+            if(keyCode.equals(KeyCode.RIGHT))
+            {
+                moveCursor(cursorTwo, 350);
+                return;
+            }
+        });
     }
     public Group getGroup()
     {
@@ -70,6 +93,15 @@ public class CharacterSelect
     public Scene getScene()
     {
         return scene;
+    }
+    public void moveCursor(ImageView cursor, double deltaX)
+    {
+        double newX = Math.max(cursor.getLayoutX() + deltaX, 100);;
+        if(newX > WIDTH - 300)
+        {
+            newX = WIDTH - 300;
+        }
+        cursor.relocate(newX, cursor.getLayoutY()); 
     }
     
            
