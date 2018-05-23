@@ -46,7 +46,7 @@ public class Runner extends Application {
                 }
             }
         });
-
+        
         scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -59,10 +59,10 @@ public class Runner extends Application {
                 }
             }
         });
-
+        
         stage.setScene(scene);
         stage.show();
-
+        
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -106,4 +106,5 @@ public class Runner extends Application {
     }
 
     public static void main(String[] args) { launch(args); }
+    
 }
