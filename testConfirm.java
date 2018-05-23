@@ -4,14 +4,15 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 /**
- * Testing error messages to be sent to user-credit to thenewboston
+ * Testing confirm/deny messages to be sent to user-credit to thenewboston
  *
  * @author D.Chen
  * @version b1.0
  */
-public class testAlert
+public class testConfirm
 {
-    public static void display(String title, String message)
+    private static boolean answer;
+    public static boolean display(String title, String message)
     {
         Stage window = new Stage();
         
@@ -21,15 +22,30 @@ public class testAlert
         
         Label label = new Label();
         label.setText(message);
-        Button closeButton = new Button("Ok");
-        closeButton.setOnAction(e -> window.close());
+        
+        Button yesButton = new Button("Yes");
+        Button noButton = new Button("No");
+        
+        yesButton.setOnAction(e -> 
+        {
+            answer = true;
+            window.close();
+        });
+        
+        noButton.setOnAction(e ->
+        {
+            answer = false;
+            window.close();
+        });
         
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(label, closeButton);
+        layout.getChildren().addAll(label, yesButton, noButton);
         layout.setAlignment(Pos.CENTER);
         
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
+        
+        return answer;
     }
 }
