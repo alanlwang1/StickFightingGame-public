@@ -68,12 +68,21 @@ public class CharacterSelect
         confirmButton = new Button("Start Game");
         confirmButton.setOnAction(e -> {
             setPlayers();
-            if (gameType == 1)
-                game = new Game(player1, player2, 2, 3);
+            if(player1 != null && player2 != null)
+            {
+                if (myGameType == 1)
+                    game = new Game(player1, player2, 2, 3);
+                else
+                    if(myGameType == 2)
+                        game = new Game(player1, player2, 3, 5);
+                //create new scene with game and send
+                MainGameGUI mgg = new MainGameGUI(game, mainStage);
+                Scene mainGameScene = mgg.getScene();
+                mainStage.changeScene(mainGameScene);  
+            }
             else
-                if(gameType == 2)
-                    game = new Game(player1, player2, 3, 5); 
-            //create new scene with game and send
+                System.out.println("Characters not selected"); 
+            
         });
         
         pane = new Pane();
@@ -131,8 +140,8 @@ public class CharacterSelect
     }
     public void setPlayers()
     {
-            double cursorOneIndex = cursorOne.getLayoutX() / 5;
-            double cursorTwoIndex = cursorOne.getLayoutY() / 5;
+            double cursorOneIndex = cursorOne.getLayoutX() / 350;
+            double cursorTwoIndex = cursorTwo.getLayoutX() / 350;
             switch ((int) cursorOneIndex) 
             {
                 case 0:
@@ -140,6 +149,9 @@ public class CharacterSelect
                     break;
                 case 1:
                     player1 = new Ninja(); 
+                    break;
+                default:
+                    player1 = null;
                     break;
             }    
             switch ((int) cursorTwoIndex) 
@@ -149,6 +161,9 @@ public class CharacterSelect
                     break;
                 case 1:
                     player2 = new Ninja(); 
+                    break;
+                default:
+                    player2 = null;
                     break;
             }               
     }
