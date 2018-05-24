@@ -1,12 +1,16 @@
-import javafx.animation.AnimationTimer;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.*;
-import javafx.scene.image.*;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.Label;
+import javafx.scene.input.*;
 import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import java.util.concurrent.TimeUnit;
+import javafx.util.Duration;
+
 /**
  * Hold down an arrow key to have your hero move around the screen.
  * Hold down the shift key to have the hero run.
@@ -20,7 +24,7 @@ public class Runner extends Application {
 
     private Image heroImage;
     private Node  hero;
-
+    final Duration DUR = Duration.seconds(0.25);
     boolean running, goNorth, goSouth, goEast, goWest, yesG;
 
     @Override
@@ -31,7 +35,14 @@ public class Runner extends Application {
         Group dungeon = new Group(hero);
 
         hero.relocate(W / 2, H / 2);
-
+        TranslateTransition t = new TranslateTransition(DUR, hero);
+        t.setOnFinished(new EventHandler<ActionEvent>() {
+                @Override public void handle(ActionEvent t) {
+                    hero.relocate(hero.getLayoutX() + hero.getTranslateX(), hero.getTranslateY() + hero.getLayoutY());
+                    hero.setTranslateY(0);
+                    hero.setTranslateX(0);
+                }
+            });
         Scene scene = new Scene(dungeon, 1800, 900, Color.FORESTGREEN);
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -39,20 +50,24 @@ public class Runner extends Application {
                 public void handle(KeyEvent event) {
                     switch (event.getCode()) {
                         case UP:
-                            goNorth = true;
-                            yesG = false;
+                        t.setToY(-20);
+                        t.setToX(0);
+                        t.playFromStart();
                         break;
-                    }
-                }
-            });
-
-        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-                @Override
-                public void handle(KeyEvent event) {
-                    switch (event.getCode()) {
-                        case UP:
-                            goNorth = false;
-                            yesG = true;
+                        case LEFT: 
+                        t.setToX(-20);
+                        t.setToY(0);
+                        t.playFromStart();
+                        break;
+                        case RIGHT: 
+                        t.setToX(20);
+                        t.setToY(0);
+                        t.playFromStart();
+                        break;
+                        case DOWN:
+                        t.setToY(20);
+                        t.setToX(0);
+                        t.playFromStart();
                         break;
                     }
                 }
@@ -60,21 +75,6 @@ public class Runner extends Application {
 
         stage.setScene(scene);
         stage.show();
-        
-        AnimationTimer timer = new AnimationTimer() {
-                @Override
-                public void handle(long now) {
-                    if (yesG)
-                    {
-                        hero.setTranslateY(1);
-                    }
-                    if (goNorth)
-                    {
-                        hero.setTranslateY(-15);
-                    }
-                }
-            };
-        timer.start();
     }
 
     public static void main(String[] args) { launch(args); }
