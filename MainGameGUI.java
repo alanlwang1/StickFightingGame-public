@@ -20,17 +20,35 @@ public class MainGameGUI
     private MainStage mainStage;
     private Scene scene;
     private Canvas canvas;
+    private Player player1;
+    private Player player2;
     public MainGameGUI(Game g, MainStage ms) 
     {
         game = g;
         mainStage = ms;
+        player1 = game.getPlayer1();
+        player2 = game.getPlayer2();
+        
         Canvas canvas = new Canvas(1800, 900); 
         Group root = new Group(canvas);
         scene = new Scene(root, 1800, 900); 
+        
+        
+        
+        drawPhase();
+        runGame(); 
     }
     public Scene getScene()
     {
         return scene;
+    }
+    public void drawPhase()
+    {
+        
+    }
+    public void runGame()
+    {
+        
     }
     
 }
