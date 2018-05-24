@@ -61,6 +61,7 @@ public class StartScreen
         
         bestOfThree = new Button();
         bestOfThree.setText("Best of Three");
+        bestOfThree.setFont(new Font(45));
         bestOfThree.setOnAction(e ->
         {
             
@@ -68,6 +69,7 @@ public class StartScreen
         
         bestOfFive = new Button();
         bestOfFive.setText("Best of Five");
+        bestOfFive.setFont(new Font(45));
         bestOfFive.setOnAction(e ->
         {
         });
@@ -106,12 +108,11 @@ public class StartScreen
         playButton.layoutYProperty().bind(scene.heightProperty().divide(2).add(200));
         
         //format bo3 button to be at the same y position of play but more towards the center
-        bestOfThree.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2).add(200));
+        bestOfThree.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2).add(250));
         bestOfThree.layoutYProperty().bind(scene.heightProperty().divide(2).add(200));
-        bestOfThree.setMaxHeight(200);
         
         //format bo5 button to be at the same y position of play but more towards the right
-        bestOfFive.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2).add(300));
+        bestOfFive.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2).add(580));
         bestOfFive.layoutYProperty().bind(scene.heightProperty().divide(2).add(200));
         
 
