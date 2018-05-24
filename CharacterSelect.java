@@ -32,6 +32,7 @@ public class CharacterSelect
     private Group root;
     private Canvas layer1; 
     private Canvas layer;
+    private Button confirmButton; 
     private Image cursor1 = new Image("cursor1.png");
     private Image cursor2 = new Image("cursor2.png");
     private ImageView cursorOne = new ImageView(cursor1);
@@ -56,7 +57,7 @@ public class CharacterSelect
         cursorOne.relocate(0 + 100, HEIGHT - 200);
         cursorTwo.relocate(WIDTH - 300, HEIGHT - 100);
         
-        
+        confirmButton = new Button("Confirm Characters");
         
         pane = new Pane();
         pane.getChildren().add(layer);
