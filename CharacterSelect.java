@@ -27,7 +27,9 @@ public class CharacterSelect
 {
     private final int WIDTH = 1800;
     private final int HEIGHT = 900;
-    private Scene scene;
+    private int myGameType;
+    private Scene csScene;
+    private Scene gameScene;
     private Pane pane;
     private Group root;
     private Canvas layer1; 
@@ -38,10 +40,14 @@ public class CharacterSelect
     private ImageView cursorOne = new ImageView(cursor1);
     private ImageView cursorTwo = new ImageView(cursor2); 
     private Player player1;
-    private Player player;
+    private Player player2;
     private Player[] availablePlayers = {new Normal(), new Ninja(), null, null, null};
+    private Game game;
+    
     public CharacterSelect(int gameType)
     {        
+        myGameType = gameType;
+        
         layer = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = layer.getGraphicsContext2D();
         Image notApplicable = new Image("notapplicable.png");
@@ -57,13 +63,21 @@ public class CharacterSelect
         cursorOne.relocate(0 + 100, HEIGHT - 200);
         cursorTwo.relocate(WIDTH - 300, HEIGHT - 100);
         
-        confirmButton = new Button("Confirm Characters");
-        
+        confirmButton = new Button("Start Game");
+        confirmButton.setOnAction(e -> {
+            setPlayers();
+            if (gameType == 1)
+                game = new Game(player1, player2, 2, 3);
+            else
+                if(gameType == 2)
+                    game = new Game(player1, player2, 3, 5); 
+            //create new scene with game and send
+        });
         pane = new Pane();
         pane.getChildren().add(layer);
-        root = new Group(pane, cursorOne, cursorTwo);
-        scene = new Scene(root, 1800, 900);
-        scene.setOnKeyPressed(ke -> {
+        root = new Group(pane, cursorOne, cursorTwo, confirmButton);
+        csScene = new Scene(root, 1800, 900);
+        csScene.setOnKeyPressed(ke -> {
             KeyCode keyCode = ke.getCode();
             if(keyCode.equals(KeyCode.A))
             {
@@ -91,9 +105,17 @@ public class CharacterSelect
     {
         return root; 
     }
-    public Scene getScene()
+    public Scene getCSScene()
     {
-        return scene;
+        return csScene;
+    }
+    public Scene getGameScene()
+    {
+        return gameScene;
+    }
+    public Game getGame()
+    {
+        return game;
     }
     public void moveCursor(ImageView cursor, double deltaX)
     {
@@ -104,6 +126,28 @@ public class CharacterSelect
         }
         cursor.relocate(newX, cursor.getLayoutY()); 
     }
-    
+    public void setPlayers()
+    {
+            double cursorOneIndex = cursorOne.getLayoutX() / 5;
+            double cursorTwoIndex = cursorOne.getLayoutY() / 5;
+            switch ((int) cursorOneIndex) 
+            {
+                case 0:
+                    player1 = new Normal();
+                    break;
+                case 1:
+                    player1 = new Ninja(); 
+                    break;
+            }    
+            switch ((int) cursorTwoIndex) 
+            {
+                case 0:
+                    player2 = new Normal();
+                    break;
+                case 1:
+                    player2 = new Ninja(); 
+                    break;
+            }               
+    }
            
 }
