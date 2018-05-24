@@ -21,19 +21,15 @@ import javafx.scene.control.Button;
  * @author Alan Wang
  * @version 052118
  */
-public class danielTest extends Application 
+public class StartScreen
 {
     private Button playButton, closeButton, bestOfThree, bestOfFive;
-    private Stage window;
-    public static void main(String[] args)
+    private MainStage mainStage;
+    private Scene scene;
+    public StartScreen(MainStage ms)
     {
-        launch(args);
-    }
-    
-    @Override
-    public void start(Stage primaryStage)
-    {
-        window = primaryStage; //make any changes to the private variable, not the passed stage
+        //Assign reference to mainStage
+        mainStage = ms;
         
         //make the text box for the main screen (welcome to game...)
         Text start = new Text();
@@ -58,9 +54,9 @@ public class danielTest extends Application
         playButton.setFont(new Font(45));
         playButton.setOnAction
         (e -> {
-            CharacterSelect cs = new CharacterSelect(1);
+            CharacterSelect cs = new CharacterSelect(1, mainStage);
             Scene characterSelect = cs.getCSScene();
-            window.setScene(characterSelect);   
+            ms.changeScene(characterSelect);   
         });
         
         bestOfThree = new Button();
@@ -77,7 +73,7 @@ public class danielTest extends Application
         });
         
         closeButton = new Button("Close Program");
-        closeButton.setOnAction(e -> closeProgram());
+        closeButton.setOnAction(e -> MainStage.closeProgram());
         closeButton.setFont(new Font(30));
         
         Group root = new Group(); 
@@ -92,7 +88,7 @@ public class danielTest extends Application
         //list.add(canvas);
         
         
-        Scene scene = new Scene(root, 1800, 900);
+        scene = new Scene(root, 1800, 900);
         //credit: https://www.youtube.com/watch?v=o-f-rryAHPw
         
         scene.getStylesheets().add("mainGUI.css");
@@ -118,22 +114,14 @@ public class danielTest extends Application
         bestOfFive.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2).add(300));
         bestOfFive.layoutYProperty().bind(scene.heightProperty().divide(2).add(200));
         
-        window.setOnCloseRequest(e -> 
-        {
-           e.consume();
-           closeProgram();
-        });
-        window.setTitle("Stick Figure Game");
-        window.setScene(scene);
-        window.show(); 
+
+
     }
-    
-    private void closeProgram()
+    public Scene getScene()
     {
-        boolean answer = testConfirm.display("exit", "Do you really wish to quit the game of honorable summoners?");
-        if (answer)
-            window.close();
+        return scene;
     }
+
     /**
      * Credit: https://stackoverflow.com/questions/32781362/centering-an-image-in-an-imageview?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
      

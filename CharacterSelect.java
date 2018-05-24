@@ -27,6 +27,7 @@ public class CharacterSelect
 {
     private final int WIDTH = 1800;
     private final int HEIGHT = 900;
+    private MainStage mainStage;
     private int myGameType;
     private Scene csScene;
     private Scene gameScene;
@@ -44,8 +45,9 @@ public class CharacterSelect
     private Player[] availablePlayers = {new Normal(), new Ninja(), null, null, null};
     private Game game;
     
-    public CharacterSelect(int gameType)
+    public CharacterSelect(int gameType, MainStage ms)
     {        
+        mainStage = ms;
         myGameType = gameType;
         
         layer = new Canvas(WIDTH, HEIGHT);
@@ -73,6 +75,7 @@ public class CharacterSelect
                     game = new Game(player1, player2, 3, 5); 
             //create new scene with game and send
         });
+        
         pane = new Pane();
         pane.getChildren().add(layer);
         root = new Group(pane, cursorOne, cursorTwo, confirmButton);
