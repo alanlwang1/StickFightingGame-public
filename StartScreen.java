@@ -85,6 +85,7 @@ public class StartScreen
         root.getChildren().add(closeButton);
         root.getChildren().add(bestOfThree);
         root.getChildren().add(bestOfFive);
+        root.setId("pane"); //credit: https://stackoverflow.com/questions/9738146/javafx-how-to-set-scene-background-image?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
         //ObservableList list = root.getChildren();
         //list.add(start);
         //list.add(canvas);
@@ -93,7 +94,7 @@ public class StartScreen
         scene = new Scene(root, 1800, 900);
         //credit: https://www.youtube.com/watch?v=o-f-rryAHPw
         
-        scene.getStylesheets().add("mainGUI.css");
+        scene.getStylesheets().addAll(this.getClass().getResource("background.css").toExternalForm());
         
         //format the stick figure to be centered by x, a bit up on y
         start.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2));

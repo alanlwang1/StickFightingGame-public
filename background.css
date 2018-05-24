@@ -1,0 +1,10 @@
+/*
+* Credit: https://stackoverflow.com/questions/9738146/javafx-how-to-set-scene-background-image?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+*/
+#pane{
+    -fx-background-image: url("cartooncastle.jpg");
+    -fx-background-repeat: stretch;   
+    -fx-background-size: 900 506;
+    -fx-background-position: center center;
+   /* -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); 
+}
