@@ -39,8 +39,6 @@ public class Runner extends Application {
         t.setOnFinished(new EventHandler<ActionEvent>() {
                 @Override public void handle(ActionEvent t) {
                     hero.relocate(hero.getLayoutX() + hero.getTranslateX(), hero.getTranslateY() + hero.getLayoutY());
-                    hero.setTranslateY(0);
-                    hero.setTranslateX(0);
                 }
             });
         Scene scene = new Scene(dungeon, 1800, 900, Color.FORESTGREEN);
@@ -51,28 +49,35 @@ public class Runner extends Application {
                     switch (event.getCode()) {
                         case UP:
                         t.setToY(-20);
-                        t.setToX(0);
+                        //t.setToX(0);
                         t.playFromStart();
                         break;
                         case LEFT: 
                         t.setToX(-20);
-                        t.setToY(0);
+                        //t.setToY(0);
                         t.playFromStart();
                         break;
                         case RIGHT: 
                         t.setToX(20);
-                        t.setToY(0);
+                        //t.setToY(0);
                         t.playFromStart();
                         break;
                         case DOWN:
                         t.setToY(20);
-                        t.setToX(0);
+                        //t.setToX(0);
                         t.playFromStart();
                         break;
                     }
                 }
             });
+        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent event) {
+                    t.setToY(0);
+                    t.setToX(0);
+                }
 
+            });
         stage.setScene(scene);
         stage.show();
     }
