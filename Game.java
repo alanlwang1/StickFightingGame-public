@@ -114,5 +114,9 @@ public class Game
     }
     return null;
   }
+  public void addObstacle(Obstacle obstacle)
+  {
+      obstacles.add(obstacle); 
+  }
   
 }
