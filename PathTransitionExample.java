@@ -32,8 +32,8 @@ public class PathTransitionExample extends Application {
         circle.setFill(Color.BROWN); 
 
         //Setting the stroke width of the circle 
-        circle.setStrokeWidth(20);     
-
+        //circle.setStrokeWidth(20);     
+        /*
         //Instantiating the path class  
         Path path = new Path(); 
 
@@ -46,7 +46,7 @@ public class PathTransitionExample extends Application {
         //Adding the path elements to Observable list of the Path class 
         path.getElements().add(moveTo); 
         path.getElements().add(cubicCurveTo);        
-
+        */
         //Creating a path transition 
         PathTransition pathTransition = new PathTransition(); 
 
@@ -57,18 +57,18 @@ public class PathTransitionExample extends Application {
         pathTransition.setNode(circle); 
         Circle circle2 = new Circle();
         circle2.setRadius(100.0f);
-        //Setting the path 
-        pathTransition.setPath(circle);  
+        //Setting the path
+        pathTransition.setPath(circle);
 
         //Setting the orientation of the path 
-        pathTransition.setOrientation(PathTransition.OrientationType.
-            ORTHOGONAL_TO_TANGENT); 
+        //pathTransition.setOrientation(PathTransition.OrientationType.
+        //  ORTHOGONAL_TO_TANGENT); 
 
         //Setting the cycle count for the transition 
-        pathTransition.setCycleCount(50); 
+        pathTransition.setCycleCount(1); 
 
         //Setting auto reverse value to false 
-        pathTransition.setAutoReverse(false); 
+        //pathTransition.setAutoReverse(false); 
 
         //Creating a Group object  
         Group root = new Group(circle); 
@@ -86,13 +86,14 @@ public class PathTransitionExample extends Application {
                     pathTransition.play();
                 }
             });  
-        scene.setOnKeyReleased( new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event)
+        scene.setOnKeyReleased( new EventHandler<KeyEvent>() 
             {
-                pathTransition.stop();
-            }
-        });
+                @Override
+                public void handle(KeyEvent event)
+                {
+                    //pathTransition.stop();
+                }
+            });
         //Adding scene to the stage 
         stage.setScene(scene); 
 

@@ -12,7 +12,9 @@ import javafx.stage.Stage;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Arc;
 import javafx.util.Duration;
-
+import javafx.scene.shape.MoveTo; 
+import javafx.scene.shape.Path; 
+import javafx.scene.shape.QuadCurveTo;
 /**
  * Hold down an arrow key to have your hero move around the screen.
  * Hold down the shift key to have the hero run.
@@ -33,24 +35,39 @@ public class Runner extends Application {
     public void start(Stage stage) throws Exception {
         heroImage = new Image(HERO_IMAGE_LOC);
         hero = new ImageView(heroImage);
-        Arc arc = new Arc();
-        arc.setCenterX(50.0f);
-        arc.setCenterY(50.0f);
-        arc.setRadiusX(25.0f);
-        arc.setRadiusY(25.0f);
-        arc.setStartAngle(45.0f);
-        arc.setLength(270.0f);
-        arc.setType(ArcType.ROUND);
         Group dungeon = new Group(hero);
+        Path path = new Path();
 
+        MoveTo moveTo = new MoveTo();
+        moveTo.setX(hero.getLayoutX() + hero.getBoundsInLocal().getWidth()  / 2);
+        moveTo.setY(hero.getLayoutY() + hero.getBoundsInLocal().getHeight()  / 2);
+
+        QuadCurveTo quadTo = new QuadCurveTo();
+        quadTo.setControlX(hero.getLayoutX() + hero.getBoundsInLocal().getWidth()  / 2 + 25.0f);
+        quadTo.setControlY(hero.getLayoutY());
+        quadTo.setX(hero.getLayoutX() + hero.getBoundsInLocal().getWidth()  / 2 + 50.0f);
+        quadTo.setY(hero.getLayoutY() + hero.getBoundsInLocal().getHeight()  / 2);
+
+        path.getElements().add(moveTo);
+        path.getElements().add(quadTo);
         hero.relocate(W / 2, H / 2);
         PathTransition transition = new PathTransition();
         transition.setNode(hero);
-        transition.setDuration(DUR);
-        transition.setPath(arc);
+        transition.setDuration(Duration.seconds(1));
+        transition.setPath(path);
+        //transition.setOrientation(PathTransition.OrientationType.
+        //    ORTHOGONAL_TO_TANGENT); 
         transition.setCycleCount(1);
-        transition.play();
-        Scene scene = new Scene(dungeon, 1800, 900, Color.FORESTGREEN);
+        
+        //transition.play();
+        Scene scene = new Scene(dungeon, 1800, 900);
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event)
+            {
+                transition.play();
+            }
+        });
         stage.setScene(scene);
         stage.show();
     }
