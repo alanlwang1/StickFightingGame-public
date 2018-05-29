@@ -14,6 +14,11 @@ import javafx.collections.ObservableList;
 import javafx.geometry.VPos;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Background;
 
 /**
  * TestGui for the game
@@ -52,8 +57,8 @@ public class StartScreen
         playButton = new Button();
         playButton.setText("Play");
         playButton.setFont(new Font(45));
-        playButton.setOnAction
-        (e -> {
+        playButton.setOnAction(e -> 
+        {
             CharacterSelect cs = new CharacterSelect(1, mainStage);
             Scene characterSelect = cs.getCSScene();
             ms.changeScene(characterSelect);   
@@ -92,10 +97,11 @@ public class StartScreen
         
         
         scene = new Scene(root, 1800, 900);
-        //credit: https://www.youtube.com/watch?v=o-f-rryAHPw
+       
         
-        scene.getStylesheets().addAll(this.getClass().getResource("background.css").toExternalForm());
+        //scene.getStylesheets().addAll(this.getClass().getResource("background.css").toExternalForm());
         
+         //credit: https://www.youtube.com/watch?v=o-f-rryAHPw
         //format the stick figure to be centered by x, a bit up on y
         start.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2));
         start.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(200));
@@ -116,7 +122,8 @@ public class StartScreen
         bestOfFive.layoutXProperty().bind(scene.widthProperty().subtract(start.prefWidth(-1)).divide(2).add(580));
         bestOfFive.layoutYProperty().bind(scene.heightProperty().divide(2).add(200));
         
-
+        scene.getStylesheets().addAll(this.getClass().getResource("background.css").toExternalForm());
+      
 
     }
     public Scene getScene()
