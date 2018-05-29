@@ -12,7 +12,7 @@ import javafx.util.Duration;
 
 public class MovementEventsDemo extends Application {
   private static final int      KEYBOARD_MOVEMENT_DELTA = 5;
-  private static final Duration TRANSLATE_DURATION      = Duration.seconds(0.25);
+  private static final Duration TRANSLATE_DURATION      = Duration.seconds(5);
 
   public static void main(String[] args) { launch(args); }
   @Override public void start(Stage stage) throws Exception {
