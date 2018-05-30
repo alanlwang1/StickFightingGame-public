@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-import java.awt.Point;
+import java.awt.geom.Point2D; 
+import java.awt.geom.Point2D.Double;
 import javafx.scene.shape.Line;
 import javafx.animation.AnimationTimer; 
 import javafx.application.Application;
@@ -15,7 +16,8 @@ import javafx.scene.SnapshotParameters;
 import javafx.stage.Stage;
 import javafx.event.EventHandler; 
 import javafx.scene.input.KeyEvent;
-
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 /**
  * Main Gui for the actual game
  *
@@ -36,7 +38,7 @@ public class MainGameGUI
     private boolean lineCreated; 
     private boolean goUp1, goDown1, goLeft1, goRight1; //booleans controlling player1's movement
     private boolean goUp2, goDown2, goLeft2, goRight2; //booleans controlling player2's movement
-    private ArrayList<Point> selectedPoints = new ArrayList<Point>(); 
+    private ArrayList<Point2D> selectedPoints = new ArrayList<Point2D>(); 
     private Group root;
     private AnimationTimer cursorTimer, moveTimer; 
     public MainGameGUI(Game g, MainStage ms) 
@@ -79,6 +81,19 @@ public class MainGameGUI
                 moveCursor(cursor2, dx2, dy2); 
             }
         };
+        game.getDrawProperty().addListener(new ChangeListener<Boolean>()
+        {
+            @Override 
+            public void changed(ObservableValue<? extends Boolean> o, Boolean oldVal, Boolean newVal)
+            {
+                if (newVal.booleanValue() == true)
+                {
+                    cursorTimer.start();
+                }
+                else
+                    cursorTimer.stop(); 
+            }
+        });    
         moveTimer = new AnimationTimer()
         {
             @Override
@@ -87,14 +102,14 @@ public class MainGameGUI
                 //put animation for characters here RYAN
             }
         };
-        //instantiate cursors 
-        drawPhase();
+        //start the game
         runGame(); 
     }
     public Scene getScene()
     {
         return scene;
     }
+    /*
     public void drawPhase()
     {
         cursorTimer.start(); 
@@ -108,12 +123,20 @@ public class MainGameGUI
         //text saying end of drawing phase;
         cursorTimer.stop();
     }
+    */
     public void runGame()
     {
-        drawPhase(); 
+        game.setDrawPhase(true); 
         //actually run the game 
     }
+    public void startCombat()
+    {
+        //instantiate 2 players
+        //hide cursors
+        //start moveTimer 
+    }
     //use boolean property
+    /*
     public void letPlayerOneDraw()
     {
         //display cursor
@@ -142,6 +165,7 @@ public class MainGameGUI
         lineCreated = true;
         root.getChildren().remove(cursor2); 
     }
+    */
     public void moveCursor(ImageView cursor, double deltaX, double deltaY)
     {
         double newX = Math.max(cursor.getLayoutX() + deltaX, 0);
@@ -180,6 +204,14 @@ public class MainGameGUI
                         break; 
                     case R:
                         //if drawing, draw circle at current position/confirm line for cursor1
+                        if(game.getDrawPhase())
+                        {
+                            if(selectedPoints.size() < 2)
+                            {
+                                Point2D.Double newPoint = new Point2D.Double(cursor1.getLayoutX(), cursor1.getLayoutY());
+                                selectedPoints.add(newPoint); 
+                            }
+                        }
                         //else fire particle
                     case F:
                         //if drawing, cancel line, erase last point; 

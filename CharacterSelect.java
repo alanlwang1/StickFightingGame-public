@@ -66,7 +66,8 @@ public class CharacterSelect
         cursorTwo.relocate(WIDTH - 300, HEIGHT - 100);
         
         confirmButton = new Button("Start Game");
-        confirmButton.setOnAction(e -> {
+        confirmButton.setOnAction(e -> 
+        {
             setPlayers();
             if(player1 != null && player2 != null)
             {

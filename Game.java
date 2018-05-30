@@ -1,3 +1,5 @@
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 /**
 * This class will contain the rules of the game, instantiate the players and map, and deal with how the 
 * graphics should be set up. 
@@ -8,7 +10,9 @@ public class Game
 {
   //instantiate the variables needed for the game
   private boolean endGame = false;
-  private boolean endMatch = false;
+  private boolean endMatch = false; 
+  private BooleanProperty drawPhase;
+  private int linesCreated; 
   private int numWins;
   private int totalGames; 
   private Player player1, player2;
@@ -26,6 +30,8 @@ public class Game
       totalGames = games;
       player1 = playerOne;
       player2 = playerTwo;
+      drawPhase = new SimpleBooleanProperty();
+      linesCreated = 0; 
   }
   /**
    * Returns the number of wins in the current match. 
@@ -115,5 +121,30 @@ public class Game
         return player1;
     }
     return null;
+  }
+  public void setDrawPhase(boolean value)
+  {
+      drawPhase.set(value); 
+  }
+  public BooleanProperty getDrawProperty()
+  {
+      return drawPhase;
+  }
+  public boolean getDrawPhase()
+  {
+      return drawPhase.get(); 
+  }
+  public void incrementLine()
+  {
+      linesCreated++;
+      if(linesCreated % 2 == 0)
+      {
+          //change turn
+      }
+      if(linesCreated >= 10)
+      {
+          //end drawPhase
+          setDrawPhase(false);
+      }
   }
 }
