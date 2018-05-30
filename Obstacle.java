@@ -1,9 +1,10 @@
+import java.awt.Point;
 /**
 * Makes the obstacles that the players can put down. 
 * @author D. Chen
 * @version b1.0
 **/
-public abstract class Obstacle
+public class Obstacle
 {
   //instantiate needed variables
   protected int health;
@@ -13,15 +14,10 @@ public abstract class Obstacle
   /**
   * Places an object down.
   **/
-  public abstract void place();
-  
-  /**
-  * Recalculates player health when damage is taken.
-  * @param Damage the amount of damage the player takes
-  **/
-  public void takeDamage(int damage) 
+  public Obstacle(Point point1, Point point2)
   {
-    health -= damage;
+      
   }
+  
   
 }

@@ -1,5 +1,3 @@
-import java.awt.Point; 
-import java.util.ArrayList;
 /**
 * This class will contain the rules of the game, instantiate the players and map, and deal with how the 
 * graphics should be set up. 
@@ -14,9 +12,7 @@ public class Game
   private int numWins;
   private int totalGames; 
   private Player player1, player2;
-  private ArrayList<Obstacle> obstacles; 
-  private ArrayList<Point> points;  
-  
+  //move drawphase and things later to here and use a listener in maingamegui class to change 
   //I don't think we need getters and setterrs for this. Endgame doesn't need a setter, endmatch doesn't,
   //numWins and totalGames are pretty much the same imo and we should onl need one. 
   public Game(Player playerOne, Player playerTwo, int wins, int games)
@@ -25,7 +21,6 @@ public class Game
       totalGames = games;
       player1 = playerOne;
       player2 = playerTwo;
-      obstacles = new ArrayList<Obstacle>(); 
   }
   /**
    * Returns the number of wins in the current match. 
@@ -115,21 +110,5 @@ public class Game
         return player1;
     }
     return null;
-  }
-  public void addObstacle(Obstacle obstacle)
-  {
-      obstacles.add(obstacle); 
-  }
-  public void addPoint(int x, int y)
-  {
-      Point point = new Point(x, y); 
-      points.add(point); 
-  }
-  public Point removeLastPoint()
-  {
-      if(points.size() == 0)
-        return null;
-      else
-        return points.remove(points.size() - 1); 
   }
 }

@@ -1,5 +1,6 @@
-
-
+import java.util.ArrayList;
+import java.awt.Point;
+import javafx.scene.shape.Line;
 import javafx.animation.AnimationTimer; 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -35,6 +36,7 @@ public class MainGameGUI
     private boolean lineCreated; 
     private boolean goUp1, goDown1, goLeft1, goRight1; //booleans controlling player1's movement
     private boolean goUp2, goDown2, goLeft2, goRight2; //booleans controlling player2's movement
+    private ArrayList<Point> selectedPoints = new ArrayList<Point>(); 
     private Group root;
     private AnimationTimer cursorTimer, moveTimer; 
     public MainGameGUI(Game g, MainStage ms) 
@@ -111,6 +113,7 @@ public class MainGameGUI
         drawPhase(); 
         //actually run the game 
     }
+    //use boolean property
     public void letPlayerOneDraw()
     {
         //display cursor
