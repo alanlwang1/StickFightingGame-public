@@ -13,6 +13,11 @@ public class Game
   private int totalGames; 
   private Player player1, player2;
   //move drawphase and things later to here and use a listener in maingamegui class to change 
+  //start drawphase at end of instantiation of maingamegui -> set drawphase boolean to start
+  //increment lines created - once it changes change the turn
+  //once lines created hits 5 end draw phase
+  //once draw phase ends, start combat phase
+  //event driven progrmaming makes me want to choke someone 
   //I don't think we need getters and setterrs for this. Endgame doesn't need a setter, endmatch doesn't,
   //numWins and totalGames are pretty much the same imo and we should onl need one. 
   public Game(Player playerOne, Player playerTwo, int wins, int games)
