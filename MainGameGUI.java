@@ -36,6 +36,7 @@ public class MainGameGUI
     private GraphicsContext gc; 
     private Player player1;
     private Player player2;
+    private ImageView playerOne, playerTwo; 
     private ImageView cursor1, cursor2;
     private Text topBanner; 
     private Text turnBanner; 
@@ -186,9 +187,18 @@ public class MainGameGUI
     }
     public void startCombat()
     {
-        //instantiate 2 players
+        //change top banner
+        topBanner.setText("Combat Phase"); 
+        //instantiate 2 players and add to screen 
+        playerOne = new ImageView(player1.getGameImage()); 
+        playerTwo = new ImageView(player2.getGameImage());
+        root.getChildren().add(playerOne);
+        root.getChildren().add(playerTwo);
         //hide cursors
+        root.getChildren().remove(cursor1);
+        root.getChildren().remove(cursor2); 
         //start moveTimer 
+        moveTimer.start(); 
     }
     //use boolean property
     /*
@@ -282,6 +292,15 @@ public class MainGameGUI
                         break;
                     case F:
                         //if drawing, cancel line, erase last point; 
+                        if(game.getDrawPhase() && game.getCurrentTurn() == 1)
+                        {
+                            //if there is a point(s) selected
+                            if(selectedPoints.size() > 0)
+                            {
+                                Point2D.Double point = selectedPoints.get(selectedPoints.size() - 1); 
+                                selectedPoints.remove(point); 
+                            }
+                        }
                         //else do melee attack
                         break;
                     case UP:
@@ -319,7 +338,16 @@ public class MainGameGUI
                         //else fire particle 
                         break; 
                     case CONTROL:
-                        //if drawing, cancel line, erase last point;
+                        //if drawing, cancel line, erase last point; 
+                        if(game.getDrawPhase() && game.getCurrentTurn() == 2)
+                        {
+                            //if there is a point(s) selected
+                            if(selectedPoints.size() > 0)
+                            {
+                                Point2D.Double point = selectedPoints.get(selectedPoints.size() - 1); 
+                                selectedPoints.remove(point); 
+                            }
+                        }
                         //else do melee attack 
                         break;
                 }

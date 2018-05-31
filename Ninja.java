@@ -9,7 +9,8 @@ public class Ninja extends Player
 {
    public Ninja()
    {
-       image = new Image("ninja.png");
+       charSelectImage = new Image("ninja.png");
+       gameImage = new Image("stick figure.png"); 
        name = "Ninja";
    }
    public void fire()

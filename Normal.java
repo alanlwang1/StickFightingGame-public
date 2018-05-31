@@ -9,7 +9,8 @@ public class Normal extends Player
 {
    public Normal()
    {
-       image = new Image("normal.png");
+       charSelectImage = new Image("normal.png");
+       gameImage = new Image("stick figure.png"); 
        name = "Normal";
    }
    public void fire()

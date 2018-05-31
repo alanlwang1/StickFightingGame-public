@@ -57,7 +57,7 @@ public class CharacterSelect
         for(int i = 0; i < availablePlayers.length; i++)
         {
             if(availablePlayers[i] != null)
-                gc.drawImage(availablePlayers[i].getImage(), 350 * i, 0);
+                gc.drawImage(availablePlayers[i].getCharImage(), 350 * i, 0);
             else
                 gc.drawImage(notApplicable, 350 * i, 0);
             gc.strokeLine(350 * i, 0, 350 * i, HEIGHT);

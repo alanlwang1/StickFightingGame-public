@@ -12,7 +12,8 @@ public abstract class Player
   private int speed;
   private int x, y;
   private int wins;
-  protected Image image;
+  protected Image charSelectImage;
+  protected Image gameImage; 
   protected String name;
   
   /**
@@ -147,9 +148,13 @@ public abstract class Player
   {
     return wins;
   }
-  public Image getImage()
+  public Image getCharImage()
   {
-      return image;
+      return charSelectImage;
+  }
+  public Image getGameImage()
+  {
+      return gameImage;
   }
   public String getName()
   {
