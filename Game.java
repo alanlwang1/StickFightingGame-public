@@ -27,6 +27,11 @@ public class Game
   //event driven progrmaming makes me want to choke someone 
   //I don't think we need getters and setterrs for this. Endgame doesn't need a setter, endmatch doesn't,
   //numWins and totalGames are pretty much the same imo and we should onl need one. 
+  //intermission - property for endGame 
+  //get winner and set current turn to that depending on winner
+  //start cursorTimer
+  //add only cursor for player back 
+  //end phase after line created
   public Game(Player playerOne, Player playerTwo, int wins, int games)
   {
       numWins = wins;
@@ -116,16 +121,16 @@ public class Game
   * Returns the winner of the game.
   * @return The winner of the game
   **/
-  public Player getWinner()
+  public int getWinner()
   {
     if (player1.isDead())
-      return player2;
+      return 2;
     else 
     {  
       if (player2.isDead())
-        return player1;
+        return 1;
     }
-    return null;
+    return 0;
   }
   public void setDrawPhase(boolean value)
   {
