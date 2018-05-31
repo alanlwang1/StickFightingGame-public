@@ -95,7 +95,7 @@ public class StartScreen
         //Image img = new Image("stick figure.png");
         //ImageView.setImage(img);
         
-
+        /*
         //hello Daniel
         playButton = new Button();
         playButton.setText("Play");
@@ -105,27 +105,33 @@ public class StartScreen
         //playButton.setMaxSize(MAX_TILE_SIZE, MAX_TILE_SIZE);
         playButton.setOnAction(e -> 
         {
-               
+            
         });
-        grid.setConstraints(playButton, 1, 8);
+        */
+        //grid.setConstraints(playButton, 1, 8);
         
         bestOfThree = new Button();
-        bestOfThree.setText("Best of Three");
+        bestOfThree.setText("Play Best of Three");
         bestOfThree.setFont(new Font(45));
         bestOfThree.setMinSize(300, 100);
         bestOfThree.setOnAction(e ->
         {
-            
+            CharacterSelect cs = new CharacterSelect(1, mainStage);
+            Scene csScene = cs.getCSScene(); 
+            mainStage.changeScene(csScene);
         });
         grid.setConstraints(bestOfThree, 1, 8);
         grid.setHalignment(bestOfThree, HPos.CENTER);
         
         bestOfFive = new Button();
-        bestOfFive.setText("Best of Five");
+        bestOfFive.setText("Play Best of Five");
         bestOfFive.setFont(new Font(45));
         bestOfFive.setMinSize(300, 100);
         bestOfFive.setOnAction(e ->
         {
+            CharacterSelect cs = new CharacterSelect(2, mainStage);
+            Scene csScene = cs.getCSScene(); 
+            mainStage.changeScene(csScene);
         });
         grid.setConstraints(bestOfFive, 1, 8);
         grid.setHalignment(bestOfFive, HPos.RIGHT);
@@ -155,7 +161,7 @@ public class StartScreen
         
         grid.setHgap(0);
         grid.setVgap(0);
-        grid.getChildren().addAll(start, startCont, playButton, bestOfThree, bestOfFive, closeButton, stickFigure);
+        grid.getChildren().addAll(start, startCont, bestOfThree, bestOfFive, closeButton, stickFigure);
         
         grid.setId("pane");
        
