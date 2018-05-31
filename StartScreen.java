@@ -46,7 +46,7 @@ public class StartScreen
         
         grid = new GridPane();
         //grid.setPadding(new Insets(10,10,10,10));
-        grid.setGridLinesVisible(true);
+        //grid.setGridLinesVisible(true);
         
         //make the text box for the main screen (welcome to game...)
         Text start = new Text();
