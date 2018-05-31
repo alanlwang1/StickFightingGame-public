@@ -1,6 +1,14 @@
-#pane{
+#pane
+{
     -fx-background-image: url("notebook.png");
     -fx-background-repeat: stretch;   
-    -fx-background-size: 900 506;
+    -fx-background-size: 1920 1080;
     -fx-background-position: center center;
+}
+
+#start
+{
+    position: absolute;
+    left: 100px;
+    top: 150px;
 }
