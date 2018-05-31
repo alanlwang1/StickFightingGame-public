@@ -188,15 +188,24 @@ public class MainGameGUI
     public void startCombat()
     {
         //change top banner
-        topBanner.setText("Combat Phase"); 
+        topBanner.setText("Combat Phase");
+        //add bottom line
+        Line bottomLine = new Line(0, canvas.getHeight() - 100, canvas.getWidth(), canvas.getHeight() - 100); 
+        root.getChildren().add(bottomLine); 
         //instantiate 2 players and add to screen 
-        playerOne = new ImageView(player1.getGameImage()); 
+        playerOne = new ImageView(player1.getGameImage());
+        playerOne.relocate(0, canvas.getHeight() - 100 - playerOne.getImage().getHeight());
         playerTwo = new ImageView(player2.getGameImage());
+        playerTwo.relocate(canvas.getWidth() - playerTwo.getImage().getWidth(), canvas.getHeight() - 100 - playerTwo.getImage().getHeight()); 
         root.getChildren().add(playerOne);
         root.getChildren().add(playerTwo);
         //hide cursors
         root.getChildren().remove(cursor1);
-        root.getChildren().remove(cursor2); 
+        root.getChildren().remove(cursor2);
+        
+        //add countdown
+        
+        
         //start moveTimer 
         moveTimer.start(); 
     }
