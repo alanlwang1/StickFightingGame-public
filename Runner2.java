@@ -15,6 +15,9 @@ import javafx.util.Duration;
 import javafx.scene.shape.MoveTo; 
 import javafx.scene.shape.Path; 
 import javafx.scene.shape.QuadCurveTo;
+import javafx.animation.AnimationTimer;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Hold down an arrow key to have your hero move around the screen.
  * Hold down the shift key to have the hero run.
@@ -24,12 +27,14 @@ public class Runner2 extends Application {
     private static final double W = 1800, H = 900;
 
     private static final String HERO_IMAGE_LOC =
-        "http://icons.iconarchive.com/icons/raindropmemory/legendora/64/Hero-icon.png";
+        "stick figure.png";
 
     private Image heroImage;
     private Node  hero;
     final Duration DUR = Duration.seconds(0.01);
-
+    boolean goNorth, goSouth, goEast, goWest;
+    long lastPressed;
+    double y = 0;
     @Override
     public void start(Stage stage) throws Exception {
         heroImage = new Image(HERO_IMAGE_LOC);
@@ -38,58 +43,61 @@ public class Runner2 extends Application {
         hero.setTranslateX(W/2);
         hero.setTranslateY(H/2);
         Scene scene = new Scene(dungeon, 1800, 900);
+        lastPressed = System.nanoTime();
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() 
             {
                 @Override
                 public void handle(KeyEvent event)
                 {
+                    long difference = System.nanoTime() - lastPressed;
+                    double ds = TimeUnit.NANOSECONDS.toSeconds(difference);
                     double x = 0;
                     double y = 0;
+                    PathTransition pt;
                     switch (event.getCode()) {
                         case UP: 
-                        y = -25;
+                        if ( ds >= 5)goNorth = true;
                         break;
                         case DOWN: 
-                        y = 25; 
+                        if ( ds >= 5) goSouth = true;
                         break;
                         case LEFT: 
-                        x = -50; 
+                        if ( ds >= 5) goWest = true;
                         break;
-                        case RIGHT: 
-                        x = 50; 
+                        case RIGHT:
+                        if ( ds >= 5) goEast = true;
                         break;
                     }
-                    PathTransition pt = genTransition(x,y);
-                    pt.play();
-                    
+                    lastPressed = System.nanoTime();
                 }
             });
+        scene.setOnKeyReleased(new EventHandler<KeyEvent>() 
+        {
+            @Override
+            public void handle(KeyEvent event)
+            {
+                switch (event.getCode())
+                {
+                    case UP: goNorth = false; break;
+                    case DOWN: goSouth = false; break;
+                    case LEFT: goWest = false; break;
+                    case RIGHT: goEast = false; break;
+                }                
+            }
+            });
+            
+          AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                y += 0.5;
+                if (goNorth) { y = -10; }
+                hero.relocate(hero.getLayoutX(), hero.getLayoutY() + y);
+            }
+        };
+        timer.start();
+        
         stage.setScene(scene);
         stage.show();
-    }
-
-    public PathTransition genTransition(double dx, double dy)
-    {
-        Path path = new Path();
-        MoveTo moveTo = new MoveTo();
-        moveTo.setX(hero.getTranslateX() + hero.getBoundsInLocal().getWidth()  / 2);
-        moveTo.setY(hero.getTranslateY() + hero.getBoundsInLocal().getHeight()  / 2);
-
-        QuadCurveTo quadTo = new QuadCurveTo();
-        quadTo.setControlX(hero.getTranslateX() + hero.getBoundsInLocal().getWidth()  / 2 + dx/2);
-        quadTo.setControlY(hero.getTranslateY() + dy);
-        quadTo.setX(hero.getTranslateX() + hero.getBoundsInLocal().getWidth()  / 2 + dx);
-        quadTo.setY(hero.getTranslateY() + hero.getBoundsInLocal().getHeight()  / 2);
-
-        path.getElements().add(moveTo);
-        path.getElements().add(quadTo);
-        PathTransition transition = new PathTransition();
-        transition.setNode(hero);
-        transition.setDuration(Duration.seconds(0.1));
-        transition.setPath(path);
-        transition.setCycleCount(1);
-        
-        return transition;
     }
 
     public static void main(String[] args) { launch(args); }

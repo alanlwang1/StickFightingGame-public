@@ -15,6 +15,7 @@ import javafx.util.Duration;
 import javafx.scene.shape.MoveTo; 
 import javafx.scene.shape.Path; 
 import javafx.scene.shape.QuadCurveTo;
+
 /**
  * Hold down an arrow key to have your hero move around the screen.
  * Hold down the shift key to have the hero run.
