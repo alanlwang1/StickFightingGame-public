@@ -9,7 +9,7 @@ import javafx.geometry.*;
  * @author D.Chen
  * @version b1.0
  */
-public class testAlert
+public class Alert
 {
     public static void display(String title, String message)
     {

@@ -12,6 +12,7 @@ public class Ninja extends Player
        charSelectImage = new Image("ninja.png");
        gameImage = new Image("stick figure.png"); 
        name = "Ninja";
+       super.setImageURL("ninja.png");
    }
    public void fire()
    {

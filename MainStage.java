@@ -38,7 +38,7 @@ public class MainStage extends Application
     }
     public static void closeProgram()
     {
-        boolean answer = testConfirm.display("exit", "Do you really wish to quit the game of honorable summoners?");
+        boolean answer = Confirm.display("exit", "Do you really wish to quit the game of honorable summoners?");
         if (answer)
             window.close();
     }

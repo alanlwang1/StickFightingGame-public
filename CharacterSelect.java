@@ -2,6 +2,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -17,6 +18,8 @@ import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.GridPane;
+
 /**
  * class CharacterSelect - class models character Select screen
  *
@@ -44,6 +47,7 @@ public class CharacterSelect
     private Player player2;
     private Player[] availablePlayers = {new Normal(), new Ninja(), null, null, null};
     private Game game;
+    private GridPane grid;
     
     public CharacterSelect(int gameType, MainStage ms)
     {        
@@ -54,13 +58,30 @@ public class CharacterSelect
         GraphicsContext gc = layer.getGraphicsContext2D();
         Image notApplicable = new Image("notapplicable.png");
         gc.setLineWidth(5); 
+        
+ 
+        ImageView playerImage;
+        Image player;
+        WritableImage writePlayer;
+        
+        grid = new GridPane();
+        
         for(int i = 0; i < availablePlayers.length; i++)
         {
-            if(availablePlayers[i] != null)
-                gc.drawImage(availablePlayers[i].getCharImage(), 350 * i, 0);
+            if(availablePlayers[i] != null) //keep images 330 by 700
+            {
+                player = new Image(availablePlayers[i].getImageURL(), 400, 690, true, false);
+                //using image scalings of 9/8
+                writePlayer = new WritableImage(player.getPixelReader(), 0, 0, 343, 674);
+                gc.drawImage(writePlayer, calculatePosition(i), 0);
+                gc.strokeLine(350 * i, 0, 350 * i, HEIGHT);
+                //gc.drawImage(availablePlayers[i].getCharImage(), 350 * i, 0);
+            }
             else
+            {
                 gc.drawImage(notApplicable, 350 * i, 0);
-            gc.strokeLine(350 * i, 0, 350 * i, HEIGHT);
+                gc.strokeLine(350 * i, 0, 350 * i, HEIGHT);
+            }
         }
         cursorOne.relocate(0 + 100, HEIGHT - 200);
         cursorTwo.relocate(WIDTH - 300, HEIGHT - 100);
@@ -86,9 +107,8 @@ public class CharacterSelect
             
         });
         
-        pane = new Pane();
-        pane.getChildren().add(layer);
-        root = new Group(pane, cursorOne, cursorTwo, confirmButton);
+        //pane.getChildren().add(layer);
+        root = new Group(layer, cursorOne, cursorTwo, confirmButton);
         csScene = new Scene(root, 1800, 900);
         csScene.setOnKeyPressed(ke -> {
             KeyCode keyCode = ke.getCode();
@@ -168,5 +188,17 @@ public class CharacterSelect
                     break;
             }               
     }
-           
+    private double calculatePosition(int x)
+    {
+        int value = x;
+        if (x > 0)
+        {
+            value *= 350;
+        }
+        if (x >= 1)
+        {
+            value += 10;
+        }
+        return value;
+    }
 }

@@ -12,9 +12,11 @@ public abstract class Player
   private int speed;
   private int x, y;
   private int wins;
+  //these have to be getters and setters
   protected Image charSelectImage;
   protected Image gameImage; 
   protected String name;
+  private String imageURL;
   
   /**
    * Sets the new health of the player. 
@@ -164,8 +166,16 @@ public abstract class Player
   * Returns the image of a player.
   * @return The image of the player
   **/
-  //public idk getImage()
-  //{
-  //  return something;
-  //}
+  public String getImageURL()
+  {
+      return imageURL;
+  }
+  /**
+   * Sets the image of a player
+   * @String url the string url of the image
+   */
+  public void setImageURL(String url)
+  {
+      imageURL = url;
+  }
 }

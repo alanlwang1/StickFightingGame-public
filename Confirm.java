@@ -9,7 +9,7 @@ import javafx.geometry.*;
  * @author D.Chen
  * @version b1.0
  */
-public class testConfirm
+public class Confirm
 {
     private static boolean answer;
     public static boolean display(String title, String message)

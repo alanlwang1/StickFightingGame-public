@@ -113,7 +113,7 @@ public class StartScreen
         bestOfThree = new Button();
         bestOfThree.setText("Play Best of Three");
         bestOfThree.setFont(new Font(45));
-        bestOfThree.setMinSize(300, 100);
+        bestOfThree.setMinSize(400, 100);
         bestOfThree.setOnAction(e ->
         {
             CharacterSelect cs = new CharacterSelect(1, mainStage);
@@ -121,12 +121,12 @@ public class StartScreen
             mainStage.changeScene(csScene);
         });
         grid.setConstraints(bestOfThree, 1, 8);
-        grid.setHalignment(bestOfThree, HPos.CENTER);
+        grid.setHalignment(bestOfThree, HPos.LEFT);
         
         bestOfFive = new Button();
         bestOfFive.setText("Play Best of Five");
         bestOfFive.setFont(new Font(45));
-        bestOfFive.setMinSize(300, 100);
+        bestOfFive.setMinSize(400, 100);
         bestOfFive.setOnAction(e ->
         {
             CharacterSelect cs = new CharacterSelect(2, mainStage);
