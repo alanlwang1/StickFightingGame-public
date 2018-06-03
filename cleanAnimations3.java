@@ -26,7 +26,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.shape.LineTo;
-public class cleanAnimations2 extends Application
+public class cleanAnimations3 extends Application
 {
     private static final double W = 1800, H = 900;
 
@@ -39,9 +39,12 @@ public class cleanAnimations2 extends Application
     private Line line; 
     private int ticks;
     private int currentFrame = 1; 
+    private double dy = 0; 
+    private double dx = 0; 
     private double grav, yMotion, xMotion;
     private boolean moveLeft, moveRight, jumping; 
-    private boolean canJump;
+    private boolean walking; 
+    private boolean listeningForKeyPress = true;
     private static final Duration DUR = Duration.seconds(0.4);
     @Override
     public void start(Stage stage) throws Exception
@@ -125,8 +128,11 @@ public class cleanAnimations2 extends Application
                     switch (ke.getCode())
                     {
                         case UP:
-                            jumping = true;
-                            canJump = false; 
+                        if(listeningForKeyPress)    
+                        {    
+                            dy -= 30;
+                            listeningForKeyPress = false;  
+                        }
                        // genTransition(0).play(); 
                         upPressed.set(true); 
                         break;
@@ -135,12 +141,12 @@ public class cleanAnimations2 extends Application
                         moveLeft = true; 
                         //genLine(-50).play(); 
                         leftPressed.set(true);
-                        if(canJump)
+                        if(walking)
                             leftTimer.start(); 
                         break;
                         case RIGHT: 
                         moveRight = true; 
-                        if(canJump)
+                        if(walking)
                             rightTimer.start(); 
                         //genLine(50).play(); 
                         rightPressed.set(true); 
@@ -156,7 +162,10 @@ public class cleanAnimations2 extends Application
                 {
                     switch(ke.getCode())
                     {
-                        case UP: jumping = false; upPressed.set(false); break;
+                        case UP: 
+                        jumping = false; 
+                        upPressed.set(false); 
+                        break;
                         case DOWN: break;
                         case LEFT: 
                             moveLeft = false; 
@@ -180,17 +189,17 @@ public class cleanAnimations2 extends Application
             {
                 @Override
                 public void handle(long now) {
-
-                    double dx = 0;
-                    double dy = 0;
+                    dx = 0;
                     if(dy < 10)
-                        dy += 5;
-                    if(jumping && canJump)
+                        dy += 2;
+                    /*    
+                    if(jumping && walking)
                     {
                         if(dy > 0)
                             dy = 0;
                         dy -= 10;
                     }
+                    */
                     if(moveLeft)
                         dx -= 5;
                     if(moveRight)
@@ -198,8 +207,11 @@ public class cleanAnimations2 extends Application
                     if(stickFigure.getBoundsInParent().intersects(line.getBoundsInParent()))
                     {    
                         if(dy > 0)
+                        {
                             dy = 0;
-                        canJump = true; 
+                            listeningForKeyPress = true; 
+                        }    
+                        walking = true; 
                     }
                     stickFigure.relocate(stickFigure.getLayoutX() + dx, stickFigure.getLayoutY() + dy);  
                     /*
