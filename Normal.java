@@ -10,7 +10,7 @@ public class Normal extends Player
    public Normal()
    {
        charSelectImage = new Image("normal.png");
-       gameImage = new Image("stick figure.png"); 
+       gameImage = new Image("normalRunningSheet.png"); 
        name = "Normal";
        super.setImageURL("normal.png");
    }

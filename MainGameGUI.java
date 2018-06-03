@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.*;
 import javafx.geometry.VPos; 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
 import javafx.stage.Stage;
 import javafx.event.EventHandler; 
@@ -43,9 +44,16 @@ public class MainGameGUI
     private boolean lineCreated; 
     private boolean goUp1, goDown1, goLeft1, goRight1; //booleans controlling player1's movement
     private boolean goUp2, goDown2, goLeft2, goRight2; //booleans controlling player2's movement
+    private boolean walking1, walking2; //booleans controlling whether to play walking animation
+    private double dx1, dy1, dx2, dy2; //doubles controlling movement distance for both players
+    private int currentFrame1, currentFrame2; //ints controlling player animation
+    private int counter1, counter2;
     private ArrayList<Point2D.Double> selectedPoints = new ArrayList<Point2D.Double>(); 
+    private ArrayList<Line> createdLines = new ArrayList<Line>(); 
+    private Rectangle2D clipBounds1;
+    private Rectangle2D clipBounds2; 
     private Group root;
-    private AnimationTimer cursorTimer, moveTimer; 
+    private AnimationTimer cursorTimer, moveTimer, player1Animation, player2Animation; 
     public MainGameGUI(Game g, MainStage ms) 
     {
         game = g;
@@ -74,10 +82,10 @@ public class MainGameGUI
             @Override
             public void handle(long now)
             {
-                int dx1 = 0; 
-                int dy1 = 0;
-                int dx2 = 0;
-                int dy2 = 0;
+                dx1 = 0; 
+                dy1 = 0;
+                dx2 = 0;
+                dy2 = 0;
                 if (goUp1)
                     dy1 -= 5;
                 if (goLeft1)
@@ -140,7 +148,48 @@ public class MainGameGUI
             @Override
             public void handle(long now)
             {
-                //put animation for characters here RYAN
+                    //reset dx of both players    
+                    dx1 = 0;
+                    dx2 = 0;
+                    //increase gravity for both players constantly
+                    if(dy1 < 10)
+                        dy1 += 2;
+                    if(dy2 < 10)
+                        dy2 += 2;
+                    //change dx of players based on key presses    
+                    if(goLeft1)
+                        dx1 -= 5;
+                    if(goRight1)
+                        dx1 += 5;
+                    if(goLeft2)
+                        dx2 -= 5;
+                    if(goRight2)
+                        dx2 += 5;
+                    //check if players have collided with any of the lines created
+                    for(Line line : createdLines)
+                    {
+                        if(playerOne.getBoundsInParent().intersects(line.getBoundsInParent()))
+                        {    
+                            if(dy1 > 0)
+                            {
+                                dy1 = 0;
+                                goUp1 = true; 
+                            }    
+                            walking1 = true; 
+                        }
+                        if(playerTwo.getBoundsInParent().intersects(line.getBoundsInParent()))
+                        {    
+                             if(dy2 > 0)
+                             {
+                                 dy2 = 0;
+                                 goUp2 = true; 
+                             }    
+                             walking2 = true; 
+                        }
+                    }
+                    //move players to new locations
+                    playerOne.relocate(playerOne.getLayoutX() + dx1, playerOne.getLayoutY() + dy1);
+                    playerTwo.relocate(playerTwo.getLayoutX() + dx2, playerTwo.getLayoutY() + dy2); 
             }
         };
         
@@ -163,21 +212,6 @@ public class MainGameGUI
     {
         return scene;
     }
-    /*
-    public void drawPhase()
-    {
-        cursorTimer.start(); 
-        drawing = true; 
-        //add text for drawing
-        for(int i = 0; i < 5; i++)
-        {
-            letPlayerOneDraw();
-            letPlayerTwoDraw(); 
-        }
-        //text saying end of drawing phase;
-        cursorTimer.stop();
-    }
-    */
     public void runGame()
     {
         //start the drawPhase
@@ -192,11 +226,57 @@ public class MainGameGUI
         //add bottom line
         Line bottomLine = new Line(0, canvas.getHeight() - 100, canvas.getWidth(), canvas.getHeight() - 100); 
         root.getChildren().add(bottomLine); 
+        createdLines.add(bottomLine);
         //instantiate 2 players and add to screen 
         playerOne = new ImageView(player1.getGameImage());
+        clipBounds1 = new Rectangle2D(0, 0, 200, 200);
+        playerOne.setViewport(clipBounds1);
         playerOne.relocate(0, canvas.getHeight() - 100 - playerOne.getImage().getHeight());
+        
         playerTwo = new ImageView(player2.getGameImage());
+        clipBounds2 = new Rectangle2D(0, 0, 200, 200);
+        playerTwo.setViewport(clipBounds2);
         playerTwo.relocate(canvas.getWidth() - playerTwo.getImage().getWidth(), canvas.getHeight() - 100 - playerTwo.getImage().getHeight()); 
+        
+        //create animation timers for both players
+        player1Animation = new AnimationTimer()
+        {
+          @Override
+          public void handle(long now)
+          {
+                  //if it is time to change frame
+                  if(counter1 == 1)
+                        currentFrame1 = (currentFrame1 + 1) % 4;
+                  //change frame of imageView      
+                  if(goLeft1)
+                        clipBounds1 = new Rectangle2D(600 - currentFrame1 * 200, 200, 200, 200);
+                  else
+                    if(goRight1)
+                        clipBounds1 = new Rectangle2D(200 + currentFrame1 * 200, 0, 200, 200);
+                  playerOne.setViewport(clipBounds1);
+                  //increment counter
+                  counter1 = (counter1 + 1) % 10; 
+          }
+        };
+        player2Animation = new AnimationTimer()
+        {
+          @Override
+          public void handle(long now)
+          {
+                  //if it is time to change frame
+                  if(counter2 == 1)
+                        currentFrame2 = (currentFrame2 + 1) % 4;
+                  //change frame of imageView
+                  if(goLeft2)
+                        clipBounds2 = new Rectangle2D(600 - currentFrame2 * 200, 200, 200, 200);
+                  else
+                    if(goRight2)
+                        clipBounds2 = new Rectangle2D(200 + currentFrame2 * 200, 0, 200, 200);
+                  playerTwo.setViewport(clipBounds2);
+                  //increment counter
+                  counter2 = (counter2 + 1) % 10; 
+          }
+        };
         root.getChildren().add(playerOne);
         root.getChildren().add(playerTwo);
         //hide cursors
@@ -209,37 +289,6 @@ public class MainGameGUI
         //start moveTimer 
         moveTimer.start(); 
     }
-    //use boolean property
-    /*
-    public void letPlayerOneDraw()
-    {
-        //display cursor
-        root.getChildren().add(cursor1);
-        //grant control to first player
-        lineCreated = false; 
-        
-
-        //change cursor to pencil/eraser depending on button
-        //choose 2 points, draw line if confirm
-        //erase points if no confirm
-        //hide cursor
-        lineCreated = true; 
-        root.getChildren().remove(cursor1);
-    }
-    public void letPlayerTwoDraw()
-    {
-        //display cursor
-        root.getChildren().add(cursor2);
-        //add keybindings for first player
-        lineCreated = false;
-        //change cursor to pencil/eraser depending on button
-        //choose 2 points, draw line if confirm
-        //erase points if no confirm 
-        //hide cursor
-        lineCreated = true;
-        root.getChildren().remove(cursor2); 
-    }
-    */
     public void moveCursor(ImageView cursor, double deltaX, double deltaY)
     {
         double newX = Math.max(cursor.getLayoutX() + deltaX, 0);
@@ -265,16 +314,29 @@ public class MainGameGUI
                 switch(event.getCode()) 
                 {
                     case W:
-                        goUp1 = true;
+                        if(game.getDrawPhase())
+                            goUp1 = true;
+                        else 
+                            if(goUp1) //if character can jump
+                            {
+                                //add upward velocity
+                                dy1 -= 25; 
+                                //disable double jumping
+                                goUp1 = false;
+                            }
                         break;
                     case A:
                         goLeft1 = true;
+                        if(!game.getDrawPhase() && walking1) //if during combat and player on ground
+                            player1Animation.start(); //play walking animation
                         break;
                     case S:
                         goDown1 = true;
                         break;
                     case D:
                         goRight1 = true;
+                        if(!game.getDrawPhase() && walking1) //if during combat and player one ground
+                            player1Animation.start(); //play walking animation
                         break; 
                     case R:
                         //if drawing, draw circle at current position/confirm line for cursor1
@@ -293,7 +355,8 @@ public class MainGameGUI
                                 Point2D.Double point2 = selectedPoints.get(1); 
                                 Line line = new Line(point1.getX(), point1.getY(), point2.getX(), point2.getY());
                                 selectedPoints.clear(); 
-                                root.getChildren().add(line); 
+                                root.getChildren().add(line);
+                                createdLines.add(line); 
                                 game.incrementLine();
                             }
                         }
@@ -312,14 +375,31 @@ public class MainGameGUI
                         }
                         //else do melee attack
                         break;
+                    case K:
+                        //remove this later -- for skipping draw phase
+                        game.setDrawPhase(false); 
+                        break;
                     case UP:
-                        goUp2 = true;
+                        if(game.getDrawPhase())
+                            goUp2 = true;
+                        else
+                            if(goUp2) //if player can jump
+                            {
+                                //add upward velocity
+                                dy2 -= 25;
+                                //disable double jumping
+                                goUp2 = false;
+                            }
                         break;
                     case LEFT:
                         goLeft2 = true;
+                        if(!game.getDrawPhase() && walking2) //if during combat and player on ground
+                           player2Animation.start(); //start walking animation
                         break;
                     case RIGHT:
                         goRight2 = true;
+                        if(!game.getDrawPhase() && walking2) //if during combat and player on ground
+                           player2Animation.start(); //start walking animation 
                         break;
                     case DOWN:
                         goDown2 = true;
@@ -341,6 +421,7 @@ public class MainGameGUI
                                 Line line = new Line(point1.getX(), point1.getY(), point2.getX(), point2.getY());
                                 selectedPoints.clear(); 
                                 root.getChildren().add(line); 
+                                createdLines.add(line); 
                                 game.incrementLine();
                             }
                         }
@@ -370,28 +451,58 @@ public class MainGameGUI
                 switch(event.getCode()) 
                 {
                     case W:
-                        goUp1 = false;
+                        if(game.getDrawPhase())    
+                            goUp1 = false;
                         break;
                     case A:
                         goLeft1 = false;
+                        if(!game.getDrawPhase())
+                        {
+                            player1Animation.stop();
+                            currentFrame1 = 0;
+                            clipBounds1 = new Rectangle2D(800, 200, 200, 200);
+                            playerOne.setViewport(clipBounds1);
+                        }
                         break;
                     case S:
                         goDown1 = false;
                         break;
                     case D:
                         goRight1 = false;
+                        if(!game.getDrawPhase())
+                        {
+                            player1Animation.stop();
+                            currentFrame1 = 0;
+                            clipBounds1 = new Rectangle2D(0, 0, 200, 200);
+                            playerOne.setViewport(clipBounds1);
+                        }
                         break; 
                     case UP:
-                        goUp2 = false;
+                        if(game.getDrawPhase())
+                            goUp2 = false;
                         break;
                     case LEFT:
                         goLeft2 = false;
+                        if(!game.getDrawPhase())
+                        {
+                            player2Animation.stop();
+                            currentFrame2 = 0;
+                            clipBounds2 = new Rectangle2D(800, 200, 200, 200);
+                            playerTwo.setViewport(clipBounds2);
+                        }
                         break;
                     case DOWN:
                         goDown2 = false;
                         break;
                     case RIGHT:
                         goRight2 = false;
+                        if(!game.getDrawPhase())
+                        {
+                            player2Animation.stop();
+                            currentFrame2 = 0;
+                            clipBounds2 = new Rectangle2D(0, 0, 200, 200);
+                            playerTwo.setViewport(clipBounds2);
+                        }
                         break; 
                 }
             }
