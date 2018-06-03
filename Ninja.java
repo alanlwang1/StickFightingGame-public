@@ -9,10 +9,10 @@ public class Ninja extends Player
 {
    public Ninja()
    {
-       charSelectImage = new Image("ninja.png");
-       gameImage = new Image("ninjaRunningSheet.png"); 
-       name = "Ninja";
-       super.setImageURL("ninja.png");
+       super.setCharImage(new Image("ninjaProfile.png"));
+       super.setGameImage(new Image("ninjaRunningSheet.png")); 
+       super.setName("Ninja");
+       super.setImageURL("ninjaProfile.png");
    }
    public void fire()
    {

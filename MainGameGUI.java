@@ -231,12 +231,12 @@ public class MainGameGUI
         playerOne = new ImageView(player1.getGameImage());
         clipBounds1 = new Rectangle2D(0, 0, 200, 200);
         playerOne.setViewport(clipBounds1);
-        playerOne.relocate(0, canvas.getHeight() - 100 - playerOne.getImage().getHeight());
+        playerOne.relocate(0, 200);
         
         playerTwo = new ImageView(player2.getGameImage());
-        clipBounds2 = new Rectangle2D(0, 0, 200, 200);
+        clipBounds2 = new Rectangle2D(800, 200, 200, 200);
         playerTwo.setViewport(clipBounds2);
-        playerTwo.relocate(canvas.getWidth() - playerTwo.getImage().getWidth(), canvas.getHeight() - 100 - playerTwo.getImage().getHeight()); 
+        playerTwo.relocate(canvas.getWidth() - 200, 200); 
         
         //create animation timers for both players
         player1Animation = new AnimationTimer()

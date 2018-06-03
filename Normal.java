@@ -9,10 +9,10 @@ public class Normal extends Player
 {
    public Normal()
    {
-       charSelectImage = new Image("normal.png");
-       gameImage = new Image("normalRunningSheet.png"); 
-       name = "Normal";
-       super.setImageURL("normal.png");
+       super.setCharImage(new Image("normalProfile.png"));
+       super.setGameImage(new Image("normalRunningSheet.png")); 
+       super.setName("Normal");
+       super.setImageURL("normalProfile.png");
    }
    public void fire()
    {

@@ -13,9 +13,9 @@ public abstract class Player
   private int x, y;
   private int wins;
   //these have to be getters and setters
-  protected Image charSelectImage;
-  protected Image gameImage; 
-  protected String name;
+  private Image charSelectImage;
+  private Image gameImage; 
+  private String name;
   private String imageURL;
   
   /**
@@ -158,9 +158,21 @@ public abstract class Player
   {
       return gameImage;
   }
+  public void setCharImage(Image image)
+  {
+      charSelectImage = image;
+  }
+  public void setGameImage(Image image)
+  {
+      gameImage = image; 
+  }
   public String getName()
   {
       return name; 
+  }
+  public void setName(String newName)
+  {
+      name = newName;
   }
   /**
   * Returns the image of a player.
