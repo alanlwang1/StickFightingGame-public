@@ -31,7 +31,7 @@ public class cleanAnimations3 extends Application
     private static final double W = 1800, H = 900;
 
     private static final String STICK_PIC =
-        "normalRunningSheet.png";
+        "ninjaRunningSheet.png";
     
     private Image charachterImage;
     private Rectangle2D clipBounds = new Rectangle2D(0, 0, 200, 200);
@@ -173,6 +173,7 @@ public class cleanAnimations3 extends Application
                             leftTimer.stop();
                             clipBounds = new Rectangle2D(800, 200, 200, 200);
                             stickFigure.setViewport(clipBounds);
+                            
                         break;
                         case RIGHT: 
                             moveRight = false; 
