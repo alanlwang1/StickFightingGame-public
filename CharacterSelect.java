@@ -51,6 +51,11 @@ public class CharacterSelect
     
     public CharacterSelect(int gameType, MainStage ms)
     {        
+        Text select = new Text();
+        select.setText("Choose Your Champion");
+        select.setFont(new Font(90));
+        
+        
         mainStage = ms;
         myGameType = gameType;
         
@@ -108,8 +113,10 @@ public class CharacterSelect
         });
         
         //pane.getChildren().add(layer);
-        root = new Group(layer, cursorOne, cursorTwo, confirmButton);
+        root = new Group(layer, cursorOne, cursorTwo, confirmButton, select);
         csScene = new Scene(root, 1800, 900);
+        select.layoutXProperty().bind(csScene.widthProperty().subtract(select.prefWidth(-1)).divide(2));
+        select.layoutYProperty().bind(csScene.heightProperty().divide(2).subtract(200));
         csScene.setOnKeyPressed(ke -> {
             KeyCode keyCode = ke.getCode();
             if(keyCode.equals(KeyCode.A))

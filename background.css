@@ -6,9 +6,7 @@
     -fx-background-position: center center;
 }
 
-#start
+#align
 {
-    position: absolute;
-    left: 100px;
-    top: 150px;
+    -fx-fill: rgba(0,0,0,0);
 }

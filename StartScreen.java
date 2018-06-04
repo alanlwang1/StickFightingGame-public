@@ -41,41 +41,43 @@ public class StartScreen
     private final static double MAX_TILE_SIZE = Double.MAX_VALUE;
     public StartScreen(MainStage ms)
     {
+        
+        
         //Assign reference to mainStage
         mainStage = ms;
         
         grid = new GridPane();
         //grid.setPadding(new Insets(10,10,10,10));
-        //grid.setGridLinesVisible(true);
+        grid.setGridLinesVisible(true);
         
         //make the text box for the main screen (welcome to game...)
         Text start = new Text();
-        start.setFont(new Font(90));
+        start.setFont(new Font(112));
         start.setText("Welcome to the Game");
         start.setFill(Color.RED);
         start.setStrokeWidth(1.5);
         start.setStroke(Color.BLACK);
         start.setTextOrigin(VPos.TOP);
         start.setId("start");
-        grid.setConstraints(start, 1, 2);
+        grid.setConstraints(start, 2, 2);
         grid.setHalignment(start, HPos.CENTER);
         //grid.setValignment(start, VPos.CENTER);
         
         
         Text startCont = new Text();
-        startCont.setFont(new Font(90));
+        startCont.setFont(new Font(112));
         startCont.setText("of Honorable Summoners");
         startCont.setFill(Color.RED);
         startCont.setStrokeWidth(1.5);
         startCont.setStroke(Color.BLACK);
-        grid.setConstraints(startCont, 1, 3);
+        grid.setConstraints(startCont, 2, 3);
         grid.setHalignment(start, HPos.CENTER);
         
         Text alignmentBox = new Text();
-        alignmentBox.setFont(new Font(45));
+        alignmentBox.setFont(new Font(90));
         alignmentBox.setText("Align");
-
-        
+        grid.setConstraints(alignmentBox,3, 2);
+        alignmentBox.setId("align");
   
         
         //make the picture for the stick figure (might add some other art later)
@@ -89,7 +91,7 @@ public class StartScreen
         ImageView stickFigure = new ImageView(image);
         stickFigure.setFitHeight(300);
         stickFigure.setFitWidth(300);
-        grid.setConstraints(stickFigure, 1,6);
+        grid.setConstraints(stickFigure, 2,6);
         
         grid.setHalignment(stickFigure, HPos.CENTER);
         //Image img = new Image("stick figure.png");
@@ -120,7 +122,7 @@ public class StartScreen
             Scene csScene = cs.getCSScene(); 
             mainStage.changeScene(csScene);
         });
-        grid.setConstraints(bestOfThree, 1, 8);
+        grid.setConstraints(bestOfThree, 2, 8);
         grid.setHalignment(bestOfThree, HPos.LEFT);
         
         bestOfFive = new Button();
@@ -133,7 +135,7 @@ public class StartScreen
             Scene csScene = cs.getCSScene(); 
             mainStage.changeScene(csScene);
         });
-        grid.setConstraints(bestOfFive, 1, 8);
+        grid.setConstraints(bestOfFive, 2, 8);
         grid.setHalignment(bestOfFive, HPos.RIGHT);
         
         closeButton = new Button("Quit");
@@ -161,7 +163,7 @@ public class StartScreen
         
         grid.setHgap(0);
         grid.setVgap(0);
-        grid.getChildren().addAll(start, startCont, bestOfThree, bestOfFive, closeButton, stickFigure);
+        grid.getChildren().addAll(start, startCont, bestOfThree, bestOfFive, closeButton, stickFigure, alignmentBox);
         
         grid.setId("pane");
        
