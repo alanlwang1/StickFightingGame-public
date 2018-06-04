@@ -1,4 +1,4 @@
-
+import javafx.scene.image.Image;
 /**
  * Builds a custom weapon from this class (need to make a subclass for it).  
  *
@@ -8,30 +8,28 @@
 public abstract class Weapon
 {
     // instance variables - replace the example below with your own
-    private int attackSpeed;
+    private double speed;
     private int onHitDmg;
+    private double x, y;
+    private double width, height; 
+    private Image gameImage;  
     
     /**
      * Makes someone take damage
      */
     public void dealDamage(Player player)
     {
-        exception();
         player.takeDamage(onHitDmg);
     }
     
-    /**
-     * Accounts for exceptions (unique attributes) weapons may have when dealing damage. 
-     */
-    public abstract void exception();
     
     /**
      * Returns attack speed of the weapon.
      * @return attack speed of the weapon
      */
-    public int getAS()
+    public double getSpeed()
     {
-        return attackSpeed;
+        return speed;
     }
     
     /**
@@ -47,9 +45,9 @@ public abstract class Weapon
      * Sets the attack speed of the weapon.
      * @param newAS the new attack speed of the weapon.
      */
-    public void setAS(int newAS)
+    public void setSpeed(int newSpeed)
     {
-        attackSpeed = newAS;
+        speed = newSpeed;
     }
     
     /**
@@ -60,5 +58,44 @@ public abstract class Weapon
     {
         onHitDmg = newOHD;
     }
-    
+    public double getX()
+    {
+        return x;
+    }
+    public void setX(double newX)
+    {
+        x = newX;
+    }
+    public double getY()
+    {
+        return y; 
+    }
+    public double setY()
+    {
+        return y;
+    }
+    public double getWidth()
+    {
+        return width;
+    }
+    public void setWidth(double newWidth)
+    {
+        width = newWidth;
+    }
+    public double getHeight()
+    {
+        return height;
+    }
+    public void setHeight(double newHeight)
+    {
+        height = newHeight; 
+    }
+    public Image getGameImage()
+    {
+        return gameImage; 
+    }
+    public void setGameImage(Image newGameImage)
+    {
+        gameImage = newGameImage; 
+    }
 }    
