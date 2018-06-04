@@ -22,6 +22,8 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.shape.Shape;
+import javafx.scene.shape.Ellipse;
 /**
  * Main Gui for the actual game
  *
@@ -54,16 +56,17 @@ public class MainGameGUI
     private Rectangle2D clipBounds2; 
     private Group root;
     private AnimationTimer cursorTimer, moveTimer, player1Animation, player2Animation; 
+    private Ellipse hitbox1, hitbox2;
     public MainGameGUI(Game g, MainStage ms) 
     {
         game = g;
         mainStage = ms;
         player1 = game.getPlayer1();
         player2 = game.getPlayer2();
-        
+
         canvas = new Canvas(1800, 900);
         gc = canvas.getGraphicsContext2D(); 
-        
+
         topBanner = new Text(); 
         topBanner.setText("Draw Phase: Player 1's Turn");
         topBanner.setFont(new Font(45));
@@ -71,11 +74,11 @@ public class MainGameGUI
         topBanner.setStrokeWidth(1.5);
         topBanner.setStroke(Color.BLACK);
         topBanner.setTextOrigin(VPos.TOP);
-        
+
         //display cursors, move to positions 
         cursor1 = new ImageView("pointer1.png");
         cursor2 = new ImageView("pointer2.png"); 
-        
+
         //Timer for drawing cursor movement and repainting
         cursorTimer = new AnimationTimer() 
         {
@@ -104,11 +107,11 @@ public class MainGameGUI
                     dx2 += 5; 
                 moveCursor(cursor1, dx1, dy1); 
                 moveCursor(cursor2, dx2, dy2); 
-                
+
                 //repaint selected points, if any 
                 gc.setFill(Color.WHITE); 
                 gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                gc.setFill(Color.BLUE); 
+                //gc.setFill(Color.BLUE); 
                 for(Point2D.Double point: selectedPoints)
                 {
                     gc.fillOval(point.getX(), point.getY(), 5, 5); 
@@ -117,90 +120,94 @@ public class MainGameGUI
         };
         //add listener for draw phase start/end
         game.getDrawProperty().addListener(new ChangeListener<Boolean>()
-        {
-            @Override 
-            public void changed(ObservableValue<? extends Boolean> o, Boolean oldVal, Boolean newVal)
             {
-                if (newVal.booleanValue() == false)
+                @Override 
+                public void changed(ObservableValue<? extends Boolean> o, Boolean oldVal, Boolean newVal)
                 {
-                    cursorTimer.stop();
-                    startCombat(); 
+                    if (newVal.booleanValue() == false)
+                    {
+                        cursorTimer.stop();
+                        startCombat(); 
+                    }
                 }
-            }
-        });    
+            });    
         //add listener for turn change
         game.getTurnProperty().addListener(new ChangeListener<Number>()
-        {
-            @Override
-            public void changed(ObservableValue<? extends Number> o, Number oldVal, Number newVal)
             {
-                if(newVal.intValue() == 1)
+                @Override
+                public void changed(ObservableValue<? extends Number> o, Number oldVal, Number newVal)
                 {
-                    topBanner.setText("Draw Phase: Player 1's Turn");
+                    if(newVal.intValue() == 1)
+                    {
+                        topBanner.setText("Draw Phase: Player 1's Turn");
+                    }
+                    else
+                        topBanner.setText("Draw Phase: Player 2's Turn");
                 }
-                else
-                    topBanner.setText("Draw Phase: Player 2's Turn");
-            }
-        });
+            });
         //timer for character movement in combat phase 
         moveTimer = new AnimationTimer()
         {
             @Override
             public void handle(long now)
             {
-                    //reset dx of both players    
-                    dx1 = 0;
-                    dx2 = 0;
-                    //increase gravity for both players constantly
-                    if(dy1 < 10)
-                        dy1 += 2;
-                    if(dy2 < 10)
-                        dy2 += 2;
-                    //change dx of players based on key presses    
-                    if(goLeft1)
-                        dx1 -= 5;
-                    if(goRight1)
-                        dx1 += 5;
-                    if(goLeft2)
-                        dx2 -= 5;
-                    if(goRight2)
-                        dx2 += 5;
-                    //check if players have collided with any of the lines created
-                    for(Line line : createdLines)
-                    {
-                        if(playerOne.getBoundsInParent().intersects(line.getBoundsInParent()))
-                        {    
-                            if(dy1 > 0)
-                            {
-                                dy1 = 0;
-                                goUp1 = true; 
-                            }    
-                            walking1 = true; 
-                        }
-                        if(playerTwo.getBoundsInParent().intersects(line.getBoundsInParent()))
-                        {    
-                             if(dy2 > 0)
-                             {
-                                 dy2 = 0;
-                                 goUp2 = true; 
-                             }    
-                             walking2 = true; 
-                        }
+                //reset dx of both players    
+                dx1 = 0;
+                dx2 = 0;
+                //increase gravity for both players constantly
+                if(dy1 < 10)
+                    dy1 += 2;
+                if(dy2 < 10)
+                    dy2 += 2;
+                //change dx of players based on key presses    
+                if(goLeft1)
+                    dx1 -= 5;
+                if(goRight1)
+                    dx1 += 5;
+                if(goLeft2)
+                    dx2 -= 5;
+                if(goRight2)
+                    dx2 += 5;
+                //check if players have collided with any of the lines created
+                for(Line line : createdLines)
+                {
+                    if(checkCollisions(hitbox1, line))
+                    {    
+                        if(dy1 > 0)
+                        {
+                            dy1 = 0;
+                            goUp1 = true; 
+                        }    
+                        walking1 = true; 
                     }
-                    //move players to new locations
-                    playerOne.relocate(playerOne.getLayoutX() + dx1, playerOne.getLayoutY() + dy1);
-                    playerTwo.relocate(playerTwo.getLayoutX() + dx2, playerTwo.getLayoutY() + dy2); 
+                    if(checkCollisions(hitbox2, line))
+                    {    
+                        if(dy2 > 0)
+                        {
+                            dy2 = 0;
+                            goUp2 = true; 
+                        }    
+                        walking2 = true; 
+                    }
+                }
+                //move players to new locations
+                playerOne.relocate(playerOne.getLayoutX() + dx1, playerOne.getLayoutY() + dy1);
+                playerTwo.relocate(playerTwo.getLayoutX() + dx2, playerTwo.getLayoutY() + dy2);
+                hitbox1.setCenterX(playerOne.getLayoutX() + 100);
+                hitbox1.setCenterY(playerOne.getLayoutY() + 100);
+                hitbox2.setCenterX(playerTwo.getLayoutX() + 100);
+                hitbox2.setCenterY(playerTwo.getLayoutY() + 100);
             }
         };
-        
+
         //create scene and send 
         root = new Group(canvas, topBanner, cursor1, cursor2);
         scene = new Scene(root, 1800, 900); 
-        
+
         //format topBanner and cursors 
         topBanner.layoutXProperty().bind(scene.widthProperty().subtract(topBanner.prefWidth(-1)).divide(2));
         topBanner.layoutYProperty().bind(scene.heightProperty().subtract(850));
-        
+
         //format cursor1 and cursor2
         cursor1.relocate(0 + cursor1.getImage().getWidth(), scene.getHeight() - cursor1.getImage().getHeight());
         cursor2.relocate(scene.getWidth() - cursor2.getImage().getWidth(), scene.getHeight() - cursor2.getImage().getHeight());
@@ -208,10 +215,12 @@ public class MainGameGUI
         setKeyBinds();
         runGame(); 
     }
+
     public Scene getScene()
     {
         return scene;
     }
+
     public void runGame()
     {
         //start the drawPhase
@@ -219,6 +228,7 @@ public class MainGameGUI
         game.setDrawPhase(true); 
         //actually run the game 
     }
+
     public void startCombat()
     {
         //change top banner
@@ -231,64 +241,75 @@ public class MainGameGUI
         playerOne = new ImageView(player1.getGameImage());
         clipBounds1 = new Rectangle2D(0, 0, 200, 200);
         playerOne.setViewport(clipBounds1);
-        playerOne.relocate(0, 200);
-        
+        playerOne.relocate(0, canvas.getHeight() - 100 - playerOne.getImage().getHeight());
+        hitbox1 = new Ellipse();
+        hitbox1.setCenterX(playerOne.getLayoutX() + 100);
+        hitbox1.setCenterY(playerOne.getLayoutY() + 100);
+        hitbox1.setRadiusY(110);
+        hitbox1.setRadiusX(70);
         playerTwo = new ImageView(player2.getGameImage());
-        clipBounds2 = new Rectangle2D(800, 200, 200, 200);
+        clipBounds2 = new Rectangle2D(0, 0, 200, 200);
+
+        hitbox2 = new Ellipse();
+        hitbox2.setCenterX(playerTwo.getLayoutX() + 100);
+        hitbox2.setCenterY(playerTwo.getLayoutY() + 100);
+        hitbox2.setRadiusY(110);
+        hitbox2.setRadiusX(70);
+
         playerTwo.setViewport(clipBounds2);
-        playerTwo.relocate(canvas.getWidth() - 200, 200); 
-        
+        playerTwo.relocate(canvas.getWidth() - playerTwo.getImage().getWidth(), canvas.getHeight() - 100 - playerTwo.getImage().getHeight()); 
+
         //create animation timers for both players
         player1Animation = new AnimationTimer()
         {
-          @Override
-          public void handle(long now)
-          {
-                  //if it is time to change frame
-                  if(counter1 == 1)
-                        currentFrame1 = (currentFrame1 + 1) % 4;
-                  //change frame of imageView      
-                  if(goLeft1)
-                        clipBounds1 = new Rectangle2D(600 - currentFrame1 * 200, 200, 200, 200);
-                  else
-                    if(goRight1)
-                        clipBounds1 = new Rectangle2D(200 + currentFrame1 * 200, 0, 200, 200);
-                  playerOne.setViewport(clipBounds1);
-                  //increment counter
-                  counter1 = (counter1 + 1) % 10; 
-          }
+            @Override
+            public void handle(long now)
+            {
+                //if it is time to change frame
+                if(counter1 == 1)
+                    currentFrame1 = (currentFrame1 + 1) % 4;
+                //change frame of imageView      
+                if(goLeft1)
+                    clipBounds1 = new Rectangle2D(600 - currentFrame1 * 200, 200, 200, 200);
+                else
+                if(goRight1)
+                    clipBounds1 = new Rectangle2D(200 + currentFrame1 * 200, 0, 200, 200);
+                playerOne.setViewport(clipBounds1);
+                //increment counter
+                counter1 = (counter1 + 1) % 10; 
+            }
         };
         player2Animation = new AnimationTimer()
         {
-          @Override
-          public void handle(long now)
-          {
-                  //if it is time to change frame
-                  if(counter2 == 1)
-                        currentFrame2 = (currentFrame2 + 1) % 4;
-                  //change frame of imageView
-                  if(goLeft2)
-                        clipBounds2 = new Rectangle2D(600 - currentFrame2 * 200, 200, 200, 200);
-                  else
-                    if(goRight2)
-                        clipBounds2 = new Rectangle2D(200 + currentFrame2 * 200, 0, 200, 200);
-                  playerTwo.setViewport(clipBounds2);
-                  //increment counter
-                  counter2 = (counter2 + 1) % 10; 
-          }
+            @Override
+            public void handle(long now)
+            {
+                //if it is time to change frame
+                if(counter2 == 1)
+                    currentFrame2 = (currentFrame2 + 1) % 4;
+                //change frame of imageView
+                if(goLeft2)
+                    clipBounds2 = new Rectangle2D(600 - currentFrame2 * 200, 200, 200, 200);
+                else
+                if(goRight2)
+                    clipBounds2 = new Rectangle2D(200 + currentFrame2 * 200, 0, 200, 200);
+                playerTwo.setViewport(clipBounds2);
+                //increment counter
+                counter2 = (counter2 + 1) % 10; 
+            }
         };
         root.getChildren().add(playerOne);
         root.getChildren().add(playerTwo);
         //hide cursors
         root.getChildren().remove(cursor1);
         root.getChildren().remove(cursor2);
-        
+
         //add countdown
-        
-        
+
         //start moveTimer 
         moveTimer.start(); 
     }
+
     public void moveCursor(ImageView cursor, double deltaX, double deltaY)
     {
         double newX = Math.max(cursor.getLayoutX() + deltaX, 0);
@@ -303,42 +324,43 @@ public class MainGameGUI
         }
         cursor.relocate(newX, newY); 
     }
+
     public void setKeyBinds()
     {
         //add keybindings for first player
         scene.setOnKeyPressed(new EventHandler<KeyEvent>()
-        {
-            @Override
-            public void handle(KeyEvent event)
             {
-                switch(event.getCode()) 
+                @Override
+                public void handle(KeyEvent event)
                 {
-                    case W:
+                    switch(event.getCode()) 
+                    {
+                        case W:
                         if(game.getDrawPhase())
                             goUp1 = true;
                         else 
-                            if(goUp1) //if character can jump
-                            {
-                                //add upward velocity
-                                dy1 -= 25; 
-                                //disable double jumping
-                                goUp1 = false;
-                            }
+                        if(goUp1) //if character can jump
+                        {
+                            //add upward velocity
+                            dy1 -= 25; 
+                            //disable double jumping
+                            goUp1 = false;
+                        }
                         break;
-                    case A:
+                        case A:
                         goLeft1 = true;
                         if(!game.getDrawPhase() && walking1) //if during combat and player on ground
                             player1Animation.start(); //play walking animation
                         break;
-                    case S:
+                        case S:
                         goDown1 = true;
                         break;
-                    case D:
+                        case D:
                         goRight1 = true;
                         if(!game.getDrawPhase() && walking1) //if during combat and player one ground
                             player1Animation.start(); //play walking animation
                         break; 
-                    case R:
+                        case R:
                         //if drawing, draw circle at current position/confirm line for cursor1
                         if(game.getDrawPhase() && game.getCurrentTurn() == 1)
                         {
@@ -362,7 +384,7 @@ public class MainGameGUI
                         }
                         //else fire particle
                         break;
-                    case F:
+                        case F:
                         //if drawing, cancel line, erase last point; 
                         if(game.getDrawPhase() && game.getCurrentTurn() == 1)
                         {
@@ -375,36 +397,36 @@ public class MainGameGUI
                         }
                         //else do melee attack
                         break;
-                    case K:
+                        case K:
                         //remove this later -- for skipping draw phase
                         game.setDrawPhase(false); 
                         break;
-                    case UP:
+                        case UP:
                         if(game.getDrawPhase())
                             goUp2 = true;
                         else
-                            if(goUp2) //if player can jump
-                            {
-                                //add upward velocity
-                                dy2 -= 25;
-                                //disable double jumping
-                                goUp2 = false;
-                            }
+                        if(goUp2) //if player can jump
+                        {
+                            //add upward velocity
+                            dy2 -= 25;
+                            //disable double jumping
+                            goUp2 = false;
+                        }
                         break;
-                    case LEFT:
+                        case LEFT:
                         goLeft2 = true;
                         if(!game.getDrawPhase() && walking2) //if during combat and player on ground
-                           player2Animation.start(); //start walking animation
+                            player2Animation.start(); //start walking animation
                         break;
-                    case RIGHT:
+                        case RIGHT:
                         goRight2 = true;
                         if(!game.getDrawPhase() && walking2) //if during combat and player on ground
-                           player2Animation.start(); //start walking animation 
+                            player2Animation.start(); //start walking animation 
                         break;
-                    case DOWN:
+                        case DOWN:
                         goDown2 = true;
                         break; 
-                    case SHIFT:
+                        case SHIFT:
                         if(game.getDrawPhase() && game.getCurrentTurn() == 2)
                         {
                             //if two points are not selected already
@@ -427,7 +449,7 @@ public class MainGameGUI
                         }
                         //else fire particle 
                         break; 
-                    case CONTROL:
+                        case CONTROL:
                         //if drawing, cancel line, erase last point; 
                         if(game.getDrawPhase() && game.getCurrentTurn() == 2)
                         {
@@ -440,21 +462,21 @@ public class MainGameGUI
                         }
                         //else do melee attack 
                         break;
-                }
-            }          
-        }); 
+                    }
+                }          
+            }); 
         scene.setOnKeyReleased(new EventHandler<KeyEvent>()
-        {
-            @Override
-            public void handle(KeyEvent event)
             {
-                switch(event.getCode()) 
+                @Override
+                public void handle(KeyEvent event)
                 {
-                    case W:
+                    switch(event.getCode()) 
+                    {
+                        case W:
                         if(game.getDrawPhase())    
                             goUp1 = false;
                         break;
-                    case A:
+                        case A:
                         goLeft1 = false;
                         if(!game.getDrawPhase())
                         {
@@ -464,10 +486,10 @@ public class MainGameGUI
                             playerOne.setViewport(clipBounds1);
                         }
                         break;
-                    case S:
+                        case S:
                         goDown1 = false;
                         break;
-                    case D:
+                        case D:
                         goRight1 = false;
                         if(!game.getDrawPhase())
                         {
@@ -477,11 +499,11 @@ public class MainGameGUI
                             playerOne.setViewport(clipBounds1);
                         }
                         break; 
-                    case UP:
+                        case UP:
                         if(game.getDrawPhase())
                             goUp2 = false;
                         break;
-                    case LEFT:
+                        case LEFT:
                         goLeft2 = false;
                         if(!game.getDrawPhase())
                         {
@@ -491,10 +513,10 @@ public class MainGameGUI
                             playerTwo.setViewport(clipBounds2);
                         }
                         break;
-                    case DOWN:
+                        case DOWN:
                         goDown2 = false;
                         break;
-                    case RIGHT:
+                        case RIGHT:
                         goRight2 = false;
                         if(!game.getDrawPhase())
                         {
@@ -504,8 +526,20 @@ public class MainGameGUI
                             playerTwo.setViewport(clipBounds2);
                         }
                         break; 
+                    }
                 }
-            }
-        });
+            });
+    }
+    public boolean checkCollisions( Shape body, Shape coll)
+    {
+        Shape sp = Shape.intersect(body, coll);
+        if(sp.getBoundsInLocal().getWidth() != -1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
