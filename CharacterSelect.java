@@ -35,7 +35,7 @@ public class CharacterSelect
     private Scene csScene;
     private Scene gameScene;
     private Pane pane;
-    private Group root;
+    private Pane root;
     private Canvas layer1; 
     private Canvas layer;
     private Button confirmButton; 
@@ -70,7 +70,7 @@ public class CharacterSelect
         WritableImage writePlayer;
         
         grid = new GridPane();
-        
+        gc.setFont(new Font(45));
         for(int i = 0; i < availablePlayers.length; i++)
         {
             if(availablePlayers[i] != null) //keep images 330 by 700
@@ -78,14 +78,23 @@ public class CharacterSelect
                 player = new Image(availablePlayers[i].getImageURL(), 400, 690, true, false);
                 //using image scalings of 9/8
                 writePlayer = new WritableImage(player.getPixelReader(), 0, 0, 343, 674);
-                gc.drawImage(writePlayer, calculatePosition(i), 0);
+                gc.drawImage(writePlayer, calculateImagePosition(i), 0);
                 gc.strokeLine(350 * i, 0, 350 * i, HEIGHT);
+                
+                gc.strokeText(availablePlayers[i].getName(), calculateTextPosition(i), 240);
                 //gc.drawImage(availablePlayers[i].getCharImage(), 350 * i, 0);
             }
             else
             {
                 gc.drawImage(notApplicable, 350 * i, 0);
-                gc.strokeLine(350 * i, 0, 350 * i, HEIGHT);
+                if (i == 2 || i == 3)
+                {
+                    gc.strokeLine(350 * i, 160, 350 * i, HEIGHT);
+                }
+                else
+                {
+                    gc.strokeLine(350 * i, 0, 350 * i, HEIGHT);
+                }
             }
         }
         cursorOne.relocate(0 + 100, HEIGHT - 200);
@@ -113,8 +122,16 @@ public class CharacterSelect
         });
         
         //pane.getChildren().add(layer);
-        root = new Group(layer, cursorOne, cursorTwo, confirmButton, select);
+        
+        
+        
+        //background.getChildren().add(backgroundImage);
+        
+        root = new Pane(layer, cursorOne, cursorTwo, confirmButton, select);
         csScene = new Scene(root, 1800, 900);
+        root.setId("pane");
+        csScene.getStylesheets().addAll(this.getClass().getResource("background.css").toExternalForm());
+
         select.layoutXProperty().bind(csScene.widthProperty().subtract(select.prefWidth(-1)).divide(2));
         select.layoutYProperty().bind(csScene.heightProperty().divide(2).subtract(300));
         csScene.setOnKeyPressed(ke -> {
@@ -141,7 +158,7 @@ public class CharacterSelect
             }
         });
     }
-    public Group getGroup()
+    public Pane getGroup()
     {
         return root; 
     }
@@ -195,7 +212,7 @@ public class CharacterSelect
                     break;
             }               
     }
-    private double calculatePosition(int x)
+    private double calculateImagePosition(int x)
     {
         int value = x;
         if (x > 0)
@@ -207,5 +224,16 @@ public class CharacterSelect
             value += 10;
         }
         return value;
+    }
+    private double calculateTextPosition(int x)
+    {
+        int value = x;
+        if (x > 0)
+        {
+            value *= 400;
+            value -= 10;
+        }
+        return value + 100;
+        
     }
 }

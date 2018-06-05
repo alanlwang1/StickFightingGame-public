@@ -88,6 +88,7 @@ public class StartScreen
         gc.drawImage(image, 0, 0);
         **/
         Image image = new Image("stick figure.png");
+        
         ImageView stickFigure = new ImageView(image);
         stickFigure.setFitHeight(300);
         stickFigure.setFitWidth(300);
