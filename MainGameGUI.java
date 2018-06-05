@@ -47,7 +47,6 @@ public class MainGameGUI
     private boolean lineCreated; 
     private boolean goUp1, goDown1, goLeft1, goRight1; //booleans controlling player1's movement
     private boolean goUp2, goDown2, goLeft2, goRight2; //booleans controlling player2's movement
-    private boolean walking1, walking2; //booleans controlling whether to play walking animation
     private double dx1, dy1, dx2, dy2; //doubles controlling movement distance for both players
     private int currentFrame1, currentFrame2; //ints controlling player animation
     private int counter1, counter2;
@@ -180,7 +179,7 @@ public class MainGameGUI
                             dy1 = 0;
                             goUp1 = true; 
                         }    
-                        walking1 = true; 
+                        player1.setWalking(true); 
                     }
                     if(checkCollisions(player2.getHitbox(), line))
                     {    
@@ -189,7 +188,7 @@ public class MainGameGUI
                             dy2 = 0;
                             goUp2 = true; 
                         }    
-                        walking2 = true; 
+                        player2.setWalking(true); 
                     }
                 }
                 //update variables in player classes
@@ -381,7 +380,7 @@ public class MainGameGUI
                         case A:
                         goLeft1 = true;
                         player1.setDirection(-1);
-                        if(!game.getDrawPhase() && walking1) //if during combat and player on ground
+                        if(!game.getDrawPhase() && player1.isWalking()) //if during combat and player on ground
                             player1Animation.start(); //play walking animation
                         break;
                         case S:
@@ -390,7 +389,7 @@ public class MainGameGUI
                         case D:
                         goRight1 = true;
                         player1.setDirection(1); 
-                        if(!game.getDrawPhase() && walking1) //if during combat and player one ground
+                        if(!game.getDrawPhase() && player1.isWalking()) //if during combat and player one ground
                             player1Animation.start(); //play walking animation
                         break; 
                         case R:
@@ -417,8 +416,9 @@ public class MainGameGUI
                         }
                         //else do ranged attack
                         else 
-                            if(!game.getDrawPhase())
+                            if(!game.getDrawPhase() && player1.canFire())
                             {
+                                player1.setCanFire(false);
                                 //generate projectile
                                 Projectile projectile = player1.fireRangedAttack();
                                 createdProjectiles.add(projectile);
@@ -441,6 +441,7 @@ public class MainGameGUI
                                         clipBounds1 = new Rectangle2D(0, 0, 200, 200);
                                         playerOne.setViewport(clipBounds1);
                                     }
+                                    player1.setCanFire(true);
 
                                 });
                                 animation.play(); 
@@ -459,8 +460,9 @@ public class MainGameGUI
                         }
                         //else do melee attack
                         else
-                            if(!game.getDrawPhase())
+                            if(!game.getDrawPhase() && player1.canMelee())
                             {
+                                player1.setCanMelee(false);
                                 Projectile projectile = player1.useMeleeAttack();
                                 createdProjectiles.add(projectile);
                                 //show hitbox
@@ -482,6 +484,7 @@ public class MainGameGUI
                                         clipBounds1 = new Rectangle2D(0, 0, 200, 200);
                                         playerOne.setViewport(clipBounds1);
                                     }
+                                    player1.setCanMelee(true);
                                 });
                                 animation.play(); 
                             }
@@ -505,13 +508,13 @@ public class MainGameGUI
                         case LEFT:
                         goLeft2 = true;
                         player2.setDirection(-1);
-                        if(!game.getDrawPhase() && walking2) //if during combat and player on ground
+                        if(!game.getDrawPhase() && player2.isWalking()) //if during combat and player on ground
                             player2Animation.start(); //start walking animation
                         break;
                         case RIGHT:
                         goRight2 = true;
                         player2.setDirection(1); 
-                        if(!game.getDrawPhase() && walking2) //if during combat and player on ground
+                        if(!game.getDrawPhase() && player2.isWalking()) //if during combat and player on ground
                             player2Animation.start(); //start walking animation 
                         break;
                         case DOWN:
@@ -540,8 +543,9 @@ public class MainGameGUI
                         }
                         //else fire particle 
                         else
-                            if(!game.getDrawPhase())
+                            if(!game.getDrawPhase() && player2.canFire())
                             {
+                                player2.setCanFire(false);
                                 Projectile projectile = player2.fireRangedAttack();
                                 createdProjectiles.add(projectile);
                                 SpriteAnimation animation= new SpriteAnimation(playerTwo, Duration.seconds(1), 3, 0, 400, player2.getDirection());
@@ -560,6 +564,7 @@ public class MainGameGUI
                                         clipBounds2 = new Rectangle2D(0, 0, 200, 200);
                                         playerTwo.setViewport(clipBounds2);
                                     }
+                                    player2.setCanFire(true);
                                 });
                                 animation.play(); 
                             }
@@ -577,8 +582,9 @@ public class MainGameGUI
                         }
                         //else do melee attack 
                         else
-                            if(!game.getDrawPhase())
+                            if(!game.getDrawPhase() && player2.canMelee())
                             {
+                                player2.setCanMelee(false);
                                 Projectile projectile = player2.useMeleeAttack();
                                 createdProjectiles.add(projectile);
                                 SpriteAnimation animation= new SpriteAnimation(playerTwo, Duration.seconds(1), 3, 400, 400, player2.getDirection());
@@ -597,6 +603,7 @@ public class MainGameGUI
                                         clipBounds2 = new Rectangle2D(0, 0, 200, 200);
                                         playerTwo.setViewport(clipBounds2);
                                     }
+                                    player2.setCanMelee(true);
                                 });
                                 animation.play(); 
                             }
@@ -664,7 +671,7 @@ public class MainGameGUI
                             clipBounds2 = new Rectangle2D(0, 0, 200, 200);
                             playerTwo.setViewport(clipBounds2);
                         }
-                        break; 
+                        break;
                     }
                 }
             });

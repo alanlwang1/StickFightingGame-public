@@ -12,6 +12,9 @@ public abstract class Player
   private int health;
   private int speed;
   private double x, y;
+  private boolean walking;
+  private boolean canFire;
+  private boolean canMelee; 
   private int wins;
   private int direction; 
   //these have to be getters and setters
@@ -163,6 +166,30 @@ public abstract class Player
   public int getWins()
   {
     return wins;
+  }
+  public boolean isWalking()
+  {
+      return walking;
+  }
+  public void setWalking(boolean newWalking)
+  {
+      walking = newWalking;
+  }
+  public boolean canFire()
+  {
+      return canFire;
+  }
+  public void setCanFire(boolean newCanFire)
+  {
+      canFire = newCanFire;
+  }
+  public boolean canMelee()
+  {
+      return canMelee; 
+  }
+  public void setCanMelee(boolean newCanMelee)
+  {
+      canMelee = newCanMelee;
   }
   public Image getCharImage()
   {

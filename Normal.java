@@ -15,6 +15,8 @@ public class Normal extends Player
        super.setName("Normal");
        super.setImageURL("normalProfile.png");
        super.setHitbox(new Ellipse(super.getX(), super.getY(), 70, 110));
+       super.setCanFire(true);
+       super.setCanMelee(true);
    }
    public Projectile fireRangedAttack()
    {
