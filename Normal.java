@@ -14,8 +14,16 @@ public class Normal extends Player
        super.setName("Normal");
        super.setImageURL("normalProfile.png");
    }
-   public void fire()
+   public Projectile fireRangedAttack()
    {
+       Rock rock = new Rock(this, getDirection()); 
+       return rock;
+   }
+   public Projectile useMeleeAttack()
+   {
+       //replace this later
+       Punch punch = new Punch(this, getDirection());
+       return punch; 
    }
    public void pickUp()
    {

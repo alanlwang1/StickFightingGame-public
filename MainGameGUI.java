@@ -51,8 +51,9 @@ public class MainGameGUI
     private double dx1, dy1, dx2, dy2; //doubles controlling movement distance for both players
     private int currentFrame1, currentFrame2; //ints controlling player animation
     private int counter1, counter2;
-    private ArrayList<Point2D.Double> selectedPoints = new ArrayList<Point2D.Double>(); 
-    private ArrayList<Line> createdLines = new ArrayList<Line>(); 
+    private ArrayList<Point2D.Double> selectedPoints; 
+    private ArrayList<Line> createdLines; 
+    private ArrayList<Projectile> createdProjectiles; 
     private Rectangle2D clipBounds1;
     private Rectangle2D clipBounds2; 
     private Group root;
@@ -112,7 +113,7 @@ public class MainGameGUI
                 //repaint selected points, if any 
                 gc.setFill(Color.WHITE); 
                 gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                //gc.setFill(Color.BLUE); 
+                gc.setFill(Color.BLUE); 
                 for(Point2D.Double point: selectedPoints)
                 {
                     gc.fillOval(point.getX(), point.getY(), 5, 5); 
@@ -146,7 +147,7 @@ public class MainGameGUI
                         topBanner.setText("Draw Phase: Player 2's Turn");
                 }
             });
-        //timer for character movement in combat phase 
+        //timer for character/projectile movement in combat phase 
         moveTimer = new AnimationTimer()
         {
             @Override
@@ -191,20 +192,35 @@ public class MainGameGUI
                         walking2 = true; 
                     }
                 }
-                //move players to new locations
-                playerOne.relocate(playerOne.getLayoutX() + dx1, playerOne.getLayoutY() + dy1);
-                playerTwo.relocate(playerTwo.getLayoutX() + dx2, playerTwo.getLayoutY() + dy2);
-                hitbox1.setCenterX(playerOne.getLayoutX() + 100);
-                hitbox1.setCenterY(playerOne.getLayoutY() + 100);
-                hitbox2.setCenterX(playerTwo.getLayoutX() + 100);
-                hitbox2.setCenterY(playerTwo.getLayoutY() + 100);
+                //update variables in player classes
+                movePlayer(player1, dx1, dy1);
+                movePlayer(player2, dx2, dy2);
+                //move players and hitboxesto new locations
+                playerOne.relocate(player1.getX() - 100, player1.getY() - 100);
+                playerTwo.relocate(player2.getX() - 100, player2.getY() - 100);
+                hitbox1.setCenterX(player1.getX());
+                hitbox1.setCenterY(player1.getY());
+                hitbox2.setCenterX(player2.getX());
+                hitbox2.setCenterY(player2.getY());
+                
+                //move and repaint projectiles, if any 
+                gc.setFill(Color.WHITE); 
+                gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                for(Projectile projectile: createdProjectiles)
+                {
+                    projectile.move(); 
+                    if(projectile.isVisible())
+                        gc.drawImage(projectile.getGameImage(), projectile.getX() - projectile.getWidth() / 2, projectile.getY() - projectile.getHeight() / 2);
+                    if(!projectile.isExisting())
+                        createdProjectiles.remove(projectile);
+                }
             }
         };
 
         //create scene and send 
         root = new Group(canvas, topBanner, cursor1, cursor2);
         scene = new Scene(root, 1800, 900); 
-
+        
         //format topBanner and cursors 
         topBanner.layoutXProperty().bind(scene.widthProperty().subtract(topBanner.prefWidth(-1)).divide(2));
         topBanner.layoutYProperty().bind(scene.heightProperty().subtract(850));
@@ -212,6 +228,10 @@ public class MainGameGUI
         //format cursor1 and cursor2
         cursor1.relocate(0 + cursor1.getImage().getWidth(), scene.getHeight() - cursor1.getImage().getHeight());
         cursor2.relocate(scene.getWidth() - cursor2.getImage().getWidth(), scene.getHeight() - cursor2.getImage().getHeight());
+        
+        //instantiate arraylists to hold points and lines
+        selectedPoints = new ArrayList<Point2D.Double>();
+        createdLines = new ArrayList<Line>(); 
         //start the game
         setKeyBinds();
         runGame(); 
@@ -238,27 +258,39 @@ public class MainGameGUI
         Line bottomLine = new Line(0, canvas.getHeight() - 100, canvas.getWidth(), canvas.getHeight() - 100); 
         root.getChildren().add(bottomLine); 
         createdLines.add(bottomLine);
-        //instantiate 2 players and add to screen 
+        //set up imageview and coordinates for player1
         playerOne = new ImageView(player1.getGameImage());
         clipBounds1 = new Rectangle2D(0, 0, 200, 200);
         playerOne.setViewport(clipBounds1);
-        playerOne.relocate(0, canvas.getHeight() - 100 - playerOne.getImage().getHeight());
+        player1.setX(0 + 100);
+        player1.setY(canvas.getHeight() - playerOne.getImage().getHeight()); 
+        player1.setDirection(1);
+        //playerOne.relocate(0, canvas.getHeight() - 100 - playerOne.getImage().getHeight());
+        //set up hitbox for player1
         hitbox1 = new Ellipse();
-        hitbox1.setCenterX(playerOne.getLayoutX() + 100);
-        hitbox1.setCenterY(playerOne.getLayoutY() + 100);
+        hitbox1.setCenterX(player1.getX());
+        hitbox1.setCenterY(player1.getY());
         hitbox1.setRadiusY(110);
         hitbox1.setRadiusX(70);
+        //set up imageview and coordinates for player2
         playerTwo = new ImageView(player2.getGameImage());
         clipBounds2 = new Rectangle2D(0, 0, 200, 200);
-
+        playerTwo.setViewport(clipBounds2);
+        player2.setX(canvas.getWidth() - 100);
+        player2.setY(canvas.getHeight() - playerTwo.getImage().getHeight()); 
+        player2.setDirection(-1);
+        //playerTwo.relocate(canvas.getWidth() - playerTwo.getImage().getWidth(), canvas.getHeight() - 100 - playerTwo.getImage().getHeight()); 
+        //set up hitbox for player2
         hitbox2 = new Ellipse();
-        hitbox2.setCenterX(playerTwo.getLayoutX() + 100);
-        hitbox2.setCenterY(playerTwo.getLayoutY() + 100);
+        hitbox2.setCenterX(player2.getX());
+        hitbox2.setCenterY(player2.getY());
         hitbox2.setRadiusY(110);
         hitbox2.setRadiusX(70);
-
-        playerTwo.setViewport(clipBounds2);
-        playerTwo.relocate(canvas.getWidth() - playerTwo.getImage().getWidth(), canvas.getHeight() - 100 - playerTwo.getImage().getHeight()); 
+        
+        //instantiate arrayList to hold created Projectiles
+        createdProjectiles = new ArrayList<Projectile>(); 
+        //set up countdown
+        
 
         //create animation timers for both players
         player1Animation = new AnimationTimer()
@@ -325,7 +357,21 @@ public class MainGameGUI
         }
         cursor.relocate(newX, newY); 
     }
-
+    public void movePlayer(Player player, double deltaX, double deltaY)
+    {
+        double newX = Math.max(player.getX() + deltaX, 100);
+        if(newX > scene.getWidth() - 100)
+        {
+            newX = scene.getWidth() - 100;
+        }
+        double newY = Math.max(player.getY() + deltaY, 100); 
+        if(newY > scene.getHeight() - 100)
+        {
+            newY = scene.getHeight() - 100; 
+        }
+        player.setX(newX);
+        player.setY(newY); 
+    }
     public void setKeyBinds()
     {
         //add keybindings for first player
@@ -389,10 +435,16 @@ public class MainGameGUI
                         else 
                             if(!game.getDrawPhase())
                             {
+                                //generate projectile
+                                Projectile projectile = player1.fireRangedAttack();
+                                createdProjectiles.add(projectile); 
+                                //create and play animation
                                 SpriteAnimation animation= new SpriteAnimation(playerOne, Duration.seconds(1), 3, 0, 400, player1.getDirection());
                                 animation.setCycleCount(1);
                                 animation.setOnFinished(e -> 
                                 {
+                                    projectile.setVisible(true);
+                                    projectile.setCurrentSpeed(projectile.getFinalSpeed()); 
                                     if(player1.getDirection() < 0)
                                     {
                                         clipBounds1 = new Rectangle2D(800, 200, 200, 200);
@@ -403,6 +455,7 @@ public class MainGameGUI
                                         clipBounds1 = new Rectangle2D(0, 0, 200, 200);
                                         playerOne.setViewport(clipBounds1);
                                     }
+
                                 });
                                 animation.play(); 
                             }
@@ -422,10 +475,15 @@ public class MainGameGUI
                         else
                             if(!game.getDrawPhase())
                             {
+                                Projectile projectile = player1.useMeleeAttack();
+                                createdProjectiles.add(projectile);
                                 SpriteAnimation animation= new SpriteAnimation(playerOne, Duration.seconds(1), 3, 400, 400, player1.getDirection());
                                 animation.setCycleCount(1);
                                 animation.setOnFinished(e -> 
                                 {
+                                    //remove later
+                                    projectile.setVisible(true);
+                                    projectile.setCurrentSpeed(projectile.getFinalSpeed());
                                     if(player1.getDirection() < 0)
                                     {
                                         clipBounds1 = new Rectangle2D(800, 200, 200, 200);
@@ -496,12 +554,16 @@ public class MainGameGUI
                         else
                             if(!game.getDrawPhase())
                             {
+                                Projectile projectile = player2.fireRangedAttack();
+                                createdProjectiles.add(projectile);
                                 SpriteAnimation animation= new SpriteAnimation(playerTwo, Duration.seconds(1), 3, 0, 400, player2.getDirection());
                                 animation.setCycleCount(1);
                                 animation.setOnFinished(e -> 
                                 {
                                     if(player2.getDirection() < 0)
                                     {
+                                        projectile.setVisible(true);
+                                        projectile.setCurrentSpeed(projectile.getFinalSpeed());
                                         clipBounds2 = new Rectangle2D(800, 200, 200, 200);
                                         playerTwo.setViewport(clipBounds2);
                                     }
@@ -529,10 +591,14 @@ public class MainGameGUI
                         else
                             if(!game.getDrawPhase())
                             {
+                                Projectile projectile = player2.useMeleeAttack();
+                                createdProjectiles.add(projectile);
                                 SpriteAnimation animation= new SpriteAnimation(playerTwo, Duration.seconds(1), 3, 400, 400, player2.getDirection());
                                 animation.setCycleCount(1);
                                 animation.setOnFinished(e -> 
                                 {
+                                    projectile.setVisible(true);
+                                    projectile.setCurrentSpeed(projectile.getFinalSpeed());
                                     if(player2.getDirection() < 0)
                                     {
                                         clipBounds2 = new Rectangle2D(800, 200, 200, 200);

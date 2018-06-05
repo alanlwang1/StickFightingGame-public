@@ -1,33 +1,50 @@
-
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty; 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.image.Image;
 /**
- * Write a description of class DaggerStab here.
+ * Write a description of class Punch here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
-public class DaggerStab
+public class DaggerStab extends Projectile
 {
-    // instance variables - replace the example below with your own
-    private int x;
-
-    /**
-     * Constructor for objects of class DaggerStab
-     */
-    public DaggerStab()
+    private DoubleProperty distanceTraveled;
+    public DaggerStab(Player player, int direction)
     {
-        // initialise instance variables
-        x = 0;
+        super.setInitialSpeed(1.5);
+        super.setFinalSpeed(0);
+        super.setWidth(20);
+        super.setHeight(20);
+        super.setX(player.getX());
+        super.setY(player.getY() + 20);
+        super.setDirection(direction);
+        super.setCurrentSpeed(getInitialSpeed());
+        super.setVisible(false);
+        super.setExisting(true);
+        super.setPlayer(player); 
+        //remove later
+        super.setGameImage(new Image("shuriken.png"));
+        distanceTraveled = new SimpleDoubleProperty(); 
+        //add listener to mark punch as gone when traveled certain distance
+        
+        distanceTraveled.addListener(new ChangeListener<Number>()
+        {
+            @Override
+                public void changed(ObservableValue<? extends Number> o, Number oldVal, Number newVal)
+                {
+                    if(newVal.doubleValue() >= 1000)
+                        setExisting(false);
+                }
+        });
+        
     }
-
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
+    @Override
+    public void move()
     {
-        // put your code here
-        return x + y;
+        setX(getX() + getDirection() * getCurrentSpeed());
+        distanceTraveled.set(distanceTraveled.get() + getCurrentSpeed());
     }
 }

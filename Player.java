@@ -10,7 +10,7 @@ public abstract class Player
   //needed characteristics of each player: health, speed, coordinates, image
   private int health;
   private int speed;
-  private int x, y;
+  private double x, y;
   private int wins;
   private int direction; 
   //these have to be getters and setters
@@ -41,7 +41,7 @@ public abstract class Player
    * Sets the new x coordinate of the player.
    * @param newX the new x coordinate of the player
    */
-  public void setX(int newX)
+  public void setX(double newX)
   {
       x = newX;
   }
@@ -50,21 +50,20 @@ public abstract class Player
    * Sets the new y coordinate of the player.
    * @param newY the new y coordinate of the player
    */
-  public void setY(int newY)
+  public void setY(double newY)
   {
       y = newY;
   }
  
   
   /**
-  * Fires or uses weapon (can be melee or ranged).
+  * Uses melee attack
   **/
-  public abstract void fire();
-  
+  public abstract Projectile useMeleeAttack();
   /**
-  * Picks up a weapon.
-  **/
-  public abstract void pickUp();
+   * Fires ranged projectile
+   */
+  public abstract Projectile fireRangedAttack();
   
   /**
   * Changes the y position by either a positive or negative amount.
@@ -129,7 +128,7 @@ public abstract class Player
   * Returns the x coordinate of a player.
   * @return The x coordinate of the player
   **/
-  public int getX()
+  public double getX()
   {
     return x;
   }
@@ -138,7 +137,7 @@ public abstract class Player
   * Returns the y coordinate of a player.
   * @return The y coordinate of the player
   **/
-  public int getY()
+  public double getY()
   {
     return y;
   }

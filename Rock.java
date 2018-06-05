@@ -1,20 +1,28 @@
-
+import javafx.scene.image.Image;
 /**
  * Write a description of class Rock here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
-public class Rock extends Weapon
+public class Rock extends Projectile
 {
     /**
      * Constructor for objects of class Rock
      */
-    public Rock()
+    public Rock(Player player, int direction)
     {
-        super.setSpeed(20);
+        super.setInitialSpeed(2);
+        super.setFinalSpeed(20);
         super.setWidth(48);
         super.setHeight(48);
-        //super.setGameImage(image url);
+        super.setX(player.getX() - 50);
+        super.setY(player.getY() - 50);
+        super.setDirection(direction);
+        super.setCurrentSpeed(getInitialSpeed());
+        super.setVisible(false);
+        super.setExisting(true);
+        super.setPlayer(player); 
+        super.setGameImage(new Image("rock.png"));
     }
 }

@@ -14,8 +14,16 @@ public class Ninja extends Player
        super.setName("Ninja");
        super.setImageURL("ninjaProfile.png");
    }
-   public void fire()
+   public Projectile fireRangedAttack()
    {
+       Shuriken shuriken = new Shuriken(this, getDirection());
+       return shuriken;
+   }
+   public Projectile useMeleeAttack()
+   {
+       //replace this later
+       DaggerStab daggerStab = new DaggerStab(this, getDirection());
+       return daggerStab;
    }
    public void pickUp()
    {
