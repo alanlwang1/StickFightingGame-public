@@ -25,6 +25,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.Ellipse;
 import javafx.util.Duration;
+import javafx.scene.shape.Rectangle;
 /**
  * Main Gui for the actual game
  *
@@ -197,7 +198,7 @@ public class MainGameGUI
                 //move players and hitboxesto new locations
                 playerOne.relocate(player1.getX() - 100, player1.getY() - 100);
                 playerTwo.relocate(player2.getX() - 100, player2.getY() - 100);
-                
+
                 //move and repaint projectiles, if any 
                 gc.setFill(Color.WHITE); 
                 gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -215,7 +216,7 @@ public class MainGameGUI
         //create scene and send 
         root = new Group(canvas, topBanner, cursor1, cursor2);
         scene = new Scene(root, 1800, 900); 
-        
+
         //format topBanner and cursors 
         topBanner.layoutXProperty().bind(scene.widthProperty().subtract(topBanner.prefWidth(-1)).divide(2));
         topBanner.layoutYProperty().bind(scene.heightProperty().subtract(850));
@@ -223,7 +224,7 @@ public class MainGameGUI
         //format cursor1 and cursor2
         cursor1.relocate(0 + cursor1.getImage().getWidth(), scene.getHeight() - cursor1.getImage().getHeight());
         cursor2.relocate(scene.getWidth() - cursor2.getImage().getWidth(), scene.getHeight() - cursor2.getImage().getHeight());
-        
+
         //instantiate arraylists to hold points and lines
         selectedPoints = new ArrayList<Point2D.Double>();
         createdLines = new ArrayList<Line>(); 
@@ -253,6 +254,30 @@ public class MainGameGUI
         Line bottomLine = new Line(0, canvas.getHeight() - 100, canvas.getWidth(), canvas.getHeight() - 100); 
         root.getChildren().add(bottomLine); 
         createdLines.add(bottomLine);
+
+        Rectangle r1=new Rectangle();
+        r1.setX(0);
+        r1.setY(0);
+        r1.setHeight(50);
+        r1.setWidth(400);
+        r1.setFill(javafx.scene.paint.Color.GREEN);
+        root.getChildren().add(r1);
+
+        Rectangle r2=new Rectangle();
+        r2.setX(1400);
+        r2.setY(0);
+        r2.setHeight(50);
+        r2.setWidth(400);
+        r2.setFill(javafx.scene.paint.Color.GREEN);
+        root.getChildren().add(r2);
+
+        Text t2 = new Text(0, 25, "Player1 Health");
+        t2.setFont(new Font(20));
+
+        Text t1 = new Text(1674, 25, "Player2 Health");
+        t1.setFont(new Font(20));
+        root.getChildren().add(t1);
+        root.getChildren().add(t2);
         //set up imageview and coordinates for player1
         playerOne = new ImageView(player1.getGameImage());
         clipBounds1 = new Rectangle2D(0, 0, 200, 200);
@@ -270,11 +295,10 @@ public class MainGameGUI
         player2.setY(canvas.getHeight() - playerTwo.getImage().getHeight() - 100); 
         player2.setDirection(-1);
         //playerTwo.relocate(canvas.getWidth() - playerTwo.getImage().getWidth(), canvas.getHeight() - 100 - playerTwo.getImage().getHeight()); 
-        
+
         //instantiate arrayList to hold created Projectiles
         createdProjectiles = new ArrayList<Projectile>(); 
         //set up countdown
-        
 
         //create animation timers for both players
         player1Animation = new AnimationTimer()
@@ -341,6 +365,7 @@ public class MainGameGUI
         }
         cursor.relocate(newX, newY); 
     }
+
     public void movePlayer(Player player, double deltaX, double deltaY)
     {
         double newX = Math.max(player.getX() + deltaX, 100);
@@ -355,6 +380,7 @@ public class MainGameGUI
         }
         player.move(newX, newY);
     }
+
     public void setKeyBinds()
     {
         //add keybindings for first player
@@ -416,18 +442,18 @@ public class MainGameGUI
                         }
                         //else do ranged attack
                         else 
-                            if(!game.getDrawPhase() && player1.canFire())
-                            {
-                                player1.setCanFire(false);
-                                //generate projectile
-                                Projectile projectile = player1.fireRangedAttack();
-                                createdProjectiles.add(projectile);
-                                //show hitbox
-                                //root.getChildren().add(projectile.getHitbox());
-                                //create and play animation
-                                SpriteAnimation animation= new SpriteAnimation(playerOne, Duration.seconds(1), 3, 0, 400, player1.getDirection());
-                                animation.setCycleCount(1);
-                                animation.setOnFinished(e -> 
+                        if(!game.getDrawPhase() && player1.canFire())
+                        {
+                            player1.setCanFire(false);
+                            //generate projectile
+                            Projectile projectile = player1.fireRangedAttack();
+                            createdProjectiles.add(projectile);
+                            //show hitbox
+                            //root.getChildren().add(projectile.getHitbox());
+                            //create and play animation
+                            SpriteAnimation animation= new SpriteAnimation(playerOne, Duration.seconds(1), 3, 0, 400, player1.getDirection());
+                            animation.setCycleCount(1);
+                            animation.setOnFinished(e -> 
                                 {
                                     projectile.setVisible(true);
                                     projectile.setCurrentSpeed(projectile.getFinalSpeed()); 
@@ -444,8 +470,8 @@ public class MainGameGUI
                                     player1.setCanFire(true);
 
                                 });
-                                animation.play(); 
-                            }
+                            animation.play(); 
+                        }
                         break;
                         case F:
                         //if drawing, cancel line, erase last point; 
@@ -460,16 +486,16 @@ public class MainGameGUI
                         }
                         //else do melee attack
                         else
-                            if(!game.getDrawPhase() && player1.canMelee())
-                            {
-                                player1.setCanMelee(false);
-                                Projectile projectile = player1.useMeleeAttack();
-                                createdProjectiles.add(projectile);
-                                //show hitbox
-                                //root.getChildren().add(projectile.getHitbox());
-                                SpriteAnimation animation= new SpriteAnimation(playerOne, Duration.seconds(1), 3, 400, 400, player1.getDirection());
-                                animation.setCycleCount(1);
-                                animation.setOnFinished(e -> 
+                        if(!game.getDrawPhase() && player1.canMelee())
+                        {
+                            player1.setCanMelee(false);
+                            Projectile projectile = player1.useMeleeAttack();
+                            createdProjectiles.add(projectile);
+                            //show hitbox
+                            //root.getChildren().add(projectile.getHitbox());
+                            SpriteAnimation animation= new SpriteAnimation(playerOne, Duration.seconds(1), 3, 400, 400, player1.getDirection());
+                            animation.setCycleCount(1);
+                            animation.setOnFinished(e -> 
                                 {
                                     //remove later
                                     projectile.setVisible(true);
@@ -486,8 +512,8 @@ public class MainGameGUI
                                     }
                                     player1.setCanMelee(true);
                                 });
-                                animation.play(); 
-                            }
+                            animation.play(); 
+                        }
                         break;
                         case K:
                         //remove this later -- for skipping draw phase
@@ -543,14 +569,14 @@ public class MainGameGUI
                         }
                         //else fire particle 
                         else
-                            if(!game.getDrawPhase() && player2.canFire())
-                            {
-                                player2.setCanFire(false);
-                                Projectile projectile = player2.fireRangedAttack();
-                                createdProjectiles.add(projectile);
-                                SpriteAnimation animation= new SpriteAnimation(playerTwo, Duration.seconds(1), 3, 0, 400, player2.getDirection());
-                                animation.setCycleCount(1);
-                                animation.setOnFinished(e -> 
+                        if(!game.getDrawPhase() && player2.canFire())
+                        {
+                            player2.setCanFire(false);
+                            Projectile projectile = player2.fireRangedAttack();
+                            createdProjectiles.add(projectile);
+                            SpriteAnimation animation= new SpriteAnimation(playerTwo, Duration.seconds(1), 3, 0, 400, player2.getDirection());
+                            animation.setCycleCount(1);
+                            animation.setOnFinished(e -> 
                                 {
                                     if(player2.getDirection() < 0)
                                     {
@@ -566,8 +592,8 @@ public class MainGameGUI
                                     }
                                     player2.setCanFire(true);
                                 });
-                                animation.play(); 
-                            }
+                            animation.play(); 
+                        }
                         break; 
                         case CONTROL:
                         //if drawing, cancel line, erase last point; 
@@ -582,14 +608,14 @@ public class MainGameGUI
                         }
                         //else do melee attack 
                         else
-                            if(!game.getDrawPhase() && player2.canMelee())
-                            {
-                                player2.setCanMelee(false);
-                                Projectile projectile = player2.useMeleeAttack();
-                                createdProjectiles.add(projectile);
-                                SpriteAnimation animation= new SpriteAnimation(playerTwo, Duration.seconds(1), 3, 400, 400, player2.getDirection());
-                                animation.setCycleCount(1);
-                                animation.setOnFinished(e -> 
+                        if(!game.getDrawPhase() && player2.canMelee())
+                        {
+                            player2.setCanMelee(false);
+                            Projectile projectile = player2.useMeleeAttack();
+                            createdProjectiles.add(projectile);
+                            SpriteAnimation animation= new SpriteAnimation(playerTwo, Duration.seconds(1), 3, 400, 400, player2.getDirection());
+                            animation.setCycleCount(1);
+                            animation.setOnFinished(e -> 
                                 {
                                     projectile.setVisible(true);
                                     projectile.setCurrentSpeed(projectile.getFinalSpeed());
@@ -605,8 +631,8 @@ public class MainGameGUI
                                     }
                                     player2.setCanMelee(true);
                                 });
-                                animation.play(); 
-                            }
+                            animation.play(); 
+                        }
                         break;
                     }
                 }          
@@ -676,6 +702,7 @@ public class MainGameGUI
                 }
             });
     }
+
     public boolean checkCollisions( Shape body, Shape coll)
     {
         Shape sp = Shape.intersect(body, coll);
@@ -687,5 +714,16 @@ public class MainGameGUI
         {
             return false;
         }
+    }
+
+    public void damage1(Rectangle r)
+    {
+        r.setWidth(r.getWidth() -133.3333333333333);
+    }
+
+    public void damage2(Rectangle r)
+    {
+        r.setWidth(r.getWidth() -133.33333333333333);
+        r.setX(r.getX() + 133.33333333333333333);
     }
 }
