@@ -26,6 +26,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.shape.LineTo;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Ellipse;
 public class cleanAnimations3 extends Application
 {
     private static final double W = 1800, H = 900;
@@ -61,7 +63,13 @@ public class cleanAnimations3 extends Application
         Scene scene = new Scene(root,W,H);
         stickFigure.setTranslateX(W/2);
         stickFigure.setTranslateY(H/2);
-
+        Ellipse ep = new Ellipse(); 
+        ep.setCenterX(stickFigure.getLayoutX() + 1000);
+        ep.setCenterY(stickFigure.getLayoutY() + 550);
+        ep.setRadiusY(110);
+        ep.setRadiusX(70);
+        root.getChildren().add(ep);
+        
         final BooleanProperty upPressed = new SimpleBooleanProperty(false);
         final BooleanProperty rightPressed = new SimpleBooleanProperty(false);
         final BooleanProperty leftPressed = new SimpleBooleanProperty(false);
@@ -185,11 +193,17 @@ public class cleanAnimations3 extends Application
                     }
                 }
             });
+        Circle c = new Circle(20);
+        c.setCenterX(stickFigure.getLayoutX());
+        c.setCenterY(stickFigure.getLayoutY());
+        
+        root.getChildren().add(c);
         
         AnimationTimer timer = new AnimationTimer() 
             {
                 @Override
                 public void handle(long now) {
+                    c.setCenterX(c.getCenterX() + 50);
                     dx = 0;
                     if(dy < 10)
                         dy += 2;
@@ -242,7 +256,8 @@ public class cleanAnimations3 extends Application
                             }
                         });
                     */
-                   
+                           ep.setCenterX(stickFigure.getLayoutX() + 1000);
+        ep.setCenterY(stickFigure.getLayoutY() + 550);
                 }
             };
         timer.start();

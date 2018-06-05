@@ -1,4 +1,5 @@
 import javafx.scene.image.Image;
+import javafx.scene.shape.Ellipse;
 /**
  * Write a description of class Normal here.
  *
@@ -10,12 +11,21 @@ public class Normal extends Player
    public Normal()
    {
        super.setCharImage(new Image("normalProfile.png"));
-       super.setGameImage(new Image("normalRunningSheet.png")); 
+       super.setGameImage(new Image("normalSpriteSheet.png")); 
        super.setName("Normal");
        super.setImageURL("normalProfile.png");
+       super.setHitbox(new Ellipse(super.getX(), super.getY(), 70, 110));
    }
-   public void fire()
+   public Projectile fireRangedAttack()
    {
+       Rock rock = new Rock(this, getDirection()); 
+       return rock;
+   }
+   public Projectile useMeleeAttack()
+   {
+       //replace this later
+       Punch punch = new Punch(this, getDirection());
+       return punch; 
    }
    public void pickUp()
    {

@@ -1,4 +1,5 @@
 import javafx.scene.image.Image;
+import javafx.scene.shape.Ellipse; 
 /**
 * This superclass defines the general player class that we can implement custom characters out of 
 * (defines in game playable things' methods and basic variables).
@@ -10,14 +11,15 @@ public abstract class Player
   //needed characteristics of each player: health, speed, coordinates, image
   private int health;
   private int speed;
-  private int x, y;
+  private double x, y;
   private int wins;
+  private int direction; 
   //these have to be getters and setters
   private Image charSelectImage;
   private Image gameImage; 
   private String name;
   private String imageURL;
-  
+  private Ellipse hitbox; 
   /**
    * Sets the new health of the player. 
    * @param newHealth the new health of the player
@@ -40,7 +42,7 @@ public abstract class Player
    * Sets the new x coordinate of the player.
    * @param newX the new x coordinate of the player
    */
-  public void setX(int newX)
+  public void setX(double newX)
   {
       x = newX;
   }
@@ -49,31 +51,36 @@ public abstract class Player
    * Sets the new y coordinate of the player.
    * @param newY the new y coordinate of the player
    */
-  public void setY(int newY)
+  public void setY(double newY)
   {
       y = newY;
   }
  
-  
-  /**
-  * Fires or uses weapon (can be melee or ranged).
+ /**
+  * Changes the x position by either a positive or negative amount, dependent on speed.
   **/
-  public abstract void fire();
-  
+  public void move(double newX, double newY)
+  {
+      setX(newX);
+      setY(newY);
+      getHitbox().setCenterX(newX);
+      getHitbox().setCenterY(newY);
+  }
   /**
-  * Picks up a weapon.
+  * Uses melee attack
   **/
-  public abstract void pickUp();
+  public abstract Projectile useMeleeAttack();
+  /**
+   * Fires ranged projectile
+   */
+  public abstract Projectile fireRangedAttack();
   
   /**
   * Changes the y position by either a positive or negative amount.
   **/
   public abstract void jump();
   
-  /**
-  * Changes the x position by either a positive or negative amount, dependent on speed.
-  **/
-  public abstract void move();
+
   
   /**
   * Gives each player a unique, one game use skill (work on this later).
@@ -128,7 +135,7 @@ public abstract class Player
   * Returns the x coordinate of a player.
   * @return The x coordinate of the player
   **/
-  public int getX()
+  public double getX()
   {
     return x;
   }
@@ -137,11 +144,18 @@ public abstract class Player
   * Returns the y coordinate of a player.
   * @return The y coordinate of the player
   **/
-  public int getY()
+  public double getY()
   {
     return y;
   }
-  
+  public int getDirection()
+  {
+      return direction;
+  }
+  public void setDirection(int newDirection)
+  {
+      direction = newDirection;
+  }  
   /**
   * Returns the wins of a player.
   * @return The wins of a player
@@ -189,5 +203,13 @@ public abstract class Player
   public void setImageURL(String url)
   {
       imageURL = url;
+  }
+  public Ellipse getHitbox()
+  {
+      return hitbox;
+  }
+  public void setHitbox(Ellipse newHitbox)
+  {
+      hitbox = newHitbox; 
   }
 }
