@@ -10,7 +10,7 @@ public class Normal extends Player
    public Normal()
    {
        super.setCharImage(new Image("normalProfile.png"));
-       super.setGameImage(new Image("normalRunningSheet.png")); 
+       super.setGameImage(new Image("normalSpriteSheet.png")); 
        super.setName("Normal");
        super.setImageURL("normalProfile.png");
    }

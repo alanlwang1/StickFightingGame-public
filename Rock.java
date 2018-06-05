@@ -13,8 +13,8 @@ public class Rock extends Weapon
     public Rock()
     {
         super.setSpeed(20);
-        super.setWidth(32);
-        super.setHeight(32);
+        super.setWidth(48);
+        super.setHeight(48);
         //super.setGameImage(image url);
     }
 }

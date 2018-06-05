@@ -12,6 +12,7 @@ public abstract class Player
   private int speed;
   private int x, y;
   private int wins;
+  private int direction; 
   //these have to be getters and setters
   private Image charSelectImage;
   private Image gameImage; 
@@ -141,7 +142,14 @@ public abstract class Player
   {
     return y;
   }
-  
+  public int getDirection()
+  {
+      return direction;
+  }
+  public void setDirection(int newDirection)
+  {
+      direction = newDirection;
+  }  
   /**
   * Returns the wins of a player.
   * @return The wins of a player

@@ -13,8 +13,8 @@ public class Shuriken extends Weapon
     public Shuriken()
     {
         super.setSpeed(25);
-        super.setWidth(16);
-        super.setHeight(16); 
+        super.setWidth(32);
+        super.setHeight(32); 
         //super.setGameImage(gameImage path); 
     }
 }

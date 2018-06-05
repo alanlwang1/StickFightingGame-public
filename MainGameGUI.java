@@ -24,6 +24,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.Ellipse;
+import javafx.util.Duration;
 /**
  * Main Gui for the actual game
  *
@@ -349,6 +350,7 @@ public class MainGameGUI
                         break;
                         case A:
                         goLeft1 = true;
+                        player1.setDirection(-1);
                         if(!game.getDrawPhase() && walking1) //if during combat and player on ground
                             player1Animation.start(); //play walking animation
                         break;
@@ -357,6 +359,7 @@ public class MainGameGUI
                         break;
                         case D:
                         goRight1 = true;
+                        player1.setDirection(1); 
                         if(!game.getDrawPhase() && walking1) //if during combat and player one ground
                             player1Animation.start(); //play walking animation
                         break; 
@@ -382,7 +385,27 @@ public class MainGameGUI
                                 game.incrementLine();
                             }
                         }
-                        //else fire particle
+                        //else do ranged attack
+                        else 
+                            if(!game.getDrawPhase())
+                            {
+                                SpriteAnimation animation= new SpriteAnimation(playerOne, Duration.seconds(1), 3, 0, 400, player1.getDirection());
+                                animation.setCycleCount(1);
+                                animation.setOnFinished(e -> 
+                                {
+                                    if(player1.getDirection() < 0)
+                                    {
+                                        clipBounds1 = new Rectangle2D(800, 200, 200, 200);
+                                        playerOne.setViewport(clipBounds1);
+                                    }
+                                    else
+                                    {
+                                        clipBounds1 = new Rectangle2D(0, 0, 200, 200);
+                                        playerOne.setViewport(clipBounds1);
+                                    }
+                                });
+                                animation.play(); 
+                            }
                         break;
                         case F:
                         //if drawing, cancel line, erase last point; 
@@ -396,6 +419,26 @@ public class MainGameGUI
                             }
                         }
                         //else do melee attack
+                        else
+                            if(!game.getDrawPhase())
+                            {
+                                SpriteAnimation animation= new SpriteAnimation(playerOne, Duration.seconds(1), 3, 400, 400, player1.getDirection());
+                                animation.setCycleCount(1);
+                                animation.setOnFinished(e -> 
+                                {
+                                    if(player1.getDirection() < 0)
+                                    {
+                                        clipBounds1 = new Rectangle2D(800, 200, 200, 200);
+                                        playerOne.setViewport(clipBounds1);
+                                    }
+                                    else
+                                    {
+                                        clipBounds1 = new Rectangle2D(0, 0, 200, 200);
+                                        playerOne.setViewport(clipBounds1);
+                                    }
+                                });
+                                animation.play(); 
+                            }
                         break;
                         case K:
                         //remove this later -- for skipping draw phase
@@ -415,11 +458,13 @@ public class MainGameGUI
                         break;
                         case LEFT:
                         goLeft2 = true;
+                        player2.setDirection(-1);
                         if(!game.getDrawPhase() && walking2) //if during combat and player on ground
                             player2Animation.start(); //start walking animation
                         break;
                         case RIGHT:
                         goRight2 = true;
+                        player2.setDirection(1); 
                         if(!game.getDrawPhase() && walking2) //if during combat and player on ground
                             player2Animation.start(); //start walking animation 
                         break;
@@ -448,6 +493,26 @@ public class MainGameGUI
                             }
                         }
                         //else fire particle 
+                        else
+                            if(!game.getDrawPhase())
+                            {
+                                SpriteAnimation animation= new SpriteAnimation(playerTwo, Duration.seconds(1), 3, 0, 400, player2.getDirection());
+                                animation.setCycleCount(1);
+                                animation.setOnFinished(e -> 
+                                {
+                                    if(player2.getDirection() < 0)
+                                    {
+                                        clipBounds2 = new Rectangle2D(800, 200, 200, 200);
+                                        playerTwo.setViewport(clipBounds2);
+                                    }
+                                    else
+                                    {
+                                        clipBounds2 = new Rectangle2D(0, 0, 200, 200);
+                                        playerTwo.setViewport(clipBounds2);
+                                    }
+                                });
+                                animation.play(); 
+                            }
                         break; 
                         case CONTROL:
                         //if drawing, cancel line, erase last point; 
@@ -461,6 +526,26 @@ public class MainGameGUI
                             }
                         }
                         //else do melee attack 
+                        else
+                            if(!game.getDrawPhase())
+                            {
+                                SpriteAnimation animation= new SpriteAnimation(playerTwo, Duration.seconds(1), 3, 400, 400, player2.getDirection());
+                                animation.setCycleCount(1);
+                                animation.setOnFinished(e -> 
+                                {
+                                    if(player2.getDirection() < 0)
+                                    {
+                                        clipBounds2 = new Rectangle2D(800, 200, 200, 200);
+                                        playerTwo.setViewport(clipBounds2);
+                                    }
+                                    else
+                                    {
+                                        clipBounds2 = new Rectangle2D(0, 0, 200, 200);
+                                        playerTwo.setViewport(clipBounds2);
+                                    }
+                                });
+                                animation.play(); 
+                            }
                         break;
                     }
                 }          
