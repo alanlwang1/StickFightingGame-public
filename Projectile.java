@@ -1,4 +1,5 @@
 import javafx.scene.image.Image;
+import javafx.scene.shape.Ellipse;
 /**
  * Builds a custom weapon from this class (need to make a subclass for it).  
  *
@@ -19,6 +20,7 @@ public abstract class Projectile
     private Player player;
     private boolean isVisible; 
     private boolean isExisting; 
+    private Ellipse hitbox;
     /**
      * Makes someone take damage
      */
@@ -28,7 +30,9 @@ public abstract class Projectile
     }
     public void move()
     {
-        x += direction * currentSpeed; 
+        double newX = x + direction * currentSpeed;
+        getHitbox().setCenterX(newX); 
+        x = newX;
     }
     
     /**
@@ -150,5 +154,13 @@ public abstract class Projectile
     public void setPlayer(Player newPlayer)
     {
         player = newPlayer; 
+    }
+    public Ellipse getHitbox()
+    {
+        return hitbox;
+    }
+    public void setHitbox(Ellipse newHitbox)
+    {
+        hitbox = newHitbox;
     }
 }    

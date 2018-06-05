@@ -1,4 +1,5 @@
 import javafx.scene.image.Image;
+import javafx.scene.shape.Ellipse;
 /**
  * Write a description of class Rock here.
  *
@@ -24,5 +25,6 @@ public class Rock extends Projectile
         super.setExisting(true);
         super.setPlayer(player); 
         super.setGameImage(new Image("rock.png"));
+        super.setHitbox(new Ellipse(getX(), getY(), 24, 24)); 
     }
 }

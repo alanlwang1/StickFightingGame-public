@@ -1,4 +1,5 @@
 import javafx.scene.image.Image;
+import javafx.scene.shape.Ellipse;
 /**
  * Write a description of class Shuriken here.
  *
@@ -24,5 +25,6 @@ public class Shuriken extends Projectile
         super.setExisting(true);
         super.setPlayer(player); 
         super.setGameImage(new Image("shuriken.png")); 
+        super.setHitbox(new Ellipse(getX(), getY(), 16, 16));
     }
 }

@@ -1,4 +1,5 @@
 import javafx.scene.image.Image;
+import javafx.scene.shape.Ellipse; 
 /**
 * This superclass defines the general player class that we can implement custom characters out of 
 * (defines in game playable things' methods and basic variables).
@@ -18,7 +19,7 @@ public abstract class Player
   private Image gameImage; 
   private String name;
   private String imageURL;
-  
+  private Ellipse hitbox; 
   /**
    * Sets the new health of the player. 
    * @param newHealth the new health of the player
@@ -55,7 +56,16 @@ public abstract class Player
       y = newY;
   }
  
-  
+ /**
+  * Changes the x position by either a positive or negative amount, dependent on speed.
+  **/
+  public void move(double newX, double newY)
+  {
+      setX(newX);
+      setY(newY);
+      getHitbox().setCenterX(newX);
+      getHitbox().setCenterY(newY);
+  }
   /**
   * Uses melee attack
   **/
@@ -70,10 +80,7 @@ public abstract class Player
   **/
   public abstract void jump();
   
-  /**
-  * Changes the x position by either a positive or negative amount, dependent on speed.
-  **/
-  public abstract void move();
+
   
   /**
   * Gives each player a unique, one game use skill (work on this later).
@@ -196,5 +203,13 @@ public abstract class Player
   public void setImageURL(String url)
   {
       imageURL = url;
+  }
+  public Ellipse getHitbox()
+  {
+      return hitbox;
+  }
+  public void setHitbox(Ellipse newHitbox)
+  {
+      hitbox = newHitbox; 
   }
 }

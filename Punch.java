@@ -3,6 +3,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Ellipse;
 /**
  * Write a description of class Punch here.
  *
@@ -27,6 +28,7 @@ public class Punch extends Projectile
         super.setPlayer(player); 
         //remove later
         super.setGameImage(new Image("shuriken.png"));
+        super.setHitbox(new Ellipse(getX(), getY(), 10, 10));
         distanceTraveled = new SimpleDoubleProperty(); 
         //add listener to mark punch as gone when traveled certain distance
         
@@ -44,7 +46,9 @@ public class Punch extends Projectile
     @Override
     public void move()
     {
-        setX(getX() + getDirection() * getCurrentSpeed());
+        double newX = getX() + getDirection() * getCurrentSpeed();
+        getHitbox().setCenterX(newX); 
+        setX(newX);
         distanceTraveled.set(distanceTraveled.get() + getCurrentSpeed());
     }
 }
