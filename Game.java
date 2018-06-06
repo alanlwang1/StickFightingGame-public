@@ -20,6 +20,7 @@ public class Game
   private int numWins;
   private int totalGames; 
   private Player player1, player2;
+  private String winnerId;
   //move drawphase and things later to here and use a listener in maingamegui class to change 
   //start drawphase at end of instantiation of maingamegui -> set drawphase boolean to start
   //increment lines creawted - once it changes change the turn
@@ -148,6 +149,35 @@ public class Game
     }
     return 0;
   }
+  /**
+   * Returns the winner of the match.
+   * @return The winner of the match
+   */
+  public Player getMatchWinner()
+  {
+      if (matchState() && (player1.isDead() || player2.isDead()))
+      {
+          if (player1.getWins() * 2 > getTotalGames())
+          {
+              setWinnerId("player1");
+              return player1;
+          }
+          else
+          {
+              setWinnerId("player2");
+              return player2;
+          }
+      }
+      return null;
+  }
+  public void setWinnerId(String player)
+  {
+      winnerId = player.substring(6);
+  }
+  public String getWinnerId()
+  {
+      return winnerId;
+  }
   public void setDrawPhase(boolean value)
   {
       drawPhase.set(value); 
@@ -190,5 +220,9 @@ public class Game
   public IntegerProperty getTurnProperty()
   {
       return currentTurn; 
+  }
+  public int getTotalGames()
+  {
+      return totalGames;
   }
 }

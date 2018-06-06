@@ -208,9 +208,15 @@ public class MainCombatPhase
                     if(game.matchState())
                     {
                         //move to endGame screen
+<<<<<<< HEAD
                         //EndGame eg = new EndGame(mainStage, game.getWinner());
                         //Scene endGameScene = eg.getScene();
                         //mainStage.changeScene(endGameScene);
+=======
+                        EndGame eg = new EndGame(mainStage, game);
+                        Scene endGameScene = eg.getScene();
+                        mainStage.changeScene(endGameScene);
+>>>>>>> 3f05cf5b064dd40a49fa568bff5601549982bfc4
                     }
                     //if match is not over
                     else

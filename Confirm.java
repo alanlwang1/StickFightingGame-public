@@ -12,13 +12,16 @@ import javafx.geometry.*;
 public class Confirm
 {
     private static boolean answer;
+    private static int width;
+    private static int height;
     public static boolean display(String title, String message)
     {
         Stage window = new Stage();
         
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Are you sure you want to " + title + "?");
-        window.setMinWidth(250);
+        window.setMinWidth(width);
+        window.setMinHeight(height);
         
         Label label = new Label();
         label.setText(message);
@@ -47,5 +50,13 @@ public class Confirm
         window.showAndWait();
         
         return answer;
+    }
+    public static void setWidth(int x)
+    {
+        width = x;
+    }
+    public static void setHeight(int x)
+    {
+        height = x;
     }
 }

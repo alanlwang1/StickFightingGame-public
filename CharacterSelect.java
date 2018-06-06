@@ -117,7 +117,12 @@ public class CharacterSelect
                 mainStage.changeScene(mainGameScene);  
             }
             else
-                System.out.println("Characters not selected"); 
+            {
+                Alert.setWidth(500);
+                Alert.setHeight(175);
+                Alert.display("Player Selection Not Valid", "You have selected one or more invalid players. Please select two valid characters and try again.");
+            }
+            
             
         });
         
