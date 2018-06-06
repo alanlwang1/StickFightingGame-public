@@ -1,3 +1,5 @@
+//DEPRECATED DO NOT WORK ON THIS
+
 import java.util.ArrayList;
 import java.awt.geom.Point2D; 
 import java.awt.geom.Point2D.Double;
@@ -58,7 +60,6 @@ public class MainGameGUI
     private Rectangle2D clipBounds2; 
     private Group root;
     private AnimationTimer cursorTimer, moveTimer, player1Animation, player2Animation; 
-    private Ellipse hitbox1, hitbox2;
     public MainGameGUI(Game g, MainStage ms) 
     {
         game = g;

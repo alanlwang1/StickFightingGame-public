@@ -1,5 +1,8 @@
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Ellipse; 
+import javafx.geometry.Rectangle2D;
+import javafx.animation.AnimationTimer; 
 /**
 * This superclass defines the general player class that we can implement custom characters out of 
 * (defines in game playable things' methods and basic variables).
@@ -10,19 +13,21 @@ public abstract class Player
 {
   //needed characteristics of each player: health, speed, coordinates, image
   private int health;
-  private int speed;
   private double x, y;
   private boolean walking;
   private boolean canFire;
   private boolean canMelee; 
   private int wins;
   private int direction; 
-  //these have to be getters and setters
+  private int counter;
+  private int currentFrame; 
   private Image charSelectImage;
   private Image gameImage; 
   private String name;
   private String imageURL;
   private Ellipse hitbox; 
+  private ImageView playerImage;
+  private AnimationTimer playerTimer; 
   /**
    * Sets the new health of the player. 
    * @param newHealth the new health of the player
@@ -31,16 +36,10 @@ public abstract class Player
   {
      health = newHealth;
   }
-  
-  /**
-   * Sets the new speed of the player.
-   * @param newSpeed the new speed of the player
-   */
-  public void setSpeed(int newSpeed)
+  public void setImagePort(Rectangle2D newClipBounds)
   {
-      speed = newSpeed;
+      playerImage.setViewport(newClipBounds); 
   }
-  
   /**
    * Sets the new x coordinate of the player.
    * @param newX the new x coordinate of the player
@@ -68,6 +67,7 @@ public abstract class Player
       setY(newY);
       getHitbox().setCenterX(newX);
       getHitbox().setCenterY(newY);
+      getPlayerImage().relocate(getX() - 100, getY() - 100);
   }
   /**
   * Uses melee attack
@@ -123,16 +123,7 @@ public abstract class Player
   public int getHealth()
   {
     return health;
-  }
-  
-  /**
-  * Returns the speed of a player.
-  * @return The speed of the player
-  **/
-  public int getSpeed()
-  {
-    return speed;
-  }
+  }  
   
   /**
   * Returns the x coordinate of a player.
@@ -238,5 +229,37 @@ public abstract class Player
   public void setHitbox(Ellipse newHitbox)
   {
       hitbox = newHitbox; 
+  }
+  public ImageView getPlayerImage()
+  {
+      return playerImage;
+  }
+  public void setPlayerImage(ImageView newPlayerImage)
+  {
+      playerImage = newPlayerImage;
+  }
+  public AnimationTimer getPlayerTimer()
+  {
+      return playerTimer; 
+  }
+  public void setPlayerTimer(AnimationTimer newTimer)
+  {
+      playerTimer = newTimer;
+  }
+  public int getCounter()
+  {
+      return counter;
+  }
+  public void setCounter(int newValue)
+  {
+      counter = newValue;
+  }
+  public int getCurrentFrame()
+  {
+      return currentFrame;
+  }
+   public void setCurrentFrame(int newValue)
+  {
+      currentFrame = newValue;
   }
 }

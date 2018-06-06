@@ -45,7 +45,7 @@ public class CharacterSelect
     private ImageView cursorTwo = new ImageView(cursor2); 
     private Player player1;
     private Player player2;
-    private Player[] availablePlayers = {new Normal(), new Ninja(), null, null, null};
+    private Player[] availablePlayers = {new Normal(1), new Ninja(1), null, null, null};
     private Game game;
     private GridPane grid;
     
@@ -112,8 +112,8 @@ public class CharacterSelect
                     if(myGameType == 2)
                         game = new Game(player1, player2, 3, 5);
                 //create new scene with game and send
-                MainGameGUI mgg = new MainGameGUI(game, mainStage);
-                Scene mainGameScene = mgg.getScene();
+                MainDrawPhase mdp = new MainDrawPhase(game, mainStage);
+                Scene mainGameScene = mdp.getScene();
                 mainStage.changeScene(mainGameScene);  
             }
             else
@@ -190,10 +190,10 @@ public class CharacterSelect
             switch ((int) cursorOneIndex) 
             {
                 case 0:
-                    player1 = new Normal();
+                    player1 = new Normal(1);
                     break;
                 case 1:
-                    player1 = new Ninja(); 
+                    player1 = new Ninja(1); 
                     break;
                 default:
                     player1 = null;
@@ -202,10 +202,10 @@ public class CharacterSelect
             switch ((int) cursorTwoIndex) 
             {
                 case 0:
-                    player2 = new Normal();
+                    player2 = new Normal(-1);
                     break;
                 case 1:
-                    player2 = new Ninja(); 
+                    player2 = new Ninja(-1); 
                     break;
                 default:
                     player2 = null;
