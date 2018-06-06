@@ -56,6 +56,7 @@ public class MainCombatPhase
     public MainCombatPhase(Game g, MainStage ms, ArrayList<Line> lines)
     {
         game = g;
+        game.refreshGameState(); 
         mainStage = ms; 
         player1 = game.getPlayer1();
         player2 = game.getPlayer2(); 
@@ -76,6 +77,7 @@ public class MainCombatPhase
         r1.setY(0);
         r1.setHeight(50);
         r1.setWidth(400);
+        r1.setStroke(Color.BLACK); 
         r1.setFill(javafx.scene.paint.Color.GREEN);
         root.getChildren().add(r1);
 
@@ -84,6 +86,7 @@ public class MainCombatPhase
         r2.setY(0);
         r2.setHeight(50);
         r2.setWidth(400);
+        r1.setStroke(Color.BLACK);
         r2.setFill(javafx.scene.paint.Color.GREEN);
         root.getChildren().add(r2);
 
@@ -188,9 +191,36 @@ public class MainCombatPhase
                         i--;
                     }
                 }
+                game.checkWinCondition(); 
             }
         };
         
+        game.getEndGameProperty().addListener(new ChangeListener<Boolean>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> o, Boolean oldVal, Boolean newVal)
+            {
+                if (newVal.booleanValue() == true)
+                {
+                    //if match is over
+                    if(game.matchState())
+                    {
+                        //move to endGame screen
+                        EndGame eg = new EndGame(mainStage, game.getWinner());
+                        Scene endGameScene = eg.getScene();
+                        mainStage.changeScene(endGameScene);
+                    }
+                    //if match is not over
+                    else
+                    {
+                        //move to intermediate draw phase
+                        MainDrawPhase intermediate = new MainDrawPhase(game, mainStage, createdLines, game.getWinner());
+                        Scene intermediateDrawScene = intermediate.getScene();
+                        mainStage.changeScene(intermediateDrawScene); 
+                    }
+                }
+            }
+        }); 
 
         scene = new Scene(root, 1800, 900);
         setKeyBinds();
@@ -228,7 +258,7 @@ public class MainCombatPhase
                             if(goUp1) //if character can jump
                             {
                                 //add upward velocity
-                                dy1 -= 25; 
+                                dy1 -= 40; 
                                 //disable double jumping
                                 goUp1 = false;
                             }
@@ -277,7 +307,7 @@ public class MainCombatPhase
                             if(goUp2) //if player can jump
                             {
                                 //add upward velocity
-                                dy2 -= 25;
+                                dy2 -= 40;
                                 //disable double jumping
                                 goUp2 = false;
                             }

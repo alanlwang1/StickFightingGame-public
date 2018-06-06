@@ -13,6 +13,7 @@ public class Ninja extends Player
 {
    public Ninja(int startingDirection, int playerID)
    {
+       super.setHealth(3);
        super.setCharImage(new Image("ninjaProfile.png"));
        super.setGameImage(new Image("ninjaSpriteSheet.png")); 
        super.setName("Ninja");

@@ -20,18 +20,18 @@ public class EndGame
     private GridPane grid;
     private MainStage mainStage;
     private Game endGame;
-    public EndGame(MainStage ms, Game game)
+    public EndGame(MainStage ms, int winnerID)
     {
-        //credit: https://stackoverflow.com/questions/24347658/getting-a-mp3-file-to-play-using-javafx?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-        endGame = game;
+        //credit: https://stackoverflow.com/questions/24347658/getting-a-mp3-file-to-play-using-javafx?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_
         String uri = new File("587069_-Endgame-.mp3").toURI().toString();
         MediaPlayer endMusic = new MediaPlayer(new Media(uri));
         
         mainStage = ms;
+        grid = new GridPane();
         grid.setGridLinesVisible(true);
         
         Text showWinner = new Text();
-        showWinner.setText(endGame.getWinner().getName() + " is the winner!");
+        showWinner.setText("Player " + winnerID + " is the winner!");
         showWinner.setFont(new Font(150));
         grid.setConstraints(showWinner, 1, 1);
         grid.setHalignment(showWinner, HPos.CENTER);
