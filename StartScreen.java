@@ -33,11 +33,10 @@ import javafx.geometry.VPos;
  */
 public class StartScreen
 {
-    private Button playButton, closeButton, bestOfThree, bestOfFive;
+    private Button playButton, closeButton, bestOfThree, bestOfFive, instructions;
     private MainStage mainStage;
     private Scene scene;
     private GridPane grid;
-    private Information instructions;
     private final static double MIN_TILE_SIZE = 5;
     private final static double MAX_TILE_SIZE = Double.MAX_VALUE;
     public StartScreen(MainStage ms)
@@ -97,8 +96,7 @@ public class StartScreen
         
         grid.setHalignment(stickFigure, HPos.CENTER);
         
-        instructions = new Information(); //need to move instructions here somehow
-        instructions.
+        
         //Image img = new Image("stick figure.png");
         //ImageView.setImage(img);
         
@@ -149,6 +147,12 @@ public class StartScreen
         closeButton.setMinSize(210,50);
         grid.setConstraints(closeButton, 0, 0);
        
+        instructions = new Button("Instructions");
+        instructions.setOnAction(e -> Instructions.display());
+        instructions.setFont(new Font(30));
+        instructions.setMinSize(210,50);
+        grid.setConstraints(instructions, 2, 0);
+        
         
         /**
         Group root = new Group(); 
@@ -168,7 +172,7 @@ public class StartScreen
         
         grid.setHgap(0);
         grid.setVgap(0);
-        grid.getChildren().addAll(start, startCont, bestOfThree, bestOfFive, closeButton, stickFigure, alignmentBox);
+        grid.getChildren().addAll(start, startCont, bestOfThree, bestOfFive, closeButton, stickFigure, alignmentBox, instructions);
         
         grid.setId("pane");
        
