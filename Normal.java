@@ -13,6 +13,7 @@ public class Normal extends Player
 {
    public Normal(int startingDirection, int playerID)
    {
+       super.setHealth(3);
        super.setCharImage(new Image("normalProfile.png"));
        super.setGameImage(new Image("normalSpriteSheet.png")); 
        super.setName("Normal");

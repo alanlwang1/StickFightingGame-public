@@ -160,7 +160,100 @@ public class MainDrawPhase
         setKeyBinds();
         runGame(); 
     }
+    public MainDrawPhase(Game g, MainStage ms, ArrayList<Line> lines, int currentTurn)
+    {
+        game = g;
+        game.setMaxTurns(1); 
+        game.setCurrentTurn(currentTurn);  
+        mainStage = ms;
 
+        canvas = new Canvas(1800, 900);
+        gc = canvas.getGraphicsContext2D(); 
+
+        topBanner = new Text(); 
+        topBanner.setText("Draw Phase: Player " + currentTurn + "'s Turn");
+        topBanner.setFont(new Font(45));
+        topBanner.setFill(Color.BLACK);
+        topBanner.setStrokeWidth(1.5);
+        topBanner.setStroke(Color.BLACK);
+        topBanner.setTextOrigin(VPos.TOP);
+
+        //display cursors, move to positions 
+        cursor1 = new ImageView("pointer1.png");
+        cursor2 = new ImageView("pointer2.png");
+        
+        //Timer for drawing cursor movement and repainting
+        cursorTimer = new AnimationTimer() 
+        {
+            @Override
+            public void handle(long now)
+            {
+                double dx1 = 0; 
+                double dy1 = 0;
+                double dx2 = 0;
+                double dy2 = 0;
+                if (goUp1)
+                    dy1 -= 5;
+                if (goLeft1)
+                    dx1 -= 5;
+                if (goDown1)
+                    dy1 += 5;
+                if (goRight1)
+                    dx1 += 5;
+                if (goUp2)
+                    dy2 -= 5;
+                if (goLeft2)
+                    dx2 -= 5;
+                if (goDown2)
+                    dy2 += 5;
+                if (goRight2)
+                    dx2 += 5; 
+                moveCursor(cursor1, dx1, dy1); 
+                moveCursor(cursor2, dx2, dy2); 
+
+                //repaint selected points, if any 
+                gc.setFill(Color.WHITE); 
+                gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                gc.setFill(Color.BLUE); 
+                for(Point2D.Double point: selectedPoints)
+                {
+                    gc.fillOval(point.getX(), point.getY(), 5, 5); 
+                }
+            }  
+        };
+        //add listener for draw phase start/end
+        game.getDrawProperty().addListener(new ChangeListener<Boolean>()
+            {
+                @Override 
+                public void changed(ObservableValue<? extends Boolean> o, Boolean oldVal, Boolean newVal)
+                {
+                    if (newVal.booleanValue() == false)
+                    {
+                        cursorTimer.stop();
+                        startCombat(); 
+                    }
+                }
+            });    
+            
+        //create scene and send 
+        root = new Group(canvas, topBanner, cursor1, cursor2);
+        scene = new Scene(root, 1800, 900); 
+
+        //format topBanner and cursors 
+        topBanner.layoutXProperty().bind(scene.widthProperty().subtract(topBanner.prefWidth(-1)).divide(2));
+        topBanner.layoutYProperty().bind(scene.heightProperty().subtract(850));
+
+        //format cursor1 and cursor2
+        cursor1.relocate(0 + cursor1.getImage().getWidth(), scene.getHeight() - cursor1.getImage().getHeight());
+        cursor2.relocate(scene.getWidth() - cursor2.getImage().getWidth(), scene.getHeight() - cursor2.getImage().getHeight());
+
+        //instantiate arraylists to hold points and lines
+        selectedPoints = new ArrayList<Point2D.Double>();
+        createdLines = lines;
+        //start the game
+        setKeyBinds();
+        runGame(); 
+    }
     public Scene getScene()
     {
         return scene;

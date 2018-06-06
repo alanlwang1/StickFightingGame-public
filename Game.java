@@ -11,17 +11,18 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Game
 {
   //instantiate the variables needed for the game
-  private boolean endGame = false;
+  private BooleanProperty endGame;
   private boolean endMatch = false; 
   private BooleanProperty drawPhase;
   private IntegerProperty currentTurn;
   private int turnCount; 
+  private int maxTurns; 
   private int numWins;
   private int totalGames; 
   private Player player1, player2;
   //move drawphase and things later to here and use a listener in maingamegui class to change 
   //start drawphase at end of instantiation of maingamegui -> set drawphase boolean to start
-  //increment lines created - once it changes change the turn
+  //increment lines creawted - once it changes change the turn
   //once lines created hits 5 end draw phase
   //once draw phase ends, start combat phase
   //event driven progrmaming makes me want to choke someone 
@@ -39,9 +40,17 @@ public class Game
       player1 = playerOne;
       player2 = playerTwo;
       drawPhase = new SimpleBooleanProperty();
-      currentTurn = new SimpleIntegerProperty(1); 
+      currentTurn = new SimpleIntegerProperty(1);
+      endGame = new SimpleBooleanProperty();
       turnCount = 1; 
+      maxTurns = 6;
       
+  }
+  public void refreshGameState()
+  {
+      player1.setHealth(3);
+      player2.setHealth(3);
+      endGame.set(false); 
   }
   /**
    * Returns the number of wins in the current match. 
@@ -84,9 +93,16 @@ public class Game
   **/
   public boolean gameState()
   {
-        return endGame;
+        return endGame.get();
   }
-  
+  public BooleanProperty getEndGameProperty()
+  {
+      return endGame; 
+  }
+  public void setEndGameProperty(boolean newEndGame)
+  {
+      endGame.set(newEndGame); 
+  }
   /**
   * Checks to see if the match is over.
   * @return If match is over (true if so, false otherwise)
@@ -109,7 +125,7 @@ public class Game
   {
     if (player1.isDead() || player2.isDead()) //if either player is dead
     {  
-      endGame = true; //end the game
+      endGame.set(true); //end the game
       if (player1.isDead()) //give the win to the player who won 
         player2.addWin();
       else
@@ -121,16 +137,16 @@ public class Game
   * Returns the winner of the game.
   * @return The winner of the game
   **/
-  public Player getWinner()
+  public int getWinner()
   {
     if (player1.isDead())
-      return player2;
+      return 2;
     else 
     {  
       if (player2.isDead())
-        return player1;
+        return 1;
     }
-    return null;
+    return 0;
   }
   public void setDrawPhase(boolean value)
   {
@@ -151,13 +167,25 @@ public class Game
           currentTurn.set(2); 
       else
           currentTurn.set(1); 
-      if(turnCount >= 10)
+      if(turnCount >= maxTurns)
           //end drawPhase
           setDrawPhase(false);
   }
   public int getCurrentTurn()
   {
       return currentTurn.get(); 
+  }
+  public void setCurrentTurn(int newCurrentTurn)
+  {
+      currentTurn.set(newCurrentTurn);
+  }
+  public int getMaxTurns()
+  {
+      return maxTurns;
+  }
+  public void setMaxTurns(int newMaxTurns)
+  {
+      maxTurns = newMaxTurns;
   }
   public IntegerProperty getTurnProperty()
   {
