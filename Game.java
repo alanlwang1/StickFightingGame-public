@@ -121,16 +121,16 @@ public class Game
   * Returns the winner of the game.
   * @return The winner of the game
   **/
-  public int getWinner()
+  public Player getWinner()
   {
     if (player1.isDead())
-      return 2;
+      return player2;
     else 
     {  
       if (player2.isDead())
-        return 1;
+        return player1;
     }
-    return 0;
+    return null;
   }
   public void setDrawPhase(boolean value)
   {

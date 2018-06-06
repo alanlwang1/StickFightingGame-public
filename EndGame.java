@@ -1,4 +1,9 @@
-
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.Scene;
+import java.io.File;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 /**
  * Write a description of class EndGame here.
  *
@@ -7,27 +12,26 @@
  */
 public class EndGame
 {
-    // instance variables - replace the example below with your own
-    private int x;
-
-    /**
-     * Constructor for objects of class EndGame
-     */
-    public EndGame()
+    private MediaPlayer endMusic;
+    private Scene endScene;
+    private GridPane grid;
+    private MainStage mainStage;
+    public EndGame(MainStage ms)
     {
-        // initialise instance variables
-        x = 0;
+        //credit: https://stackoverflow.com/questions/24347658/getting-a-mp3-file-to-play-using-javafx?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+        String uri = new File("C:\\Users\\Daniel\\Desktop\\AP Comp Sci\\APCSFinalProject\\587069_-Endgame-.mp3").toURI().toString();
+        MediaPlayer endMusic = new MediaPlayer(new Media(uri));
+        
+        mainStage = ms;
+        grid.setGridLinesVisible(true);
+        
+        Text showWinner = new Text();
+        showWinner.setText(Game.getWinner().getName() + " is the winner!");
+        showWinner.setFont(new Font(90));
+        
     }
-
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
+    public Scene getScene()
     {
-        // put your code here
-        return x + y;
+        return endScene;
     }
 }
