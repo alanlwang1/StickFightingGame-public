@@ -171,7 +171,7 @@ public class MainCombatPhase
                             i--;
                         }
                     }
-                    if(checkCollisions(projectile.getHitbox(), player1.getHitbox()) && projectile.getPlayer().getPlayerID() == 2)
+                    if(checkCollisions(projectile.getHitbox(), player1.getHitbox()) && projectile.getPlayer().getPlayerID() == 2 && player1.canTakeDamage())
                     {
                         player1.takeDamage(1);
                         damage1(r1);
@@ -179,7 +179,7 @@ public class MainCombatPhase
                         createdProjectiles.remove(projectile);
                         i--;
                     }
-                    if(checkCollisions(projectile.getHitbox(), player2.getHitbox()) && projectile.getPlayer().getPlayerID() == 1)
+                    if(checkCollisions(projectile.getHitbox(), player2.getHitbox()) && projectile.getPlayer().getPlayerID() == 1 && player2.canTakeDamage())
                     {
                         player2.takeDamage(1);
                         damage2(r2);

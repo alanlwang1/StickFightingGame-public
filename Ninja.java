@@ -22,6 +22,7 @@ public class Ninja extends Player
        super.setHitbox(new Ellipse(super.getX(), super.getY(), 70, 110));
        super.setCanFire(true);
        super.setCanMelee(true);
+       super.setCanTakeDamage(true);
        super.setPlayerImage(new ImageView(getGameImage()));
        if(super.getDirection() < 0)
             super.setImagePort(new Rectangle2D(800, 200, 200, 200));
