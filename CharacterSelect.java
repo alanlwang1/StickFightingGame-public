@@ -45,7 +45,7 @@ public class CharacterSelect
     private ImageView cursorTwo = new ImageView(cursor2); 
     private Player player1;
     private Player player2;
-    private Player[] availablePlayers = {new Normal(1), new Ninja(1), null, null, null};
+    private Player[] availablePlayers = {new Normal(1, 0), new Ninja(1, 0), null, null, null};
     private Game game;
     private GridPane grid;
     
@@ -190,10 +190,10 @@ public class CharacterSelect
             switch ((int) cursorOneIndex) 
             {
                 case 0:
-                    player1 = new Normal(1);
+                    player1 = new Normal(1, 1);
                     break;
                 case 1:
-                    player1 = new Ninja(1); 
+                    player1 = new Ninja(1, 1); 
                     break;
                 default:
                     player1 = null;
@@ -202,10 +202,10 @@ public class CharacterSelect
             switch ((int) cursorTwoIndex) 
             {
                 case 0:
-                    player2 = new Normal(-1);
+                    player2 = new Normal(-1, 2);
                     break;
                 case 1:
-                    player2 = new Ninja(-1); 
+                    player2 = new Ninja(-1, 2); 
                     break;
                 default:
                     player2 = null;

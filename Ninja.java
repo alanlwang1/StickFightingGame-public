@@ -11,12 +11,13 @@ import javafx.animation.AnimationTimer;
  */
 public class Ninja extends Player
 {
-   public Ninja(int startingDirection)
+   public Ninja(int startingDirection, int playerID)
    {
        super.setCharImage(new Image("ninjaProfile.png"));
        super.setGameImage(new Image("ninjaSpriteSheet.png")); 
        super.setName("Ninja");
        super.setDirection(startingDirection);
+       super.setPlayerID(playerID);
        super.setImageURL("ninjaProfile.png");
        super.setHitbox(new Ellipse(super.getX(), super.getY(), 70, 110));
        super.setCanFire(true);

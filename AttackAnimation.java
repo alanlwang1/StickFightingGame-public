@@ -6,9 +6,10 @@ import javafx.util.Duration;
 /**
  * class SpriteAnimation
  * 
- * @author Created by Michael Heinrichs, modified by Alan Wang
+ * @author Original Sprite Animation Created by Michael Heinrichs, modified by Alan Wang
  */
-public class SpriteAnimation extends Transition {
+public class AttackAnimation extends Transition 
+{
 
     private final ImageView imageView;
     private final int count;
@@ -18,7 +19,7 @@ public class SpriteAnimation extends Transition {
 
     private int lastIndex;
 
-    public SpriteAnimation(ImageView imageView,  Duration duration, int count, int offsetX, int offsetY, int direction) 
+    public AttackAnimation(ImageView imageView,  Duration duration, int count, int offsetX, int offsetY, int direction) 
     {
         this.imageView = imageView;
         this.count     = count;
@@ -29,7 +30,8 @@ public class SpriteAnimation extends Transition {
         setInterpolator(Interpolator.LINEAR);
     }
 
-    protected void interpolate(double k) {
+    protected void interpolate(double k) 
+    {
         final int x, y;
         final int index = Math.min((int) Math.floor(k * count), count - 1);
         if (index != lastIndex) {

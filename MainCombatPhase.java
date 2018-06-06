@@ -152,13 +152,41 @@ public class MainCombatPhase
                 //move and repaint projectiles, if any 
                 gc.setFill(Color.WHITE); 
                 gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                for(Projectile projectile: createdProjectiles)
+                for(int i = 0; i < createdProjectiles.size(); i++)
                 {
+                    Projectile projectile= createdProjectiles.get(i);
                     projectile.move(); 
                     if(projectile.isVisible())
                         gc.drawImage(projectile.getGameImage(), projectile.getX() - projectile.getWidth() / 2, projectile.getY() - projectile.getHeight() / 2);
                     if(!projectile.isExisting())
+                    {
                         createdProjectiles.remove(projectile);
+                        i--;
+                    }    
+                    for(Line line : createdLines)
+                    {
+                        if(checkCollisions(projectile.getHitbox(), line))
+                        {
+                            createdProjectiles.remove(projectile);
+                            i--;
+                        }
+                    }
+                    if(checkCollisions(projectile.getHitbox(), player1.getHitbox()) && projectile.getPlayer().getPlayerID() == 2)
+                    {
+                        player1.takeDamage(1);
+                        damage1(r1);
+                        player1.setCanTakeDamage(false);
+                        createdProjectiles.remove(projectile);
+                        i--;
+                    }
+                    if(checkCollisions(projectile.getHitbox(), player2.getHitbox()) && projectile.getPlayer().getPlayerID() == 1)
+                    {
+                        player2.takeDamage(1);
+                        damage2(r2);
+                        player2.setCanTakeDamage(false);
+                        createdProjectiles.remove(projectile);
+                        i--;
+                    }
                 }
             }
         };
@@ -231,23 +259,7 @@ public class MainCombatPhase
                                 //show hitbox
                                 //root.getChildren().add(projectile.getHitbox());
                                 //create and play animation
-                                SpriteAnimation animation= new SpriteAnimation(player1.getPlayerImage(), Duration.seconds(1), 3, 0, 400, player1.getDirection());
-                                animation.setCycleCount(1);
-                                animation.setOnFinished(e -> 
-                                {
-                                    projectile.setVisible(true);
-                                    projectile.setCurrentSpeed(projectile.getFinalSpeed()); 
-                                    if(player1.getDirection() < 0)
-                                    {
-                                        player1.setImagePort(new Rectangle2D(800, 200, 200, 200));
-                                    }
-                                    else
-                                    {
-                                        player1.setImagePort(new Rectangle2D(0, 0, 200, 200));
-                                    }
-                                    player1.setCanFire(true);
-                                });
-                                animation.play(); 
+                                player1.playRangedAnimation(projectile);
                             }
                             break;
                         case F:
@@ -258,24 +270,7 @@ public class MainCombatPhase
                                 createdProjectiles.add(projectile);
                                 //show hitbox
                                 //root.getChildren().add(projectile.getHitbox());
-                                SpriteAnimation animation= new SpriteAnimation(player1.getPlayerImage(), Duration.seconds(1), 3, 400, 400, player1.getDirection());
-                                animation.setCycleCount(1);
-                                animation.setOnFinished(e -> 
-                                {
-                                    //remove later
-                                    projectile.setVisible(true);
-                                    projectile.setCurrentSpeed(projectile.getFinalSpeed());
-                                    if(player1.getDirection() < 0)
-                                    {
-                                        player1.setImagePort(new Rectangle2D(800, 200, 200, 200));
-                                    }
-                                    else
-                                    {
-                                        player1.setImagePort(new Rectangle2D(0, 0, 200, 200));
-                                    }
-                                    player1.setCanMelee(true);
-                                });
-                                animation.play(); 
+                                player1.playMeleeAnimation(projectile); 
                             }
                             break;
                         case UP:
@@ -309,23 +304,7 @@ public class MainCombatPhase
                                 player2.setCanFire(false);
                                 Projectile projectile = player2.fireRangedAttack();
                                 createdProjectiles.add(projectile);
-                                SpriteAnimation animation= new SpriteAnimation(player2.getPlayerImage(), Duration.seconds(1), 3, 0, 400, player2.getDirection());
-                                animation.setCycleCount(1);
-                                animation.setOnFinished(e -> 
-                                {
-                                    projectile.setVisible(true);
-                                    projectile.setCurrentSpeed(projectile.getFinalSpeed());
-                                    if(player2.getDirection() < 0)
-                                    {
-                                        player2.setImagePort(new Rectangle2D(800, 200, 200, 200));
-                                    }
-                                    else
-                                    {
-                                        player2.setImagePort(new Rectangle2D(0, 0, 200, 200));
-                                    }
-                                    player2.setCanFire(true);
-                                });
-                                animation.play(); 
+                                player2.playRangedAnimation(projectile);
                             }
                             break; 
                         case CONTROL:
@@ -334,23 +313,7 @@ public class MainCombatPhase
                                 player2.setCanMelee(false);
                                 Projectile projectile = player2.useMeleeAttack();
                                 createdProjectiles.add(projectile);
-                                SpriteAnimation animation= new SpriteAnimation(player2.getPlayerImage(), Duration.seconds(1), 3, 400, 400, player2.getDirection());
-                                animation.setCycleCount(1);
-                                animation.setOnFinished(e -> 
-                                {
-                                    projectile.setVisible(true);
-                                    projectile.setCurrentSpeed(projectile.getFinalSpeed());
-                                    if(player2.getDirection() < 0)
-                                    {
-                                        player2.setImagePort(new Rectangle2D(800, 200, 200, 200));
-                                    }
-                                    else
-                                    {
-                                        player2.setImagePort(new Rectangle2D(0, 0, 200, 200));
-                                    }
-                                    player2.setCanMelee(true);
-                                });
-                                animation.play(); 
+                                player2.playMeleeAnimation(projectile);
                             }
                             break;
                     }

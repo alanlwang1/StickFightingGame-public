@@ -3,6 +3,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Ellipse; 
 import javafx.geometry.Rectangle2D;
 import javafx.animation.AnimationTimer; 
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+import javafx.animation.KeyFrame;
 /**
 * This superclass defines the general player class that we can implement custom characters out of 
 * (defines in game playable things' methods and basic variables).
@@ -17,10 +20,13 @@ public abstract class Player
   private boolean walking;
   private boolean canFire;
   private boolean canMelee; 
+  private boolean canTakeDamage;
   private int wins;
   private int direction; 
+  private int playerID; 
   private int counter;
   private int currentFrame; 
+  private Rectangle2D currentClipBounds;
   private Image charSelectImage;
   private Image gameImage; 
   private String name;
@@ -38,6 +44,7 @@ public abstract class Player
   }
   public void setImagePort(Rectangle2D newClipBounds)
   {
+      currentClipBounds = newClipBounds; 
       playerImage.setViewport(newClipBounds); 
   }
   /**
@@ -58,7 +65,7 @@ public abstract class Player
       y = newY;
   }
  
- /**
+  /**
   * Changes the x position by either a positive or negative amount, dependent on speed.
   **/
   public void move(double newX, double newY)
@@ -73,18 +80,50 @@ public abstract class Player
   * Uses melee attack
   **/
   public abstract Projectile useMeleeAttack();
+  public void playMeleeAnimation(Projectile projectile)
+  {
+       AttackAnimation animation= new AttackAnimation(getPlayerImage(), Duration.seconds(1), 3, 400, 400, getDirection());
+       animation.setCycleCount(1);
+       animation.setOnFinished(e -> 
+       {
+           projectile.setVisible(true);
+           projectile.setCurrentSpeed(projectile.getFinalSpeed()); 
+           if(getDirection() < 0)
+            {
+                setImagePort(new Rectangle2D(800, 200, 200, 200));
+            }
+            else
+            {
+                setImagePort(new Rectangle2D(0, 0, 200, 200));
+            }
+           setCanMelee(true);
+        });
+       animation.play(); 
+  }
   /**
    * Fires ranged projectile
    */
   public abstract Projectile fireRangedAttack();
-  
-  /**
-  * Changes the y position by either a positive or negative amount.
-  **/
-  public abstract void jump();
-  
-
-  
+  public void playRangedAnimation(Projectile projectile)
+  {
+       AttackAnimation animation= new AttackAnimation(getPlayerImage(), Duration.seconds(1), 3, 0, 400, getDirection());
+       animation.setCycleCount(1);
+       animation.setOnFinished(e -> 
+       {
+           projectile.setVisible(true);
+           projectile.setCurrentSpeed(projectile.getFinalSpeed()); 
+           if(getDirection() < 0)
+            {
+                setImagePort(new Rectangle2D(800, 200, 200, 200));
+            }
+            else
+            {
+                setImagePort(new Rectangle2D(0, 0, 200, 200));
+            }
+           setCanFire(true);
+        });
+       animation.play(); 
+  }
   /**
   * Gives each player a unique, one game use skill (work on this later).
   **/
@@ -99,12 +138,22 @@ public abstract class Player
   }
   
   /**
-  * Recalculates player health when damage is taken.
+  * Recalculates player health when damage is taken and plays a flickering animation.
+  * Timeline credit: 
+  * https://stackoverflow.com/questions/36577687/use-timeline-to-trigger-a-void-method-every-certain-seconds-javafx
   * @param Damage the amount of damage the player takes
   **/
   public void takeDamage(int damage) 
   {
-    health -= damage;
+      health -= damage;
+      FlickerAnimation flicker = new FlickerAnimation(getPlayerImage(), Duration.seconds(3), 15);
+      flicker.setCycleCount(1);
+      flicker.setOnFinished(e -> 
+      {
+          getPlayerImage().setVisible(true);
+          setCanTakeDamage(true); 
+      });
+      flicker.play();
   }
   
   /**
@@ -150,6 +199,14 @@ public abstract class Player
   {
       direction = newDirection;
   }  
+  public int getPlayerID()
+  {
+      return playerID;
+  }
+  public void setPlayerID(int newPlayerID)
+  {
+      playerID = newPlayerID; 
+  }
   /**
   * Returns the wins of a player.
   * @return The wins of a player
@@ -181,6 +238,14 @@ public abstract class Player
   public void setCanMelee(boolean newCanMelee)
   {
       canMelee = newCanMelee;
+  }
+  public boolean canTakeDamage()
+  {
+      return canTakeDamage;
+  }
+  public void setCanTakeDamage(boolean newCanTakeDamage)
+  {
+      canTakeDamage = newCanTakeDamage;
   }
   public Image getCharImage()
   {

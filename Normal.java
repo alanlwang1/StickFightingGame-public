@@ -11,12 +11,13 @@ import javafx.animation.AnimationTimer;
  */
 public class Normal extends Player
 {
-   public Normal(int startingDirection)
+   public Normal(int startingDirection, int playerID)
    {
        super.setCharImage(new Image("normalProfile.png"));
        super.setGameImage(new Image("normalSpriteSheet.png")); 
        super.setName("Normal");
        super.setDirection(startingDirection);
+       super.setPlayerID(playerID);
        super.setImageURL("normalProfile.png");
        super.setHitbox(new Ellipse(super.getX(), super.getY(), 70, 110));
        super.setCanFire(true);

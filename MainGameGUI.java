@@ -452,7 +452,7 @@ public class MainGameGUI
                             //show hitbox
                             //root.getChildren().add(projectile.getHitbox());
                             //create and play animation
-                            SpriteAnimation animation= new SpriteAnimation(playerOne, Duration.seconds(1), 3, 0, 400, player1.getDirection());
+                            AttackAnimation animation= new AttackAnimation(playerOne, Duration.seconds(1), 3, 0, 400, player1.getDirection());
                             animation.setCycleCount(1);
                             animation.setOnFinished(e -> 
                                 {
@@ -494,7 +494,7 @@ public class MainGameGUI
                             createdProjectiles.add(projectile);
                             //show hitbox
                             //root.getChildren().add(projectile.getHitbox());
-                            SpriteAnimation animation= new SpriteAnimation(playerOne, Duration.seconds(1), 3, 400, 400, player1.getDirection());
+                            AttackAnimation animation= new AttackAnimation(playerOne, Duration.seconds(1), 3, 400, 400, player1.getDirection());
                             animation.setCycleCount(1);
                             animation.setOnFinished(e -> 
                                 {
@@ -575,7 +575,7 @@ public class MainGameGUI
                             player2.setCanFire(false);
                             Projectile projectile = player2.fireRangedAttack();
                             createdProjectiles.add(projectile);
-                            SpriteAnimation animation= new SpriteAnimation(playerTwo, Duration.seconds(1), 3, 0, 400, player2.getDirection());
+                            AttackAnimation animation= new AttackAnimation(playerTwo, Duration.seconds(1), 3, 0, 400, player2.getDirection());
                             animation.setCycleCount(1);
                             animation.setOnFinished(e -> 
                                 {
@@ -614,7 +614,7 @@ public class MainGameGUI
                             player2.setCanMelee(false);
                             Projectile projectile = player2.useMeleeAttack();
                             createdProjectiles.add(projectile);
-                            SpriteAnimation animation= new SpriteAnimation(playerTwo, Duration.seconds(1), 3, 400, 400, player2.getDirection());
+                            AttackAnimation animation= new AttackAnimation(playerTwo, Duration.seconds(1), 3, 400, 400, player2.getDirection());
                             animation.setCycleCount(1);
                             animation.setOnFinished(e -> 
                                 {
