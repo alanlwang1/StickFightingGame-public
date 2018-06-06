@@ -125,6 +125,7 @@ public class MainCombatPhase
                 if(goRight2)
                     dx2 += 5;
                 //check if players have collided with any of the lines created
+                /*
                 for(Line line : createdLines)
                 {
                     if(checkCollisions(player1.getHitbox(), line))
@@ -146,6 +147,7 @@ public class MainCombatPhase
                         player2.setWalking(true); 
                     }
                 }
+                */
                 //update variables in player classes
                 movePlayer(player1, dx1, dy1);
                 movePlayer(player2, dx2, dy2);
@@ -241,6 +243,30 @@ public class MainCombatPhase
         if(newY > scene.getHeight() - 100)
         {
             newY = scene.getHeight() - 100; 
+        }
+        for(Line line : createdLines)
+        {
+            if(checkCollisions(player1.getHitbox(), line))
+            {
+                if(player.getX() < line.getStartX())
+                {
+                    newX = player.getX(); 
+                }
+                if(player.getX() > line.getEndX())
+                {
+                    newX = player.getX();
+                }
+                if(player.getY() < line.getStartY())
+                {
+                    newY = player.getY();
+                    player.setWalking(true);
+                }
+                if(player.getY() > line.getEndY())
+                {
+                    newY = player.getY();
+                    player.setWalking(true); 
+                }
+            }
         }
         player.move(newX, newY);
     }
