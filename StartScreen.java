@@ -77,7 +77,13 @@ public class StartScreen
         alignmentBox.setFont(new Font(90));
         alignmentBox.setText("Align");
         grid.setConstraints(alignmentBox,3, 2);
-        alignmentBox.setId("align");
+        alignmentBox.setId("transparent");
+        
+        Text bigBox = new Text();
+        bigBox.setFont(new Font(50));
+        bigBox.setText("Bet you will not read this ever Ms.Dafoe cus you ain's in APCSx");
+        bigBox.setId("transparent");
+        grid.setConstraints(bigBox, 2, 10);
   
         
         //make the picture for the stick figure (might add some other art later)
@@ -151,7 +157,7 @@ public class StartScreen
         instructions.setOnAction(e -> Instructions.display());
         instructions.setFont(new Font(30));
         instructions.setMinSize(210,50);
-        grid.setConstraints(instructions, 2, 0);
+        grid.setConstraints(instructions, 3, 0);
         
         
         /**
@@ -172,7 +178,7 @@ public class StartScreen
         
         grid.setHgap(0);
         grid.setVgap(0);
-        grid.getChildren().addAll(start, startCont, bestOfThree, bestOfFive, closeButton, stickFigure, alignmentBox, instructions);
+        grid.getChildren().addAll(start, startCont, bestOfThree, bestOfFive, closeButton, stickFigure, alignmentBox, instructions, bigBox);
         
         grid.setId("pane");
        

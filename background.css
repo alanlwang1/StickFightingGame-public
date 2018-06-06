@@ -2,11 +2,11 @@
 {
     -fx-background-image: url("notebook3.png");
     -fx-background-repeat: stretch;   
-    -fx-background-size: 1920 1080;
-    -fx-background-position: center center;
+    -fx-background-size: 1800 900;
+    -fx-background-position: top top;
 }
 
-#align
+#transparent
 {
     -fx-fill: rgba(0,0,0,0);
 }
