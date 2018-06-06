@@ -24,7 +24,7 @@ public class EndGame
     {
         //credit: https://stackoverflow.com/questions/24347658/getting-a-mp3-file-to-play-using-javafx?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
         endGame = game;
-        String uri = new File("587069_-Endgame-.mp3").toURI().toString();
+        String uri = new File("587069_-Endgame-.mp3").toURI().toString(); //credit for music: Waterflame
         MediaPlayer endMusic = new MediaPlayer(new Media(uri));
         endMusic.play();
         
@@ -41,7 +41,7 @@ public class EndGame
         quit.setText("Quit");
         quit.setOnAction(e -> MainStage.closeProgram());
         quit.setFont(new Font(90));
-        grid.setConstraints(quit,2, 1);
+        grid.setConstraints(quit,1, 2);
         grid.setHalignment(quit, HPos.CENTER);
         
         grid.getChildren().addAll(showWinner, quit);
