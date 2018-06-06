@@ -208,9 +208,9 @@ public class MainCombatPhase
                     if(game.matchState())
                     {
                         //move to endGame screen
-                        EndGame eg = new EndGame(mainStage, game.getWinner());
-                        Scene endGameScene = eg.getScene();
-                        mainStage.changeScene(endGameScene);
+                        //EndGame eg = new EndGame(mainStage, game.getWinner());
+                        //Scene endGameScene = eg.getScene();
+                        //mainStage.changeScene(endGameScene);
                     }
                     //if match is not over
                     else
@@ -246,25 +246,27 @@ public class MainCombatPhase
         }
         for(Line line : createdLines)
         {
-            if(checkCollisions(player1.getHitbox(), line))
+            if(checkCollisions(player.getHitbox(), line))
             {
-                if(player.getX() < line.getStartX())
+                if(player.getX() < line.getStartX() && deltaX > 0)
                 {
                     newX = player.getX(); 
                 }
-                if(player.getX() > line.getEndX())
+                if(player.getX() > line.getEndX() && deltaX < 0)
                 {
                     newX = player.getX();
                 }
-                if(player.getY() < line.getStartY())
+                if(player.getY() < line.getStartY() && deltaY > 0)
                 {
                     newY = player.getY();
                     player.setWalking(true);
+                    player.setCanJump(true);
                 }
-                if(player.getY() > line.getEndY())
+                if(player.getY() > line.getEndY() && deltaY < 0)
                 {
                     newY = player.getY();
                     player.setWalking(true); 
+                    player.setCanJump(true);
                 }
             }
         }
@@ -281,12 +283,12 @@ public class MainCombatPhase
                     switch(event.getCode()) 
                     {
                         case W:
-                            if(goUp1) //if character can jump
+                            if(player1.canJump()) //if character can jump
                             {
                                 //add upward velocity
                                 dy1 -= 40; 
                                 //disable double jumping
-                                goUp1 = false;
+                                player1.setCanJump(false);
                             }
                             break;
                         case A:
@@ -330,12 +332,12 @@ public class MainCombatPhase
                             }
                             break;
                         case UP:
-                            if(goUp2) //if player can jump
+                            if(player2.canJump()) //if player can jump
                             {
                                 //add upward velocity
                                 dy2 -= 40;
                                 //disable double jumping
-                                goUp2 = false;
+                                player2.setCanJump(false);
                             }
                             break;
                         case LEFT:

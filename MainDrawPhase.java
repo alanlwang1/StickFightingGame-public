@@ -250,6 +250,7 @@ public class MainDrawPhase
         //instantiate arraylists to hold points and lines
         selectedPoints = new ArrayList<Point2D.Double>();
         createdLines = lines;
+        root.getChildren().addAll(createdLines);
         //start the game
         setKeyBinds();
         runGame(); 
@@ -264,7 +265,7 @@ public class MainDrawPhase
 
         //add bottom line
         Line bottomLine = new Line(0, canvas.getHeight() - 100, canvas.getWidth(), canvas.getHeight() - 100); 
-        bottomLine.setStrokeWidth(20); 
+        bottomLine.setStrokeWidth(10); 
         root.getChildren().add(bottomLine); 
         createdLines.add(bottomLine);
         
@@ -351,7 +352,7 @@ public class MainDrawPhase
                                             line = new Line(point1.getX(), point1.getY(), point1.getX(), point2.getY());
                                          else
                                             line = new Line(point1.getX(), point2.getY(), point1.getX(), point1.getY());
-                                    
+                                    line.setStrokeWidth(10);
                                     selectedPoints.clear(); 
                                     root.getChildren().add(line);
                                     createdLines.add(line); 
@@ -416,7 +417,7 @@ public class MainDrawPhase
                                             line = new Line(point1.getX(), point1.getY(), point1.getX(), point2.getY());
                                          else
                                             line = new Line(point1.getX(), point2.getY(), point1.getX(), point1.getY());
-                                    
+                                    line.setStrokeWidth(10);
                                     selectedPoints.clear(); 
                                     root.getChildren().add(line);
                                     createdLines.add(line); 

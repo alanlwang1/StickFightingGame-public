@@ -21,6 +21,7 @@ public abstract class Player
   private boolean canFire;
   private boolean canMelee; 
   private boolean canTakeDamage;
+  private boolean canJump;
   private int wins;
   private int direction; 
   private int playerID; 
@@ -246,6 +247,14 @@ public abstract class Player
   public void setCanTakeDamage(boolean newCanTakeDamage)
   {
       canTakeDamage = newCanTakeDamage;
+  }
+  public boolean canJump()
+  {
+      return canJump;
+  }
+  public void setCanJump(boolean newCanJump)
+  {
+      canJump = newCanJump;
   }
   public Image getCharImage()
   {
