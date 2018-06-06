@@ -7,6 +7,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 /**
  * Write a description of class EndGame here.
  *
@@ -39,13 +41,18 @@ public class EndGame
         grid.setConstraints(showWinner, 1, 1);
         grid.setHalignment(showWinner, HPos.CENTER);
         
-        
+        Image image = new Image(game.getMatchWinner().getImageURL());
+        ImageView winner = new ImageView(image);
+        winner.setFitHeight(300);
+        winner.setFitWidth(300);
+        grid.setConstraints(winner, 1,2);
+        grid.setHalignment(winner, HPos.CENTER);
         
         Button quit = new Button();
         quit.setText("Quit");
         quit.setOnAction(e -> MainStage.closeProgram());
         quit.setFont(new Font(90));
-        grid.setConstraints(quit,1, 2);
+        grid.setConstraints(quit,1, 3);
         grid.setHalignment(quit, HPos.CENTER);
         
         grid.getChildren().addAll(showWinner, quit);

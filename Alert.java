@@ -11,13 +11,16 @@ import javafx.geometry.*;
  */
 public class Alert
 {
+    private static int width;
+    private static int height;
     public static void display(String title, String message)
     {
         Stage window = new Stage();
         
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Error: " + title);
-        window.setMinWidth(250);
+        window.setMinWidth(width);
+        window.setMinHeight(height);
         
         Label label = new Label();
         label.setText(message);
@@ -31,5 +34,13 @@ public class Alert
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
+    }
+    public static void setWidth(int x)
+    {
+        width = x;
+    }
+    public static void setHeight(int x)
+    {
+        height = x;
     }
 }

@@ -21,7 +21,6 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
-import javafx.scene.image.ImageView;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 
