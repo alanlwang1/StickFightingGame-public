@@ -25,6 +25,7 @@ public class EndGame
         //credit: https://stackoverflow.com/questions/24347658/getting-a-mp3-file-to-play-using-javafx?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_
         String uri = new File("587069_-Endgame-.mp3").toURI().toString();
         MediaPlayer endMusic = new MediaPlayer(new Media(uri));
+        endMusic.play();
         
         mainStage = ms;
         grid = new GridPane();
