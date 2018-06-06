@@ -26,6 +26,7 @@ public class EndGame
         endGame = game;
         String uri = new File("587069_-Endgame-.mp3").toURI().toString();
         MediaPlayer endMusic = new MediaPlayer(new Media(uri));
+        endMusic.play();
         
         mainStage = ms;
         grid.setGridLinesVisible(true);
