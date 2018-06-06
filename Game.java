@@ -148,6 +148,21 @@ public class Game
     }
     return 0;
   }
+  /**
+   * Returns the winner of the match.
+   * @return The winner of the match
+   */
+  public Player getMatchWinner()
+  {
+      if (player1.isDead() || player2.isDead())
+      {
+          if (player1.getWins() * 2 > numGames())
+          {
+          }
+          
+      }
+      return null;
+  }
   public void setDrawPhase(boolean value)
   {
       drawPhase.set(value); 
