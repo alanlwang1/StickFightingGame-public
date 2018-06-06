@@ -264,6 +264,7 @@ public class MainDrawPhase
 
         //add bottom line
         Line bottomLine = new Line(0, canvas.getHeight() - 100, canvas.getWidth(), canvas.getHeight() - 100); 
+        bottomLine.setStrokeWidth(20); 
         root.getChildren().add(bottomLine); 
         createdLines.add(bottomLine);
         
@@ -333,9 +334,24 @@ public class MainDrawPhase
                                 //add line with two selected points as endpoints
                                 else
                                 {
+                                    Line line;
                                     Point2D.Double point1 = selectedPoints.get(0);
-                                    Point2D.Double point2 = selectedPoints.get(1); 
-                                    Line line = new Line(point1.getX(), point1.getY(), point2.getX(), point2.getY());
+                                    Point2D.Double point2 = selectedPoints.get(1);
+                                    
+                                    double differenceX = Math.abs(point1.getX() - point2.getX());
+                                    double differenceY = Math.abs(point2.getY() - point2.getY());
+                                    
+                                    if(differenceX > differenceY)
+                                        if(point1.getX() < point2.getX())
+                                            line = new Line(point1.getX(), point1.getY(), point2.getX(), point1.getY());
+                                        else
+                                            line = new Line(point2.getX(), point1.getY(), point1.getX(), point1.getY());
+                                    else
+                                        if(point1.getY() < point2.getY())
+                                            line = new Line(point1.getX(), point1.getY(), point1.getX(), point2.getY());
+                                         else
+                                            line = new Line(point1.getX(), point2.getY(), point1.getX(), point1.getY());
+                                    
                                     selectedPoints.clear(); 
                                     root.getChildren().add(line);
                                     createdLines.add(line); 
@@ -382,12 +398,27 @@ public class MainDrawPhase
                                 }
                                 //add line with two selected points as endpoints
                                 else
-                                {
+                                {                                    
+                                    Line line;
                                     Point2D.Double point1 = selectedPoints.get(0);
-                                    Point2D.Double point2 = selectedPoints.get(1); 
-                                    Line line = new Line(point1.getX(), point1.getY(), point2.getX(), point2.getY());
+                                    Point2D.Double point2 = selectedPoints.get(1);
+                                    
+                                    double differenceX = Math.abs(point1.getX() - point2.getX());
+                                    double differenceY = Math.abs(point2.getY() - point2.getY());
+                                    
+                                    if(differenceX > differenceY)
+                                        if(point1.getX() < point2.getX())
+                                            line = new Line(point1.getX(), point1.getY(), point2.getX(), point1.getY());
+                                        else
+                                            line = new Line(point2.getX(), point1.getY(), point1.getX(), point1.getY());
+                                    else
+                                        if(point1.getY() < point2.getY())
+                                            line = new Line(point1.getX(), point1.getY(), point1.getX(), point2.getY());
+                                         else
+                                            line = new Line(point1.getX(), point2.getY(), point1.getX(), point1.getY());
+                                    
                                     selectedPoints.clear(); 
-                                    root.getChildren().add(line); 
+                                    root.getChildren().add(line);
                                     createdLines.add(line); 
                                     game.incrementLine();
                                 }
