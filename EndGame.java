@@ -34,10 +34,12 @@ public class EndGame
         grid.setGridLinesVisible(true);
         
         Text showWinner = new Text();
-        showWinner.setText("Player " + winnerID + " is the winner!");
+        showWinner.setText("Player " + game.getWinnerId() + " is the winner!");
         showWinner.setFont(new Font(150));
         grid.setConstraints(showWinner, 1, 1);
         grid.setHalignment(showWinner, HPos.CENTER);
+        
+        
         
         Button quit = new Button();
         quit.setText("Quit");
