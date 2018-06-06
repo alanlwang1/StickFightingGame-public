@@ -4,6 +4,9 @@ import javafx.scene.Scene;
 import java.io.File;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import javafx.geometry.HPos;
+import javafx.scene.control.Button;
 /**
  * Write a description of class EndGame here.
  *
@@ -16,18 +19,36 @@ public class EndGame
     private Scene endScene;
     private GridPane grid;
     private MainStage mainStage;
-    public EndGame(MainStage ms)
+    private Game endGame;
+    public EndGame(MainStage ms, Game game)
     {
         //credit: https://stackoverflow.com/questions/24347658/getting-a-mp3-file-to-play-using-javafx?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-        String uri = new File("C:\\Users\\Daniel\\Desktop\\AP Comp Sci\\APCSFinalProject\\587069_-Endgame-.mp3").toURI().toString();
+        endGame = game;
+        String uri = new File("587069_-Endgame-.mp3").toURI().toString();
         MediaPlayer endMusic = new MediaPlayer(new Media(uri));
         
         mainStage = ms;
         grid.setGridLinesVisible(true);
         
         Text showWinner = new Text();
-        showWinner.setText(Game.getWinner().getName() + " is the winner!");
-        showWinner.setFont(new Font(90));
+        showWinner.setText(endGame.getWinner().getName() + " is the winner!");
+        showWinner.setFont(new Font(150));
+        grid.setConstraints(showWinner, 1, 1);
+        grid.setHalignment(showWinner, HPos.CENTER);
+        
+        Button quit = new Button();
+        quit.setText("Quit");
+        quit.setOnAction(e -> MainStage.closeProgram());
+        quit.setFont(new Font(90));
+        grid.setConstraints(quit,2, 1);
+        grid.setHalignment(quit, HPos.CENTER);
+        
+        grid.getChildren().addAll(showWinner, quit);
+        grid.setId("pane");
+        
+        endScene = new Scene(grid, 1800, 900);
+        endScene.getStylesheets().addAll(this.getClass().getResource("background.css").toExternalForm());
+        
         
     }
     public Scene getScene()

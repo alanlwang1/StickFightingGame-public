@@ -37,6 +37,7 @@ public class StartScreen
     private MainStage mainStage;
     private Scene scene;
     private GridPane grid;
+    private Information instructions;
     private final static double MIN_TILE_SIZE = 5;
     private final static double MAX_TILE_SIZE = Double.MAX_VALUE;
     public StartScreen(MainStage ms)
@@ -95,6 +96,9 @@ public class StartScreen
         grid.setConstraints(stickFigure, 2,6);
         
         grid.setHalignment(stickFigure, HPos.CENTER);
+        
+        instructions = new Information(); //need to move instructions here somehow
+        instructions.
         //Image img = new Image("stick figure.png");
         //ImageView.setImage(img);
         
