@@ -19,7 +19,7 @@ public class Normal extends Player
        super.setName("Normal");
        super.setDirection(startingDirection);
        super.setPlayerID(playerID);
-       super.setImageURL("normalProfile.png");
+       super.setImageURL("normalProfile trans.png");
        super.setHitbox(new Ellipse(super.getX(), super.getY(), 70, 110));
        super.setCanFire(true);
        super.setCanMelee(true);

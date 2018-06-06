@@ -93,7 +93,7 @@ public class StartScreen
         Image image = new Image("stick figure.png"); 
         gc.drawImage(image, 0, 0);
         **/
-        Image image = new Image("stick figure.png");
+        Image image = new Image("stick figure trans.png");
         
         ImageView stickFigure = new ImageView(image);
         stickFigure.setFitHeight(300);
@@ -153,11 +153,12 @@ public class StartScreen
         closeButton.setMinSize(210,50);
         grid.setConstraints(closeButton, 0, 0);
        
-        instructions = new Button("Instructions");
+        instructions = new Button("How to Play");
         instructions.setOnAction(e -> Instructions.display());
-        instructions.setFont(new Font(30));
+        instructions.setFont(new Font(45));
         instructions.setMinSize(210,50);
-        grid.setConstraints(instructions, 3, 0);
+        grid.setConstraints(instructions, 2, 8);
+        grid.setHalignment(instructions, HPos.CENTER);
         
         
         /**

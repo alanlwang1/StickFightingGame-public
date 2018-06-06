@@ -22,8 +22,23 @@ public class EndGame
     private Game endGame;
     public EndGame(MainStage ms, int winnerID)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+        //credit: https://stackoverflow.com/questions/24347658/getting-a-mp3-file-to-play-using-javafx?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+        endGame = game;
+        String uri = new File("587069_-Endgame-.mp3").toURI().toString(); //credit for music: Waterflame
+=======
+=======
+>>>>>>> d37ffa88dbe1c17724a94c97058f9d3401d3f394
+=======
+>>>>>>> d37ffa88dbe1c17724a94c97058f9d3401d3f394
+=======
+>>>>>>> d37ffa88dbe1c17724a94c97058f9d3401d3f394
         //credit: https://stackoverflow.com/questions/24347658/getting-a-mp3-file-to-play-using-javafx?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_
         String uri = new File("587069_-Endgame-.mp3").toURI().toString();
+>>>>>>> d37ffa88dbe1c17724a94c97058f9d3401d3f394
         MediaPlayer endMusic = new MediaPlayer(new Media(uri));
         endMusic.play();
         
@@ -41,7 +56,7 @@ public class EndGame
         quit.setText("Quit");
         quit.setOnAction(e -> MainStage.closeProgram());
         quit.setFont(new Font(90));
-        grid.setConstraints(quit,2, 1);
+        grid.setConstraints(quit,1, 2);
         grid.setHalignment(quit, HPos.CENTER);
         
         grid.getChildren().addAll(showWinner, quit);
