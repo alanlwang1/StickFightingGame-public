@@ -25,10 +25,13 @@ public class EndGame
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         //credit: https://stackoverflow.com/questions/24347658/getting-a-mp3-file-to-play-using-javafx?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
         endGame = game;
         String uri = new File("587069_-Endgame-.mp3").toURI().toString(); //credit for music: Waterflame
 =======
+=======
+>>>>>>> d37ffa88dbe1c17724a94c97058f9d3401d3f394
 =======
 >>>>>>> d37ffa88dbe1c17724a94c97058f9d3401d3f394
 =======
