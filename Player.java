@@ -76,8 +76,6 @@ public abstract class Player
       double yDiff = newY - getY(); 
       setX(newX);
       setY(newY);
-      //getHitbox().setCenterX(newX);
-      //getHitbox().setCenterY(newY);
       getHitbox().setCenterX(getHitbox().getCenterX() + xDiff);
       getHitbox().setCenterY(getHitbox().getCenterY() + yDiff);
       getPlayerImage().relocate(getX() - 100, getY() - 100);

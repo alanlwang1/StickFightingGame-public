@@ -281,10 +281,18 @@ public class MainDrawPhase
         //hide cursors
         //root.getChildren().remove(cursor1);
         //root.getChildren().remove(cursor2);
-        
-        MainCombatPhase mcp = new MainCombatPhase(game, mainStage, createdLines);
-        Scene mainCombatScene = mcp.getScene();
-        mainStage.changeScene(mainCombatScene); 
+        ImageView countdown = new ImageView("countdown.png");
+        countdown.relocate(800, 350); 
+        root.getChildren().add(countdown);
+        CountDownAnimation cdA = new CountDownAnimation(countdown, Duration.seconds(3), 4);
+        cdA.setCycleCount(1);
+        cdA.setOnFinished(e -> 
+        {
+            MainCombatPhase mcp = new MainCombatPhase(game, mainStage, createdLines);
+            Scene mainCombatScene = mcp.getScene();
+            mainStage.changeScene(mainCombatScene); 
+        });
+        cdA.play();
     }
     public void moveCursor(ImageView cursor, double deltaX, double deltaY)
     {

@@ -5,6 +5,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Circle; 
 import javafx.animation.AnimationTimer; 
 import javafx.application.Application;
+import javafx.animation.FadeTransition;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -79,7 +80,6 @@ public class MainCombatPhase
         //move players to starting positions
         player1.move(0 + 100, canvas.getHeight() - player1.getPlayerImage().getImage().getHeight() - 100);
         player2.move(canvas.getWidth() - 100, canvas.getHeight() - player2.getPlayerImage().getImage().getHeight() - 100);
-        root.getChildren().add(player1.getHitbox());
         //create health bars
         Rectangle r1=new Rectangle();
         r1.setX(0);
@@ -214,26 +214,40 @@ public class MainCombatPhase
                 if (newVal.booleanValue() == true)
                 {
                     //if match is over
-                    if(game.matchState())
+                    moveTimer.stop();
+                    Text gameEndText = new Text(600, 450, "GAME!\nWinner: Player " + game.getWinner());
+                    gameEndText.setFont(new Font(75));
+                    gameEndText.setFill(Color.BLACK);
+                    gameEndText.setStrokeWidth(1.5);
+                    gameEndText.setStroke(Color.BLACK);
+                    root.getChildren().add(gameEndText);
+                    FadeTransition ft = new FadeTransition(Duration.seconds(1), gameEndText);
+                    ft.setFromValue(1.0);
+                    ft.setToValue(0);
+                    ft.setCycleCount(1);
+                    ft.setOnFinished(e ->
                     {
-                        //move to endGame screen
-                        //EndGame eg = new EndGame(mainStage, game.getWinner());
-                        //Scene endGameScene = eg.getScene();
-                        //mainStage.changeScene(endGameScene);
-                        moveTimer.stop(); 
-                        EndGame eg = new EndGame(mainStage, game);
-                        Scene endGameScene = eg.getScene();
-                        mainStage.changeScene(endGameScene);
-                    }
-                    //if match is not over
-                    else
-                    {
-                        //move to intermediate draw phase
-                        moveTimer.stop();
-                        MainDrawPhase intermediate = new MainDrawPhase(game, mainStage, createdLines, game.getWinner());
-                        Scene intermediateDrawScene = intermediate.getScene();
-                        mainStage.changeScene(intermediateDrawScene); 
-                    }
+                        if(game.matchState())
+                        {
+                            //move to endGame screen
+                            //EndGame eg = new EndGame(mainStage, game.getWinner());
+                            //Scene endGameScene = eg.getScene();
+                            //mainStage.changeScene(endGameScene);
+                            EndGame eg = new EndGame(mainStage, game);
+                            Scene endGameScene = eg.getScene();
+                            mainStage.changeScene(endGameScene);
+                        }
+                        //if match is not over
+                        else
+                        {
+                            //move to intermediate draw phase
+                            MainDrawPhase intermediate = new MainDrawPhase(game, mainStage, createdLines, game.getWinner());
+                            Scene intermediateDrawScene = intermediate.getScene();
+                            mainStage.changeScene(intermediateDrawScene); 
+                        }
+                    }); 
+                    ft.play();
+
                 }
             }
         }); 
@@ -389,9 +403,7 @@ public class MainCombatPhase
                                 player2.setImagePort(new Rectangle2D(800, 500, 200, 100));
                             else
                                 player2.setImagePort(new Rectangle2D(800, 400, 200, 100));
-                            //player1.setY(player1.getY());
                             player2.setHitbox(new Ellipse(player2.getX(), player2.getY() - 40, 90, 30));
-                            root.getChildren().add(player2.getHitbox());
                             player2.setIsCrouching(true); 
                             break; 
                         case SHIFT:
