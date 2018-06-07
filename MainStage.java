@@ -27,22 +27,33 @@ public class MainStage extends Application
            closeProgram();
         });
         window.setTitle("Stick Figure Game");
-        //set startScreen
+        //set startScreen and begin the game
         StartScreen ss = new StartScreen(this);
         Scene startScene = ss.getScene();
         changeScene(startScene); 
         window.show(); 
     }
+    /**
+     * method changeScene - method to switch scenes of mainStage and move between game screens
+     * 
+     * @param scene the new scene to change the stage to
+     */
     public void changeScene(Scene scene)
     {
         window.setScene(scene);
     }
+    /**
+     * method closeProgram - method to close the window and display prompt for user
+     */
     public static void closeProgram()
     {
         boolean answer = Confirm.display("exit", "Do you really wish to quit the game of honorable summoners?");
         if (answer)
             window.close();
     }
+    /**
+     * method showInstructions - method to display instructions for playing the game
+     */
     public void showInstructions()
     {
         getHostServices().showDocument("instructions.html");

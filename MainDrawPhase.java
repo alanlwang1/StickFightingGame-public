@@ -12,11 +12,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
 import javafx.scene.text.*;
 import javafx.geometry.VPos; 
 import javafx.geometry.Rectangle2D;
-import javafx.scene.SnapshotParameters;
 import javafx.stage.Stage;
 import javafx.event.EventHandler; 
 import javafx.scene.input.KeyEvent;
@@ -25,23 +23,20 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.Ellipse;
 import javafx.util.Duration;
-import javafx.scene.shape.Rectangle;
 /**
- * Write a description of class MainDrawPhase here.
+ * class MainDrawPhase - class to model the drawphase of the game
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Alan Wang, Ryan Wei
+ * @version 060618
  */
 public class MainDrawPhase
 {
-    private Game game;
-    private MainStage mainStage;
+    private Game game; 
+    private MainStage mainStage; 
     private Scene scene;
     private Group root;
     private Canvas canvas;
-    private GraphicsContext gc; 
-    private Player player1;
-    private Player player2;
+    private GraphicsContext gc;
     private ImageView cursor1, cursor2;
     private Text topBanner; 
     private Text turnBanner; 
@@ -53,15 +48,19 @@ public class MainDrawPhase
     private ArrayList<Line> createdLines;
     /**
      * Constructor to create initial MainDrawPhase
+     * 
+     * @param g a reference to the Game object
+     * @param ms a reference the MainStage object
      */
     public MainDrawPhase(Game g, MainStage ms)
     {
+        //assign reference to Game and MainStage objects
         game = g;
         mainStage = ms;
-
+        //create new canvas and graphics to draw points
         canvas = new Canvas(1800, 900);
         gc = canvas.getGraphicsContext2D(); 
-
+        //banner displaying state of drawphase
         topBanner = new Text(); 
         topBanner.setText("Draw Phase: Player 1's Turn");
         topBanner.setFont(new Font(45));
@@ -74,16 +73,18 @@ public class MainDrawPhase
         cursor1 = new ImageView("pointer1.png");
         cursor2 = new ImageView("pointer2.png");
         
-                //Timer for drawing cursor movement and repainting
+        //Timer for drawing cursor movement and repainting
         cursorTimer = new AnimationTimer() 
         {
             @Override
             public void handle(long now)
             {
+                //reset dx, dy for both cursors
                 double dx1 = 0; 
                 double dy1 = 0;
                 double dx2 = 0;
                 double dy2 = 0;
+                //calculate new dx/dy based on buttons pressed
                 if (goUp1)
                     dy1 -= 5;
                 if (goLeft1)
@@ -100,6 +101,7 @@ public class MainDrawPhase
                     dy2 += 5;
                 if (goRight2)
                     dx2 += 5; 
+                //move both cursors     
                 moveCursor(cursor1, dx1, dy1); 
                 moveCursor(cursor2, dx2, dy2); 
 
@@ -119,6 +121,7 @@ public class MainDrawPhase
                 @Override 
                 public void changed(ObservableValue<? extends Boolean> o, Boolean oldVal, Boolean newVal)
                 {
+                    //if the drawphase is over
                     if (newVal.booleanValue() == false)
                     {
                         cursorTimer.stop();
@@ -132,6 +135,7 @@ public class MainDrawPhase
                 @Override
                 public void changed(ObservableValue<? extends Number> o, Number oldVal, Number newVal)
                 {
+                    //when the turn changes
                     if(newVal.intValue() == 1)
                     {
                         topBanner.setText("Draw Phase: Player 1's Turn");
@@ -160,16 +164,25 @@ public class MainDrawPhase
         setKeyBinds();
         runGame(); 
     }
+    /**
+     * Constructor to create intermediate draw phase
+     * 
+     * @param g a reference to the Game object
+     * @param ms a reference to the MainStage object
+     * @param lines ArrayList of Line objects already created
+     * @param currentTurn id of player who will be drawing
+     */
     public MainDrawPhase(Game g, MainStage ms, ArrayList<Line> lines, int currentTurn)
     {
+        //set references to Game and MainStage
         game = g;
         game.setMaxTurns(1); 
         game.setCurrentTurn(currentTurn);  
         mainStage = ms;
-
+        //create canvas for drawing points
         canvas = new Canvas(1800, 900);
         gc = canvas.getGraphicsContext2D(); 
-
+        //create banner for displaying game state
         topBanner = new Text(); 
         topBanner.setText("Draw Phase: Player " + currentTurn + "'s Turn");
         topBanner.setFont(new Font(45));
@@ -188,10 +201,12 @@ public class MainDrawPhase
             @Override
             public void handle(long now)
             {
+                //reset dx, dy
                 double dx1 = 0; 
                 double dy1 = 0;
                 double dx2 = 0;
                 double dy2 = 0;
+                //calculate dx dy based on buttons pressed
                 if (goUp1)
                     dy1 -= 5;
                 if (goLeft1)
@@ -208,6 +223,7 @@ public class MainDrawPhase
                     dy2 += 5;
                 if (goRight2)
                     dx2 += 5; 
+                //move both cursors
                 moveCursor(cursor1, dx1, dy1); 
                 moveCursor(cursor2, dx2, dy2); 
 
@@ -227,6 +243,7 @@ public class MainDrawPhase
                 @Override 
                 public void changed(ObservableValue<? extends Boolean> o, Boolean oldVal, Boolean newVal)
                 {
+                    //if drawphase is over
                     if (newVal.booleanValue() == false)
                     {
                         cursorTimer.stop();
@@ -255,11 +272,18 @@ public class MainDrawPhase
         setKeyBinds();
         runGame(); 
     }
+    /**
+     * method getScene - method returns the scene for this object, to display on a MainStage object
+     * 
+     * @return scene the scene for this object
+     */
     public Scene getScene()
     {
         return scene;
     }
-
+    /**
+     * method runGame - method creates bottom line and starts the draw phase
+     */
     public void runGame()
     {
 
@@ -273,6 +297,9 @@ public class MainDrawPhase
         cursorTimer.start();
         game.setDrawPhase(true); 
     }
+    /**
+     * method startCombat - method starts countdown and then moves scene to MainCombatPhase
+     */
     public void startCombat()
     {
         //change top banner
@@ -281,19 +308,31 @@ public class MainDrawPhase
         //hide cursors
         //root.getChildren().remove(cursor1);
         //root.getChildren().remove(cursor2);
+        
+        //start countdown
         ImageView countdown = new ImageView("countdown.png");
         countdown.relocate(800, 350); 
         root.getChildren().add(countdown);
         CountDownAnimation cdA = new CountDownAnimation(countdown, Duration.seconds(3), 4);
         cdA.setCycleCount(1);
+        //when countdown is over
         cdA.setOnFinished(e -> 
         {
+            //move to MainCombatPhase scene
             MainCombatPhase mcp = new MainCombatPhase(game, mainStage, createdLines);
             Scene mainCombatScene = mcp.getScene();
             mainStage.changeScene(mainCombatScene); 
         });
         cdA.play();
     }
+    /**
+     * method moveCursor - moves the provided cursor by deltaX and deltaY, 
+     * accounting for boundaries of scene
+     * 
+     * @param cursor - ImageView or cursor to be moved
+     * @param deltaX - amount cursor is being moved in the X direction
+     * @param deltaY - amount cursor is being moved in the Y direction
+     */
     public void moveCursor(ImageView cursor, double deltaX, double deltaY)
     {
         double newX = Math.max(cursor.getLayoutX() + deltaX, 0);
@@ -308,9 +347,11 @@ public class MainDrawPhase
         }
         cursor.relocate(newX, newY); 
     }
+    /**
+     * method setKeyBinds - method sets the keybindings to be used during draw phase
+     */
     public void setKeyBinds()
     {
-        //add keybindings for first player
         scene.setOnKeyPressed(new EventHandler<KeyEvent>()
             {
                 @Override
@@ -349,7 +390,7 @@ public class MainDrawPhase
                                     
                                     double differenceX = Math.abs(point1.getX() - point2.getX());
                                     double differenceY = Math.abs(point2.getY() - point2.getY());
-                                    
+                                    //if line is diagonal, create line with the greater leg
                                     if(differenceX > differenceY)
                                         if(point1.getX() < point2.getX())
                                             line = new Line(point1.getX(), point1.getY(), point2.getX(), point1.getY());
@@ -361,7 +402,9 @@ public class MainDrawPhase
                                          else
                                             line = new Line(point1.getX(), point2.getY(), point1.getX(), point1.getY());
                                     line.setStrokeWidth(10);
+                                    //clear selected points used to create the line
                                     selectedPoints.clear(); 
+                                    //add line to game
                                     root.getChildren().add(line);
                                     createdLines.add(line); 
                                     game.incrementLine();
@@ -375,6 +418,7 @@ public class MainDrawPhase
                                 //if there is a point(s) selected
                                 if(selectedPoints.size() > 0)
                                 {
+                                    //remove it from selected points
                                     Point2D.Double point = selectedPoints.get(selectedPoints.size() - 1); 
                                     selectedPoints.remove(point); 
                                 }
@@ -414,7 +458,7 @@ public class MainDrawPhase
                                     
                                     double differenceX = Math.abs(point1.getX() - point2.getX());
                                     double differenceY = Math.abs(point2.getY() - point2.getY());
-                                    
+                                    //if line is diagonal, create line with the greater leg
                                     if(differenceX > differenceY)
                                         if(point1.getX() < point2.getX())
                                             line = new Line(point1.getX(), point1.getY(), point2.getX(), point1.getY());

@@ -13,11 +13,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
 import javafx.scene.text.*;
 import javafx.geometry.VPos; 
 import javafx.geometry.Rectangle2D;
-import javafx.scene.SnapshotParameters;
 import javafx.stage.Stage;
 import javafx.event.EventHandler; 
 import javafx.scene.input.KeyEvent;
@@ -28,10 +26,10 @@ import javafx.scene.shape.Ellipse;
 import javafx.util.Duration;
 import javafx.scene.shape.Rectangle;
 /**
- * Write a description of class MainCombatPhase here.
+ * class MainCombatPhase - class to model the combat phase of the game
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Alan Wang
+ * @version 060618
  */
 public class MainCombatPhase
 {
@@ -45,33 +43,38 @@ public class MainCombatPhase
     private boolean goLeft1, goRight1; //booleans controlling player1's movement
     private boolean goLeft2, goRight2; //booleans controlling player2's movement
     private double dx1, dy1, dx2, dy2; //doubles controlling movement distance for both players
-    private int currentFrame1, currentFrame2; //ints controlling player animation
-    private int counter1, counter2;
     private ArrayList<Line> createdLines; 
     private ArrayList<Projectile> createdProjectiles;  
     private Group root;
     private AnimationTimer moveTimer;
     /**
      * Constructor for objects of class MainCombatPhase
+     * 
+     * @param g a reference to the Game object
+     * @param ms a reference to the MainStage object
+     * @param lines ArrayList containing the created lines
      */
     public MainCombatPhase(Game g, MainStage ms, ArrayList<Line> lines)
     {
+        //assign reference to Game object, refresh game
         game = g;
         game.refreshGameState(); 
-        
+        //reset values for movement 
         dx1 = 0;
         dy1 = 0;
         dx2 = 0;
         dy2 = 0;
+        //assign reference to MainStage object, reset players
         mainStage = ms; 
         player1 = game.getPlayer1();
         player1.setWalking(false);
         player2 = game.getPlayer2();
         player2.setWalking(false); 
 
+        //assign reference to lines Arraylist, create projectile array
         createdLines = lines;
         createdProjectiles = new ArrayList<Projectile>();
-        
+        //create canvas for displaying projecti;es
         canvas = new Canvas(1800, 900);
         gc = canvas.getGraphicsContext2D(); 
         
@@ -80,6 +83,7 @@ public class MainCombatPhase
         //move players to starting positions
         player1.move(0 + 100, canvas.getHeight() - player1.getPlayerImage().getImage().getHeight() - 100);
         player2.move(canvas.getWidth() - 100, canvas.getHeight() - player2.getPlayerImage().getImage().getHeight() - 100);
+        
         //create health bars
         Rectangle r1=new Rectangle();
         r1.setX(0);
@@ -106,7 +110,8 @@ public class MainCombatPhase
         t1.setFont(new Font(20));
         root.getChildren().add(t1);
         root.getChildren().add(t2);
-
+        
+        //display creates lines
         for(Line line : createdLines)
             root.getChildren().add(line);
         
@@ -172,11 +177,13 @@ public class MainCombatPhase
                     projectile.move(); 
                     if(projectile.isVisible())
                         gc.drawImage(projectile.getGameImage(), projectile.getX() - projectile.getWidth() / 2, projectile.getY() - projectile.getHeight() / 2);
+                     //if projectile is no longer existing, remove it   
                     if(!projectile.isExisting())
                     {
                         createdProjectiles.remove(projectile);
                         i--;
                     }    
+                    //if projectile collides with line, remove it
                     for(Line line : createdLines)
                     {
                         if(checkCollisions(projectile.getHitbox(), line))
@@ -185,6 +192,7 @@ public class MainCombatPhase
                             i--;
                         }
                     }
+                    //if projectile collides with a player, damage player
                     if(checkCollisions(projectile.getHitbox(), player1.getHitbox()) && projectile.getPlayer().getPlayerID() == 2 && player1.canTakeDamage())
                     {
                         player1.takeDamage(1);
@@ -205,7 +213,7 @@ public class MainCombatPhase
                 game.checkWinCondition(); 
             }
         };
-        
+        //listener for checking when the game ends
         game.getEndGameProperty().addListener(new ChangeListener<Boolean>()
         {
             @Override
@@ -215,18 +223,26 @@ public class MainCombatPhase
                 {
                     //if match is over
                     moveTimer.stop();
+                    dx1 = 0;
+                    dy1 = 0;
+                    dx2 = 0;
+                    dy2 = 0;
+                    //display text
                     Text gameEndText = new Text(600, 450, "GAME!\nWinner: Player " + game.getWinner());
                     gameEndText.setFont(new Font(75));
                     gameEndText.setFill(Color.BLACK);
                     gameEndText.setStrokeWidth(1.5);
                     gameEndText.setStroke(Color.BLACK);
                     root.getChildren().add(gameEndText);
+                    //play fade transition
                     FadeTransition ft = new FadeTransition(Duration.seconds(1), gameEndText);
                     ft.setFromValue(1.0);
                     ft.setToValue(0);
                     ft.setCycleCount(1);
+                    //when the animation is finished
                     ft.setOnFinished(e ->
                     {
+                        //if the match is over
                         if(game.matchState())
                         {
                             //move to endGame screen
@@ -247,21 +263,34 @@ public class MainCombatPhase
                         }
                     }); 
                     ft.play();
-
                 }
             }
         }); 
-
+        //create new scene, set keybinds, and start combat
         scene = new Scene(root, 1800, 900);
         setKeyBinds();
         moveTimer.start();
     }
+    /**
+     * method getScene - method returns the scene for this MainCombatPhase object
+     * 
+     * @return scene the scene for this MainCombatPhase object
+     */
     public Scene getScene()
     {
         return scene;
     }
+    /**
+     * method movePlayer - method moves the player object by deltaX and deltaY, 
+     * accounting for boundaries
+     * 
+     * @param player - the Player object to be moved
+     * @param deltaX - amount to move the Player in X direction
+     * @param deltaY - amount to move the Player in Y direction
+     */
     public void movePlayer(Player player, double deltaX, double deltaY)
     {
+        //restrict movement if player hits boundary, line
         double newX = Math.max(player.getX() + deltaX, 100);
         if(newX > scene.getWidth() - 100)
         {
@@ -284,21 +313,26 @@ public class MainCombatPhase
                 {
                     newX = player.getX();
                 }
+                //if player falls onto a line
                 if(player.getY() < line.getStartY() && deltaY > 0)
                 {
+                    
                     newY = player.getY();
                     player.setWalking(true);
+                    //allow player to jump again
                     player.setCanJump(true);
                 }
                 if(player.getY() > line.getEndY() && deltaY < 0)
                 {
                     newY = player.getY();
-                    player.setWalking(true);
                 }
             }
         }
         player.move(newX, newY);
     }
+    /**
+     * method setKeyBinds - method sets the keybinds to be used during mainDrawPhase
+     */
     public void setKeyBinds()
     {
         //add keybindings for first player
@@ -496,10 +530,16 @@ public class MainCombatPhase
                 }
             });
     }
-
+    /**
+     * method checkCollisions - method checks collisions between hitboxes of players and projectiles with lines
+     * 
+     * @param body - shape of first object
+     * @param coll - shape of second object
+     */
     public boolean checkCollisions( Shape body, Shape coll)
     {
         Shape sp = Shape.intersect(body, coll);
+        //if there is a collision
         if(sp.getBoundsInLocal().getWidth() != -1)
         {
             return true;

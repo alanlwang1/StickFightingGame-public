@@ -84,7 +84,11 @@ public abstract class Player
   * Uses melee attack
   **/
   public abstract Projectile useMeleeAttack();
-  
+  /**
+   * Plays melee animation for this player
+   * 
+   * @param projectile - the projectile being used for this melee animation
+   */
   public void playMeleeAnimation(Projectile projectile)
   {
        AttackAnimation animation= new AttackAnimation(getPlayerImage(), Duration.seconds(1), 3, 400, 400, getDirection());
@@ -109,7 +113,11 @@ public abstract class Player
    * Fires ranged projectile
    */
   public abstract Projectile fireRangedAttack();
-  
+  /**
+   * Play ranged Animation for this player
+   * 
+   * @param projectile - the projectile being used for this ranged animation
+   */
   public void playRangedAnimation(Projectile projectile)
   {
        AttackAnimation animation= new AttackAnimation(getPlayerImage(), Duration.seconds(1), 3, 0, 400, getDirection());
@@ -145,8 +153,6 @@ public abstract class Player
   
   /**
   * Recalculates player health when damage is taken and plays a flickering animation.
-  * Timeline credit: 
-  * https://stackoverflow.com/questions/36577687/use-timeline-to-trigger-a-void-method-every-certain-seconds-javafx
   * @param Damage the amount of damage the player takes
   **/
   public void takeDamage(int damage) 
@@ -197,18 +203,40 @@ public abstract class Player
   {
     return y;
   }
+  /**
+   * Returns the direction this player is facing in
+   * positive for right, negative for left
+   * 
+   * @return direction The direction this player is facing in
+   */
   public int getDirection()
   {
       return direction;
   }
+  /**
+   * Sets the direction this player is facing
+   * positive for right, negative for left
+   * 
+   * @param newDirection The new direction the player is facing in
+   */
   public void setDirection(int newDirection)
   {
       direction = newDirection;
   }  
+  /**
+   * Returns the id of this player object
+   * 
+   * @return the id of this player object
+   */
   public int getPlayerID()
   {
       return playerID;
   }
+  /**
+   * Sets the id of this player object
+   * 
+   * @param newPlayerID The new id of this player object
+   */
   public void setPlayerID(int newPlayerID)
   {
       playerID = newPlayerID; 
@@ -221,74 +249,164 @@ public abstract class Player
   {
     return wins;
   }
+  /**
+   * Returns the boolean controlling whether the player is walking
+   * 
+   * @return the boolean controlling whether the player is walking
+   */
   public boolean isWalking()
   {
       return walking;
   }
+  /**
+   * Sets the boolean controlling whether the player is waparamlking
+   * 
+   * @param newWalking The new state of the boolean
+   */
   public void setWalking(boolean newWalking)
   {
       walking = newWalking;
   }
+  /**
+   * Returns the boolean controlling whether the player can fire
+   * 
+   * @return the boolean controlling whether the player can fire
+   */
   public boolean canFire()
   {
       return canFire;
   }
+  /**
+   * Sets the boolean controlling whether the player can fire
+   * 
+   * @param newCanFire The new state of the boolean
+   */
   public void setCanFire(boolean newCanFire)
   {
       canFire = newCanFire;
   }
+  /**
+   * Returns the boolean controlling whether the player can melee
+   * 
+   * @return the boolean controlling whether the player can melee
+   */
   public boolean canMelee()
   {
       return canMelee; 
   }
+  /**
+   * Sets the boolean controlling whether the player can Melee
+   * 
+   * @param newCanMelee The new state of the boolean
+   */
   public void setCanMelee(boolean newCanMelee)
   {
       canMelee = newCanMelee;
   }
+  /**
+   * Returns the boolean controlling whether the player can take damage
+   * 
+   * @return the boolean controlling whether the player can take damage
+   */
   public boolean canTakeDamage()
   {
       return canTakeDamage;
   }
+  /**
+   * Sets the boolean controlling whether the player can take damage
+   * 
+   * @param newCanTakeDamage The new state of this boolean
+   */
   public void setCanTakeDamage(boolean newCanTakeDamage)
   {
       canTakeDamage = newCanTakeDamage;
   }
+  /**
+   * Returns the boolean controlling whether the player can jump 
+   * 
+   * @return the boolean controlling whether the player can jump
+   */
   public boolean canJump()
   {
       return canJump;
   }
+  /**
+   * Sets the boolean controlling whether the player can jump
+   * 
+   * @param newCanJump The new state of this boolean
+   */
   public void setCanJump(boolean newCanJump)
   {
       canJump = newCanJump;
   }
+  /**
+   * Returns the boolean controlling whether the player can crouch
+   * 
+   * @return the boolean controlling whether the player can crouch
+   */
   public boolean isCrouching()
   {
       return isCrouching;
   }
+  /**
+   * Sets the boolean controlling whether the player can crouch
+   * 
+   * @param newIsCrouching The new state of this boolean
+   */
   public void setIsCrouching(boolean newIsCrouching)
   {
       isCrouching = newIsCrouching; 
   }
+  /**
+   * Returns the character select image of this player
+   * 
+   * @return the character select image of this player
+   */
   public Image getCharImage()
   {
       return charSelectImage;
   }
+  /**
+   * Returns the game sprite sheet of this player
+   * 
+   * @return the game sprite sheet of this player
+   */
   public Image getGameImage()
   {
       return gameImage;
   }
+  /**
+   * Sets the character select image of this player
+   * 
+   * @param iamge The new character select image of this player
+   */
   public void setCharImage(Image image)
   {
       charSelectImage = image;
   }
+  /**
+   * Sets the game sprite sheet of this player
+   * 
+   * @param The new game sprite sheet of this player
+   */
   public void setGameImage(Image image)
   {
       gameImage = image; 
   }
+  /**
+   * Returns the name of the class of this player
+   * 
+   * @return the name of the class of this player
+   */
   public String getName()
   {
       return name; 
   }
+  /**
+   * Sets the name of the class of this player
+   * 
+   * @param newName the new Name of the class of this player
+   */
   public void setName(String newName)
   {
       name = newName;
@@ -309,42 +427,92 @@ public abstract class Player
   {
       imageURL = url;
   }
+  /**
+   * Returns the ellipse for the hitbox of this player
+   * 
+   * @return the ellipse for the hitbox of this player
+   */
   public Ellipse getHitbox()
   {
       return hitbox;
   }
+  /**
+   * Sets the ellipse for the hitbox of this player
+   * 
+   * @param newHitBox The new ellipse for the hitbox of this player
+   */
   public void setHitbox(Ellipse newHitbox)
   {
       hitbox = newHitbox; 
   }
+  /**
+   * Returns the ImageView containing the sprite sheet gameImage
+   * 
+   * @return the ImageView containing the sprite sheet gameImage
+   */
   public ImageView getPlayerImage()
   {
       return playerImage;
   }
+  /**
+   * Sets the ImageView containing the sprite sheet gameImage
+   * 
+   * @param newPlayerImage The new ImageView containign the sprite sheet gameImage
+   */
   public void setPlayerImage(ImageView newPlayerImage)
   {
       playerImage = newPlayerImage;
   }
+  /**
+   * Returns the AnimationTimer controlling player move animation
+   * 
+   * @return the AnimationTimer controlling player move animation
+   */
   public AnimationTimer getPlayerTimer()
   {
       return playerTimer; 
   }
+  /**
+   * Sets the AnimationTimer controlling player move animation
+   * 
+   * @param the new AnimationTimer controlling player move animation
+   */
   public void setPlayerTimer(AnimationTimer newTimer)
   {
       playerTimer = newTimer;
   }
+  /**
+   * Returns the counter for when to change frame of animation
+   * 
+   * @return the counter for when to change frame of animation
+   */
   public int getCounter()
   {
       return counter;
   }
+  /**
+   * Sets the counter for when to change frame of animation
+   * 
+   * @param newValue the new value of the counter
+   */
   public void setCounter(int newValue)
   {
       counter = newValue;
   }
+  /**
+   * Returns the current frame of the animation
+   * 
+   * @return the current frame of the animation
+   */
   public int getCurrentFrame()
   {
       return currentFrame;
   }
+  /**
+   * Sets the current frame of the animation
+   * 
+   * @param newValue the new value of the current frame
+   */
    public void setCurrentFrame(int newValue)
   {
       currentFrame = newValue;

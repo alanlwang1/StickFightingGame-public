@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
 import javafx.scene.text.*;
 import javafx.geometry.Pos;
@@ -39,6 +38,11 @@ public class StartScreen
     private GridPane grid;
     private final static double MIN_TILE_SIZE = 5;
     private final static double MAX_TILE_SIZE = Double.MAX_VALUE;
+    /**
+     * Constructor - creates a Startscreen object with a reference to MainStage
+     * 
+     * @param ms - the reference to a MainStage object
+     */
     public StartScreen(MainStage ms)
     {
         

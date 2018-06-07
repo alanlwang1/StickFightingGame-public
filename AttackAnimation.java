@@ -4,7 +4,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 /**
- * class SpriteAnimation
+ * class AttackAnimation - Animation for the character attacks
  * 
  * @author Original Sprite Animation Created by Michael Heinrichs, modified by Alan Wang
  */
@@ -16,7 +16,6 @@ public class AttackAnimation extends Transition
     private final int offsetX;
     private final int offsetY;
     private final int direction; 
-
     private int lastIndex;
 
     public AttackAnimation(ImageView imageView,  Duration duration, int count, int offsetX, int offsetY, int direction) 
@@ -37,11 +36,13 @@ public class AttackAnimation extends Transition
         if (index != lastIndex) {
             if(direction < 0)
             {
+                //left attack animation
                 x = 800 - offsetX - index * 200;
                 y = offsetY + 200;
             }
             else
             {
+                //right attack animation
                 x = offsetX + index * 200 - 200;
                 y = offsetY;
             }
