@@ -23,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.control.Hyperlink;
 
 /**
  * TestGui for the game
@@ -32,7 +33,7 @@ import javafx.geometry.VPos;
  */
 public class StartScreen
 {
-    private Button playButton, closeButton, bestOfThree, bestOfFive, instructions;
+    private Button playButton, closeButton, bestOfThree, bestOfFive, placebo;
     private MainStage mainStage;
     private Scene scene;
     private GridPane grid;
@@ -152,10 +153,20 @@ public class StartScreen
         closeButton.setMinSize(210,50);
         grid.setConstraints(closeButton, 0, 0);
        
-        instructions = new Button("How to Play");
-        instructions.setOnAction(e -> Instructions.display());
+        
+        
+        
+        final Button instructions = new Button("How to Play");
+        instructions.setOnAction(e -> 
+        {
+            MainStage z = new MainStage();
+            z.showInstructions();
+        });
         instructions.setFont(new Font(45));
         instructions.setMinSize(210,50);
+        
+      
+        
         grid.setConstraints(instructions, 2, 8);
         grid.setHalignment(instructions, HPos.CENTER);
         

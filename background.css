@@ -10,3 +10,8 @@
 {
     -fx-fill: rgba(0,0,0,0);
 }
+
+#transtext
+{
+    -fx-opacity: 0.0;
+}

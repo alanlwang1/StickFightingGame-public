@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.application.HostServices.*;;
 /**
  * class mainStage - class to render all the scenes from each window
  *
@@ -42,5 +43,8 @@ public class MainStage extends Application
         if (answer)
             window.close();
     }
-    
+    public void showInstructions()
+    {
+        getHostServices().showDocument("instructions.html");
+    }
 }
