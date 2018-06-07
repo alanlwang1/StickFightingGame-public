@@ -20,12 +20,12 @@ import javafx.stage.Stage;
  */
 public class CharacterSelect
 {
+    //instantiate needed variables
     private final int WIDTH = 1800;
     private final int HEIGHT = 900;
     private MainStage mainStage;
     private int myGameType;
     private Scene csScene;
-
     private Pane root; 
     private Canvas layer;
     private Button confirmButton; 
@@ -37,7 +37,12 @@ public class CharacterSelect
     private Player player2;
     private Player[] availablePlayers = {new Normal(1, 0), new Ninja(1, 0), null, null, null};
     private Game game;
-    
+    /**
+     * Constructor - creates a CharacterSelect object with a reference to MainStage
+     * 
+     * @param gameType - what kind of match will be played
+     * @param ms - the reference to a MainStage object
+     */
     public CharacterSelect(int gameType, MainStage ms)
     {        
         //instantiable variables

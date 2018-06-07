@@ -133,13 +133,11 @@ public class StartScreen
         
         //make a button displaying instructions in external window
         final Button instructions = new Button("How to Play");
-        //really bad solution to calling a method in MainStage, but it works.
-        //will call .showInstructions(), which will display an external html page (in user's browser)
-        //with the instructions on it. 
+
+        //will display an external html page (in user's browser) with the instructions on it. 
         instructions.setOnAction(e -> 
         {
-            MainStage z = new MainStage();
-            z.showInstructions();
+            ms.getHostServices().showDocument("instructions.html");
         });
         instructions.setFont(new Font(45));
         //format button

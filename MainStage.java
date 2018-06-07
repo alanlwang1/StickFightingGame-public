@@ -51,11 +51,4 @@ public class MainStage extends Application
         if (answer)
             window.close();
     }
-    /**
-     * method showInstructions - method to display instructions for playing the game
-     */
-    public void showInstructions()
-    {
-        getHostServices().showDocument("instructions.html");
-    }
 }
