@@ -81,6 +81,7 @@ public abstract class Player
   * Uses melee attack
   **/
   public abstract Projectile useMeleeAttack();
+  
   public void playMeleeAnimation(Projectile projectile)
   {
        AttackAnimation animation= new AttackAnimation(getPlayerImage(), Duration.seconds(1), 3, 400, 400, getDirection());
@@ -105,6 +106,7 @@ public abstract class Player
    * Fires ranged projectile
    */
   public abstract Projectile fireRangedAttack();
+  
   public void playRangedAnimation(Projectile projectile)
   {
        AttackAnimation animation= new AttackAnimation(getPlayerImage(), Duration.seconds(1), 3, 0, 400, getDirection());

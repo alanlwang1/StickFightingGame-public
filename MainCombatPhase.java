@@ -41,8 +41,8 @@ public class MainCombatPhase
     private GraphicsContext gc; 
     private Player player1;
     private Player player2; 
-    private boolean goUp1, goDown1, goLeft1, goRight1; //booleans controlling player1's movement
-    private boolean goUp2, goDown2, goLeft2, goRight2; //booleans controlling player2's movement
+    private boolean goLeft1, goRight1; //booleans controlling player1's movement
+    private boolean goLeft2, goRight2; //booleans controlling player2's movement
     private double dx1, dy1, dx2, dy2; //doubles controlling movement distance for both players
     private int currentFrame1, currentFrame2; //ints controlling player animation
     private int counter1, counter2;
@@ -57,9 +57,16 @@ public class MainCombatPhase
     {
         game = g;
         game.refreshGameState(); 
+        
+        dx1 = 0;
+        dy1 = 0;
+        dx2 = 0;
+        dy2 = 0;
         mainStage = ms; 
         player1 = game.getPlayer1();
-        player2 = game.getPlayer2(); 
+        player1.setWalking(false);
+        player2 = game.getPlayer2();
+        player2.setWalking(false); 
         createdLines = lines;
         createdProjectiles = new ArrayList<Projectile>();
         
@@ -208,20 +215,19 @@ public class MainCombatPhase
                     if(game.matchState())
                     {
                         //move to endGame screen
-<<<<<<< HEAD
                         //EndGame eg = new EndGame(mainStage, game.getWinner());
                         //Scene endGameScene = eg.getScene();
                         //mainStage.changeScene(endGameScene);
-=======
+                        moveTimer.stop(); 
                         EndGame eg = new EndGame(mainStage, game);
                         Scene endGameScene = eg.getScene();
                         mainStage.changeScene(endGameScene);
->>>>>>> 3f05cf5b064dd40a49fa568bff5601549982bfc4
                     }
                     //if match is not over
                     else
                     {
                         //move to intermediate draw phase
+                        moveTimer.stop();
                         MainDrawPhase intermediate = new MainDrawPhase(game, mainStage, createdLines, game.getWinner());
                         Scene intermediateDrawScene = intermediate.getScene();
                         mainStage.changeScene(intermediateDrawScene); 
@@ -271,8 +277,7 @@ public class MainCombatPhase
                 if(player.getY() > line.getEndY() && deltaY < 0)
                 {
                     newY = player.getY();
-                    player.setWalking(true); 
-                    player.setCanJump(true);
+                    player.setWalking(true);
                 }
             }
         }
@@ -304,7 +309,6 @@ public class MainCombatPhase
                                 player1.getPlayerTimer().start(); //play walking animation
                             break;
                         case S:
-                            goDown1 = true;
                             //add crouch later if there is time
                             break;
                         case D:
@@ -359,7 +363,6 @@ public class MainCombatPhase
                                 player2.getPlayerTimer().start(); //start walking animation 
                             break;
                         case DOWN:
-                            goDown2 = true;
                             //add crouch later if time
                             break; 
                         case SHIFT:
@@ -399,7 +402,6 @@ public class MainCombatPhase
                             player1.setImagePort(new Rectangle2D(800, 200, 200, 200));
                             break;
                         case S:
-                            goDown1 = false;
                             break;
                         case D:
                             goRight1 = false;
@@ -416,7 +418,6 @@ public class MainCombatPhase
                             player2.setImagePort(new Rectangle2D(800, 200, 200, 200));
                             break;
                         case DOWN:
-                            goDown2 = false;
                             break;
                         case RIGHT:
                             goRight2 = false;

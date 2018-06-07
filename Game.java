@@ -12,7 +12,7 @@ public class Game
 {
   //instantiate the variables needed for the game
   private BooleanProperty endGame;
-  private boolean endMatch = false; 
+  private boolean endMatch; 
   private BooleanProperty drawPhase;
   private IntegerProperty currentTurn;
   private int turnCount; 
@@ -44,7 +44,7 @@ public class Game
       currentTurn = new SimpleIntegerProperty(1);
       endGame = new SimpleBooleanProperty();
       turnCount = 1; 
-      maxTurns = 6;
+      maxTurns = 5;
       
   }
   public void refreshGameState()

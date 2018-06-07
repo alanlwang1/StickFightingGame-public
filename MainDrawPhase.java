@@ -277,7 +277,7 @@ public class MainDrawPhase
     {
         //change top banner
         topBanner.setText("Combat Phase");
-
+        //countdown
         //hide cursors
         //root.getChildren().remove(cursor1);
         //root.getChildren().remove(cursor2);
