@@ -67,6 +67,7 @@ public class MainCombatPhase
         player1.setWalking(false);
         player2 = game.getPlayer2();
         player2.setWalking(false); 
+
         createdLines = lines;
         createdProjectiles = new ArrayList<Projectile>();
         
@@ -78,6 +79,7 @@ public class MainCombatPhase
         //move players to starting positions
         player1.move(0 + 100, canvas.getHeight() - player1.getPlayerImage().getImage().getHeight() - 100);
         player2.move(canvas.getWidth() - 100, canvas.getHeight() - player2.getPlayerImage().getImage().getHeight() - 100);
+        root.getChildren().add(player1.getHitbox());
         //create health bars
         Rectangle r1=new Rectangle();
         r1.setX(0);
@@ -306,19 +308,32 @@ public class MainCombatPhase
                             goLeft1 = true;
                             player1.setDirection(-1);
                             if(player1.isWalking()) //if during combat and player on ground
-                                player1.getPlayerTimer().start(); //play walking animation
+                                if(player1.isCrouching())
+                                    player1.setImagePort(new Rectangle2D(800, 500, 200, 100));
+                                else
+                                    player1.getPlayerTimer().start(); //play walking animation
                             break;
                         case S:
                             //add crouch later if there is time
+                            player1.getPlayerTimer().stop();
+                            if(player1.getDirection() < 0)
+                                player1.setImagePort(new Rectangle2D(800, 500, 200, 100));
+                            else
+                                player1.setImagePort(new Rectangle2D(800, 400, 200, 100));
+                            player1.setHitbox(new Ellipse(player1.getX(), player1.getY() - 40, 90, 30));
+                            player1.setIsCrouching(true); 
                             break;
                         case D:
                             goRight1 = true;
                             player1.setDirection(1); 
                             if(player1.isWalking()) //if during combat and player one ground
-                                player1.getPlayerTimer().start(); //play walking animation
+                                if(player1.isCrouching())
+                                    player1.setImagePort(new Rectangle2D(800, 400, 200, 100));
+                                else
+                                    player1.getPlayerTimer().start(); //play walking animation
                             break; 
                         case R:
-                            if(player1.canFire())
+                            if(player1.canFire() && !player1.isCrouching())
                             {
                                 player1.setCanFire(false);
                                 //generate projectile
@@ -331,7 +346,7 @@ public class MainCombatPhase
                             }
                             break;
                         case F:
-                            if(player1.canMelee())
+                            if(player1.canMelee() && !player1.isCrouching())
                             {
                                 player1.setCanMelee(false);
                                 Projectile projectile = player1.useMeleeAttack();
@@ -353,20 +368,34 @@ public class MainCombatPhase
                         case LEFT:
                             goLeft2 = true;
                             player2.setDirection(-1);
-                            if(player2.isWalking()) //if during combat and player on ground
-                                player2.getPlayerTimer().start(); //start walking animation
+                            if(player2.isWalking())//if during combat and player on ground
+                                if(player2.isCrouching())
+                                    player2.setImagePort(new Rectangle2D(800, 500, 200, 100));
+                                else
+                                    player2.getPlayerTimer().start(); //start walking animation
                             break;
                         case RIGHT:
                             goRight2 = true;
                             player2.setDirection(1); 
                             if(player2.isWalking()) //if during combat and player on ground
-                                player2.getPlayerTimer().start(); //start walking animation 
+                                if(player2.isCrouching())
+                                    player2.setImagePort(new Rectangle2D(800, 400, 200, 100));
+                                else
+                                    player2.getPlayerTimer().start(); //start walking animation 
                             break;
                         case DOWN:
-                            //add crouch later if time
+                            player2.getPlayerTimer().stop(); 
+                            if(player2.getDirection() < 0)
+                                player2.setImagePort(new Rectangle2D(800, 500, 200, 100));
+                            else
+                                player2.setImagePort(new Rectangle2D(800, 400, 200, 100));
+                            //player1.setY(player1.getY());
+                            player2.setHitbox(new Ellipse(player2.getX(), player2.getY() - 40, 90, 30));
+                            root.getChildren().add(player2.getHitbox());
+                            player2.setIsCrouching(true); 
                             break; 
                         case SHIFT:
-                            if(player2.canFire())
+                            if(player2.canFire() && !player2.isCrouching())
                             {
                                 player2.setCanFire(false);
                                 Projectile projectile = player2.fireRangedAttack();
@@ -375,7 +404,7 @@ public class MainCombatPhase
                             }
                             break; 
                         case CONTROL:
-                            if(player2.canMelee())
+                            if(player2.canMelee() && !player2.isCrouching())
                             {
                                 player2.setCanMelee(false);
                                 Projectile projectile = player2.useMeleeAttack();
@@ -397,33 +426,59 @@ public class MainCombatPhase
                             break;
                         case A:
                             goLeft1 = false;
-                            player1.getPlayerTimer().stop();
-                            player1.setCurrentFrame(0);
-                            player1.setImagePort(new Rectangle2D(800, 200, 200, 200));
+                            if(!player1.isCrouching())
+                            {
+                                player1.getPlayerTimer().stop();
+                                player1.setCurrentFrame(0);
+                                player1.setImagePort(new Rectangle2D(800, 200, 200, 200));
+                            }
                             break;
                         case S:
+                            player1.move(player1.getX(), player1.getY() - 110);
+                            player1.setHitbox(new Ellipse(player1.getX(), player1.getY(), 70, 110));
+                            if(player1.getDirection() < 0)
+                                player1.setImagePort(new Rectangle2D(800, 200, 200, 200));
+                            else
+                                player1.setImagePort(new Rectangle2D(0, 0, 200, 200));
+                            player1.setIsCrouching(false);
                             break;
                         case D:
                             goRight1 = false;
-                            player1.getPlayerTimer().stop();
-                            player1.setCurrentFrame(0);
-                            player1.setImagePort(new Rectangle2D(0, 0, 200, 200));
+                            if(!player1.isCrouching())
+                            {   
+                                player1.getPlayerTimer().stop();
+                                player1.setCurrentFrame(0);
+                                player1.setImagePort(new Rectangle2D(0, 0, 200, 200));
+                            }
                             break; 
                         case UP:
                             break;
                         case LEFT:
                             goLeft2 = false;
-                            player2.getPlayerTimer().stop();
-                            player2.setCurrentFrame(0);
-                            player2.setImagePort(new Rectangle2D(800, 200, 200, 200));
+                            if(!player2.isCrouching())
+                            {
+                                player2.getPlayerTimer().stop();
+                                player2.setCurrentFrame(0);
+                                player2.setImagePort(new Rectangle2D(800, 200, 200, 200));
+                            }
                             break;
                         case DOWN:
+                            player2.move(player2.getX(), player2.getY() - 110);
+                            player2.setHitbox(new Ellipse(player2.getX(), player2.getY(), 70, 110));
+                            if(player2.getDirection() < 0)
+                                player2.setImagePort(new Rectangle2D(800, 200, 200, 200));
+                            else
+                                player2.setImagePort(new Rectangle2D(0, 0, 200, 200));
+                            player2.setIsCrouching(false);
                             break;
                         case RIGHT:
                             goRight2 = false;
-                            player2.getPlayerTimer().stop();
-                            player2.setCurrentFrame(0);
-                            player2.setImagePort(new Rectangle2D(0, 0, 200, 200));
+                            if(!player2.isCrouching())
+                            {
+                                player2.getPlayerTimer().stop();
+                                player2.setCurrentFrame(0);
+                                player2.setImagePort(new Rectangle2D(0, 0, 200, 200));
+                            }
                             break;
                     }
                 }

@@ -22,6 +22,7 @@ public abstract class Player
   private boolean canMelee; 
   private boolean canTakeDamage;
   private boolean canJump;
+  private boolean isCrouching; 
   private int wins;
   private int direction; 
   private int playerID; 
@@ -71,10 +72,14 @@ public abstract class Player
   **/
   public void move(double newX, double newY)
   {
+      double xDiff = newX - getX();
+      double yDiff = newY - getY(); 
       setX(newX);
       setY(newY);
-      getHitbox().setCenterX(newX);
-      getHitbox().setCenterY(newY);
+      //getHitbox().setCenterX(newX);
+      //getHitbox().setCenterY(newY);
+      getHitbox().setCenterX(getHitbox().getCenterX() + xDiff);
+      getHitbox().setCenterY(getHitbox().getCenterY() + yDiff);
       getPlayerImage().relocate(getX() - 100, getY() - 100);
   }
   /**
@@ -257,6 +262,14 @@ public abstract class Player
   public void setCanJump(boolean newCanJump)
   {
       canJump = newCanJump;
+  }
+  public boolean isCrouching()
+  {
+      return isCrouching;
+  }
+  public void setIsCrouching(boolean newIsCrouching)
+  {
+      isCrouching = newIsCrouching; 
   }
   public Image getCharImage()
   {
