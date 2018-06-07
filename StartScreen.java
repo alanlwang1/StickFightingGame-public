@@ -17,12 +17,13 @@ import javafx.scene.text.Font;
  */
 public class StartScreen
 {
+    //instantiate variables needed to be used by the class
     private Button playButton, closeButton, bestOfThree, bestOfFive, placebo;
     private MainStage mainStage;
     private Scene scene;
     private GridPane grid;
-    private final static double MIN_TILE_SIZE = 5;
-    private final static double MAX_TILE_SIZE = Double.MAX_VALUE;
+    private final int WIDTH = 1800;
+    private final int HEIGHT = 900;
     /**
      * Constructor - creates a Startscreen object with a reference to MainStage
      * 
@@ -156,7 +157,7 @@ public class StartScreen
         grid.setId("pane");
        
         //instantiate the scene
-        scene = new Scene(grid, 1800, 900);
+        scene = new Scene(grid, WIDTH, HEIGHT);
        
         //get css formatting from file 
         scene.getStylesheets().addAll(this.getClass().getResource("background.css").toExternalForm());
