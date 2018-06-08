@@ -5,16 +5,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Ellipse;
 /**
- * Write a description of class Punch here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * Punch class - handles the animations that allow the Normal Player to punch
  */
 public class Punch extends Projectile
 {
     private DoubleProperty distanceTraveled;
     public Punch(Player player, int direction)
     {
+        //set default values for distance traveled, etc
         super.setInitialSpeed(1);
         super.setFinalSpeed(0);
         super.setWidth(20);
@@ -31,6 +29,7 @@ public class Punch extends Projectile
         super.setHitbox(new Ellipse(getX(), getY(), 10, 10));
         distanceTraveled = new SimpleDoubleProperty(); 
         //add listener to mark punch as gone when traveled certain distance
+        
         
         distanceTraveled.addListener(new ChangeListener<Number>()
         {

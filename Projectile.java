@@ -8,7 +8,6 @@ import javafx.scene.shape.Ellipse;
  */
 public abstract class Projectile
 {
-    // instance variables - replace the example below with your own
     private double initialSpeed;
     private double finalSpeed;
     private double currentSpeed; 
@@ -28,6 +27,10 @@ public abstract class Projectile
     {
         player.takeDamage(onHitDmg);
     }
+    
+    /**
+     * moves the hitbox for the projectile and updates its location
+     */
     public void move()
     {
         double newX = x + direction * currentSpeed;
@@ -43,10 +46,18 @@ public abstract class Projectile
     {
         return currentSpeed;
     }
+    
+    /**
+     * sets the current attack speed of the projectile
+     * @param new Speed 
+     */
     public void setCurrentSpeed(double newSpeed)
     {
         currentSpeed = newSpeed; 
     }
+    /**
+     * Returns the intial speed of the projectile
+     */
     public double getInitialSpeed()
     {
         return initialSpeed;
@@ -59,6 +70,10 @@ public abstract class Projectile
     {
         initialSpeed = newInitialSpeed;
     }
+    /**
+     * returns the max speed of the projectile
+     * @return max speed of projectile
+     */
     public double getFinalSpeed()
     {
         return finalSpeed;

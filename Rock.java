@@ -1,10 +1,8 @@
 import javafx.scene.image.Image;
 import javafx.scene.shape.Ellipse;
 /**
- * Write a description of class Rock here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * Rock class: class that sets values for rock throwing projectile (used by Normal Player)
+ * @author Alan Wang
  */
 public class Rock extends Projectile
 {
@@ -13,6 +11,7 @@ public class Rock extends Projectile
      */
     public Rock(Player player, int direction)
     {
+        //set default values like speed and size
         super.setInitialSpeed(2);
         super.setFinalSpeed(20);
         super.setWidth(48);

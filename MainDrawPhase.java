@@ -247,7 +247,7 @@ public class MainDrawPhase
                     if (newVal.booleanValue() == false)
                     {
                         cursorTimer.stop();
-                        startCombat(); 
+                        startCombat();
                     }
                 }
             });    
@@ -306,8 +306,8 @@ public class MainDrawPhase
         topBanner.setText("Combat Phase");
         //countdown
         //hide cursors
-        //root.getChildren().remove(cursor1);
-        //root.getChildren().remove(cursor2);
+        root.getChildren().remove(cursor1);
+        root.getChildren().remove(cursor2);
         
         //start countdown
         ImageView countdown = new ImageView("countdown.png");
@@ -389,7 +389,7 @@ public class MainDrawPhase
                                     Point2D.Double point2 = selectedPoints.get(1);
                                     
                                     double differenceX = Math.abs(point1.getX() - point2.getX());
-                                    double differenceY = Math.abs(point2.getY() - point2.getY());
+                                    double differenceY = Math.abs(point1.getY() - point2.getY());
                                     //if line is diagonal, create line with the greater leg
                                     if(differenceX > differenceY)
                                         if(point1.getX() < point2.getX())

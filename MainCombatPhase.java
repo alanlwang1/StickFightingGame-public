@@ -69,6 +69,7 @@ public class MainCombatPhase
         player1 = game.getPlayer1();
         player1.setWalking(false);
         player2 = game.getPlayer2();
+        
         player2.setWalking(false); 
 
         //assign reference to lines Arraylist, create projectile array
@@ -259,7 +260,8 @@ public class MainCombatPhase
                             //move to intermediate draw phase
                             MainDrawPhase intermediate = new MainDrawPhase(game, mainStage, createdLines, game.getWinner());
                             Scene intermediateDrawScene = intermediate.getScene();
-                            mainStage.changeScene(intermediateDrawScene); 
+                            mainStage.changeScene(intermediateDrawScene);
+                            mainStage.changeScene(scene);
                         }
                     }); 
                     ft.play();
@@ -305,24 +307,23 @@ public class MainCombatPhase
         {
             if(checkCollisions(player.getHitbox(), line))
             {
-                if(player.getX() < line.getStartX() && deltaX > 0)
+                if(player.getX() <= line.getStartX() && deltaX >= 0)
                 {
                     newX = player.getX(); 
                 }
-                if(player.getX() > line.getEndX() && deltaX < 0)
+                if(player.getX() >= line.getEndX() && deltaX <= 0)
                 {
                     newX = player.getX();
                 }
                 //if player falls onto a line
-                if(player.getY() < line.getStartY() && deltaY > 0)
+                if(player.getY() <= line.getStartY() && deltaY >= 0)
                 {
-                    
                     newY = player.getY();
                     player.setWalking(true);
                     //allow player to jump again
                     player.setCanJump(true);
                 }
-                if(player.getY() > line.getEndY() && deltaY < 0)
+                if(player.getY() >= line.getEndY() && deltaY <= 0)
                 {
                     newY = player.getY();
                 }
