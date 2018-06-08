@@ -33,7 +33,6 @@ public class EndGame
         endGame = game;
         game.getMatchWinner();
         grid = new GridPane();
-        
         grid.setGridLinesVisible(true);
         
         //get the media file linked to the program and play it upon loading
@@ -50,8 +49,17 @@ public class EndGame
         grid.setConstraints(showWinner, 1, 1);
         grid.setHalignment(showWinner, HPos.CENTER);
         
+        //create a text box with the winner's name in it
+        Text align = new Text();
+        align.setText("Hi  ");
+        align.setFont(new Font(118));
+        align.setId("transtext");
+        //position the text box
+        grid.setConstraints(align, 0, 1);
+        grid.setHalignment(align, HPos.CENTER);
+        
         //creates an image with the winner's image on it
-        Image image = new Image(game.getMatchWinner().getImageURL());
+        Image image = new Image("normal1.png");
         ImageView winner = new ImageView(image);
         //format the text box
         winner.setFitHeight(300);
@@ -71,7 +79,7 @@ public class EndGame
         grid.setHalignment(quit, HPos.CENTER);
         
         //adds all nodes to the gridpane
-        grid.getChildren().addAll(showWinner, quit, winner);
+        grid.getChildren().addAll(showWinner, quit, winner, align);
         //allow css to show background in the pane
         grid.setId("pane");
         

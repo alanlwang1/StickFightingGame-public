@@ -35,7 +35,7 @@ public class StartScreen
         mainStage = ms;
         
         grid = new GridPane();
-    
+        grid.setGridLinesVisible(true);
         //make the text box for the main screen (welcome to game...)
         Text start = new Text();
         start.setFont(new Font(112));
@@ -43,7 +43,6 @@ public class StartScreen
         start.setFill(Color.RED);
         start.setStrokeWidth(1.5);
         start.setStroke(Color.BLACK);
-        start.setTextOrigin(VPos.TOP);
         start.setId("start");
         //position textbox
         grid.setConstraints(start, 2, 2);
@@ -58,7 +57,7 @@ public class StartScreen
         startCont.setStroke(Color.BLACK);
         //position textbox
         grid.setConstraints(startCont, 2, 3);
-        grid.setHalignment(start, HPos.CENTER);
+        grid.setHalignment(startCont, HPos.CENTER);
         
         //make invisible text box for formatting (keeps right side as large as left)
         Text alignmentBox = new Text();
@@ -78,14 +77,33 @@ public class StartScreen
         grid.setConstraints(bigBox, 2, 10);
         
         //display a sprite
-        Image image = new Image("stick figure trans.png");
-        ImageView stickFigure = new ImageView(image);
+        Image image = new Image("normal1.png");
+        ImageView normal = new ImageView(image);
         //set dimensions of picture
-        stickFigure.setFitHeight(300);
-        stickFigure.setFitWidth(300);
+        normal.setFitHeight(300);
+        normal.setFitWidth(300);
         //position picture
-        grid.setConstraints(stickFigure, 2,6);
-        grid.setHalignment(stickFigure, HPos.CENTER);
+        grid.setConstraints(normal, 2,6);
+        grid.setHalignment(normal, HPos.LEFT);
+        
+        //display another sprite
+        image = new Image("ninja1.png");
+        ImageView ninja = new ImageView(image);
+        //set dimensions of picture
+        ninja.setFitHeight(300);
+        ninja.setFitWidth(300);
+        //position picture
+        grid.setConstraints(ninja,2,6);
+        grid.setHalignment(ninja, HPos.RIGHT);
+        
+        //display another sprite
+        ImageView ninja2 = new ImageView(image);
+        //set dimensions of picture
+        ninja2.setFitHeight(300);
+        ninja2.setFitWidth(300);
+        //position picture
+        grid.setConstraints(ninja2, 2,6);
+        grid.setHalignment(ninja2, HPos.CENTER);
         
         //makes a button for playing a best of three series of games
         bestOfThree = new Button();
@@ -146,7 +164,7 @@ public class StartScreen
         grid.setHgap(0);
         grid.setVgap(0);
         //add all nodes to the pane
-        grid.getChildren().addAll(start, startCont, bestOfThree, bestOfFive, closeButton, stickFigure, alignmentBox, instructions, bigBox);
+        grid.getChildren().addAll(start, startCont, bestOfThree, bestOfFive, closeButton, normal, ninja, alignmentBox, instructions, bigBox, ninja2);
         //allow css to display background on pane
         grid.setId("pane");
        

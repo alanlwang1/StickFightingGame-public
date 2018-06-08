@@ -27,7 +27,7 @@ public class Alert extends PopUp
         Stage window = new Stage();
         //format stage
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("About " + title);
+        window.setTitle("Error: " + title);
         window.setMinWidth(getWidth());
         window.setMinHeight(getHeight());
         
