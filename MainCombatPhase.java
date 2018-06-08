@@ -97,9 +97,14 @@ public class MainCombatPhase
                 {
                     Projectile projectile = createdProjectiles.get(i);
                     projectile.move(); 
+                    if(projectile.getX() < 0 || projectile.getX() > 1800)  
+                    {
+                        createdProjectiles.remove(projectile);
+                        i--;
+                    }
                     if(projectile.isVisible())
                         gc.drawImage(projectile.getGameImage(), projectile.getX() - projectile.getWidth() / 2, projectile.getY() - projectile.getHeight() / 2);
-                     //if projectile is no longer existing, remove it   
+                    //if projectile is no longer existing, remove it   
                     if(!projectile.isExisting())
                     {
                         createdProjectiles.remove(projectile);
