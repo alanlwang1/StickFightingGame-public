@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 * This class will contain the rules of the game, instantiate the players and map, and deal with how the 
 * graphics should be set up. 
 * @author R.Wei, A.Wang
-* @version b1.0
+* @version 060718 
 **/
 public class Game
 {
@@ -21,19 +21,14 @@ public class Game
   private int totalGames; 
   private Player player1, player2;
   private String winnerId;
-  //move drawphase and things later to here and use a listener in maingamegui class to change 
-  //start drawphase at end of instantiation of maingamegui -> set drawphase boolean to start
-  //increment lines creawted - once it changes change the turn
-  //once lines created hits 5 end draw phase
-  //once draw phase ends, start combat phase
-  //event driven progrmaming makes me want to choke someone 
-  //I don't think we need getters and setterrs for this. Endgame doesn't need a setter, endmatch doesn't,
-  //numWins and totalGames are pretty much the same imo and we should onl need one. 
-  //intermission - property for endGame 
-  //get winner and set current turn to that depending on winner
-  //start cursorTimer
-  //add only cursor for player back 
-  //end phase after line created
+  /**
+   * Constructor - creates a Game object with the given players and the given conditions
+   * 
+   * @param playerOne Player object for player1
+   * @param playerTwo Player object for player2
+   * @param wins number of wins needed for a player to win the match
+   * @param games total number of games in the match
+   */
   public Game(Player playerOne, Player playerTwo, int wins, int games)
   {
       numWins = wins;
@@ -45,8 +40,10 @@ public class Game
       endGame = new SimpleBooleanProperty();
       turnCount = 1; 
       maxTurns = 1;
-      
   }
+  /**
+   * method refreshGameState - method refreshes the status of both player objects
+   */
   public void refreshGameState()
   {
       player1.setHealth(3);
@@ -98,10 +95,22 @@ public class Game
   {
         return endGame.get();
   }
+  /**
+   * method getEndGameProperty - method returns the BooleanProperty object controlling
+   * when the combat phase ends
+   * 
+   * @return the BooleanProperty object controlling when the combat phase ends
+   */
   public BooleanProperty getEndGameProperty()
   {
       return endGame; 
   }
+  /**
+   * method setEndGameProperty - method sets the new state of the BooleanProperty object
+   * controlling when the combat phase ends
+   * 
+   * @param newEndGame the new state of this object
+   */
   public void setEndGameProperty(boolean newEndGame)
   {
       endGame.set(newEndGame); 
@@ -129,10 +138,6 @@ public class Game
     if (player1.isDead() || player2.isDead()) //if either player is dead
     {  
       endGame.set(true); //end the game
-      if (player1.isDead()) //give the win to the player who won 
-        player2.addWin();
-      else
-        player1.addWin();
     }
   }
   

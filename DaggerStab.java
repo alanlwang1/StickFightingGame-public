@@ -43,10 +43,11 @@ public class DaggerStab extends Projectile
         });
         
     }
-    @Override
     /**
-     * Move Method: Moves the hitbox for the projectile and measures the distance
+     * method move - moves the projectile by adding the current speed to its current
+     * position. Also updates the distance traveled
      */
+    @Override
     public void move()
     {
         double newX = getX() + getDirection() * getCurrentSpeed();

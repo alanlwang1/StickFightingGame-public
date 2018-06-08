@@ -35,7 +35,6 @@ public class StartScreen
         mainStage = ms;
         
         grid = new GridPane();
-        grid.setGridLinesVisible(true);
         //make the text box for the main screen (welcome to game...)
         Text start = new Text();
         start.setFont(new Font(112));

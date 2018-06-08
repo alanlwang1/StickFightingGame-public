@@ -22,7 +22,7 @@ public class Ninja extends Player
        super.setName("Ninja");
        super.setDirection(startingDirection);
        super.setPlayerID(playerID);
-       super.setImageURL("ninjaProfile.png");
+       super.setImageURL("ninjaProfile trans.png");
        super.setHitbox(new Ellipse(super.getX(), super.getY(), 70, 110));
        super.setCanFire(true);
        super.setCanMelee(true);
@@ -57,7 +57,7 @@ public class Ninja extends Player
        });
    }
    /**
-    * returns the object of the ranged attack
+    * Creates and returns the object of the ranged attack
     * @return Shuriken class
     */
    public Projectile fireRangedAttack()
@@ -66,7 +66,7 @@ public class Ninja extends Player
        return shuriken;
    }
    /**
-    * returns the object of the melee attack
+    * Creates and returns the object of the melee attack
     * @return daggerStab (subclass of Projectile)
     */
    public Projectile useMeleeAttack()

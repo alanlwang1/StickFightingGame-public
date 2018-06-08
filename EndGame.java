@@ -33,7 +33,6 @@ public class EndGame
         endGame = game;
         game.getMatchWinner();
         grid = new GridPane();
-        grid.setGridLinesVisible(true);
         
         //get the media file linked to the program and play it upon loading
         //credit: https://stackoverflow.com/questions/24347658/getting-a-mp3-file-to-play-using-javafx?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa

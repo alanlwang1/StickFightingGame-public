@@ -57,7 +57,7 @@ public class Normal extends Player
        });
    }
    /**
-    * return the object of the projectile thrown
+    * Creates and returns the object of the projectile thrown
     * @return ranged projectile
     */
    public Projectile fireRangedAttack()
@@ -66,7 +66,7 @@ public class Normal extends Player
        return rock;
    }
    /**
-    * return object of the melee attack
+    * Creates and returns object of the melee attack
     * @return melee projectile
     */
    public Projectile useMeleeAttack()

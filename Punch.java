@@ -42,6 +42,10 @@ public class Punch extends Projectile
         });
         
     }
+    /**
+     * method move - moves the projectile by adding the current speed to its current
+     * position. Also updates the distance traveled
+     */
     @Override
     public void move()
     {

@@ -4,7 +4,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 /**
- * class SpriteAnimation
+ * class CountDownAnimation - class used to model the countdown animation for 
+ * transitioning between drawphase and combat phase
  * 
  * @author Original Sprite Animation Created by Michael Heinrichs, modified by Alan Wang
  */

@@ -4,9 +4,11 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 /**
- * class SpriteAnimation
+ * class FlickerAnimation - class to model a flickering animation used when a player
+ * takes damage
  * 
  * @author Original SpriteAnimation Created by Michael Heinrichs, modified by Alan Wang
+ * @version 060718
  */
 public class FlickerAnimation extends Transition 
 {
@@ -27,6 +29,7 @@ public class FlickerAnimation extends Transition
     protected void interpolate(double k) 
     {
         final int index = Math.min((int) Math.floor(k * count), count - 1);
+        //"flicker" the imageview by alternating visible status 
         if (index % 2 == 0) 
             imageView.setVisible(false);
         else

@@ -7,6 +7,7 @@ import javafx.util.Duration;
  * class AttackAnimation - Animation for the character attacks
  * 
  * @author Original Sprite Animation Created by Michael Heinrichs, modified by Alan Wang
+ * @version 060718
  */
 public class AttackAnimation extends Transition 
 {
