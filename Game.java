@@ -44,7 +44,7 @@ public class Game
       currentTurn = new SimpleIntegerProperty(1);
       endGame = new SimpleBooleanProperty();
       turnCount = 1; 
-      maxTurns = 5;
+      maxTurns = 1;
       
   }
   public void refreshGameState()
@@ -194,11 +194,7 @@ public class Game
   }
   public void incrementLine()
   {
-      turnCount++;
-      if(turnCount % 2 == 0)
-          currentTurn.set(2); 
-      else
-          currentTurn.set(1); 
+      turnCount++; 
       if(turnCount >= maxTurns)
           //end drawPhase
           setDrawPhase(false);

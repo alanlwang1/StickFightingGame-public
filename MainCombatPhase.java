@@ -91,30 +91,6 @@ public class MainCombatPhase
                     dx2 -= 5;
                 if(goRight2)
                     dx2 += 5;
-                //check if players have collided with any of the lines created
-                /*
-                for(Line line : createdLines)
-                {
-                    if(checkCollisions(player1.getHitbox(), line))
-                    {    
-                        if(dy1 > 0)
-                        {
-                            dy1 = 0;
-                            goUp1 = true; 
-                        }    
-                        player1.setWalking(true); 
-                    }
-                    if(checkCollisions(player2.getHitbox(), line))
-                    {    
-                        if(dy2 > 0)
-                        {
-                            dy2 = 0;
-                            goUp2 = true; 
-                        }    
-                        player2.setWalking(true); 
-                    }
-                }
-                */
                 //update variables in player classes
                 movePlayer(player1, dx1, dy1);
                 movePlayer(player2, dx2, dy2);
@@ -164,12 +140,15 @@ public class MainCombatPhase
                 //redraw health bars
                 gc.setFill(Color.GREEN);
                 gc.fillRect(0, 0, player1.getHealth() * 100, 50);
-                gc.fillRect(1400, 0, player2.getHealth() * 100, 50); 
+                gc.fillRect(1500, 0, player2.getHealth() * 100, 50); 
                 //check if a player has won/lost
                 game.checkWinCondition(); 
             }
         };
         //create new scene, set keybinds, and start combat
+        root = new Group();
+        scene = new Scene(root, 1800, 900);
+        setKeyBinds(); 
     }
     /**
      * method getScene - method returns the scene for this MainCombatPhase object
@@ -467,8 +446,7 @@ public class MainCombatPhase
         
         //create root group
         root = new Group(canvas, player1.getPlayerImage(), player2.getPlayerImage());
-        scene = new Scene(root, 1800, 900);
-        setKeyBinds();
+        scene.setRoot(root); 
         //move players to starting positions
         player1.move(0 + 100, canvas.getHeight() - player1.getPlayerImage().getImage().getHeight() - 100);
         player2.move(canvas.getWidth() - 100, canvas.getHeight() - player2.getPlayerImage().getImage().getHeight() - 100);
@@ -481,7 +459,8 @@ public class MainCombatPhase
 
             //add initial lines
             Line bottomLine = new Line(0, scene.getHeight() - 100, scene.getWidth(), scene.getHeight() - 100);
-            createdLines.add(bottomLine);
+            bottomLine.setStrokeWidth(10);
+            this.createdLines.add(bottomLine);
             
             root.getChildren().addAll(this.createdLines); 
         }
