@@ -2,6 +2,8 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.util.ArrayList;
+import javafx.scene.shape.Line;
 import javafx.application.HostServices.*;;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

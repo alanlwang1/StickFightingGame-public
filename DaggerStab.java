@@ -27,8 +27,7 @@ public class DaggerStab extends Projectile
         super.setVisible(false);
         super.setExisting(true);
         super.setPlayer(player); 
-        //remove later
-        super.setGameImage(new Image("shuriken.png"));
+
         super.setHitbox(new Ellipse(getX(), getY(), 10, 10)); 
         distanceTraveled = new SimpleDoubleProperty(); 
         //add listener to mark punch as gone when traveled certain distance

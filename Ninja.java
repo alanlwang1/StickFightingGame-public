@@ -4,15 +4,13 @@ import javafx.scene.shape.Ellipse;
 import javafx.geometry.Rectangle2D;
 import javafx.animation.AnimationTimer; 
 /**
- * Write a description of class Normal here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * Ninja class: type of fighter with different images
  */
 public class Ninja extends Player
 {
    public Ninja(int startingDirection, int playerID)
    {
+       //intial status of character
        super.setHealth(3);
        super.setCharImage(new Image("ninjaProfile.png"));
        super.setGameImage(new Image("ninjaSpriteSheet.png")); 
@@ -24,6 +22,8 @@ public class Ninja extends Player
        super.setCanFire(true);
        super.setCanMelee(true);
        super.setCanTakeDamage(true);
+       
+       //animations
        super.setPlayerImage(new ImageView(getGameImage()));
        if(super.getDirection() < 0)
             super.setImagePort(new Rectangle2D(800, 200, 200, 200));
@@ -61,17 +61,5 @@ public class Ninja extends Player
        //replace this later
        DaggerStab daggerStab = new DaggerStab(this, getDirection());
        return daggerStab;
-   }
-   public void pickUp()
-   {
-   }
-   public void jump()
-   {
-   }
-   public void move()
-   {
-   }
-   public void superpower()
-   {
    }
 }

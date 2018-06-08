@@ -146,11 +146,6 @@ public abstract class Player implements Cloneable
     }
 
     /**
-     * Gives each player a unique, one game use skill (work on this later).
-     **/
-    public abstract void superpower();
-
-    /**
      * Adds a win if player won the game.
      **/ 
     public void addWin()
@@ -560,31 +555,4 @@ public abstract class Player implements Cloneable
         currentFrame = newValue;
     }
 
-    public Player copyPlayer(Player p)
-    {
-        this.health = p.health;
-        this.x = p.x;
-        this.y= p.y;    
-        this.walking = p.walking;    
-        this.canFire = p.canFire;    
-        this.canMelee = p.canMelee;    
-        this.canTakeDamage = p.canTakeDamage;    
-        this.canJump = p.canJump;    
-        this.isCrouching = p.isCrouching;    
-        this.wins = p.wins;    
-        this.direction = p.direction;    
-        this.playerID = p.playerID;    
-        this.counter = p.counter;    
-        this.currentFrame = p.currentFrame;    
-        this.currentClipBounds = p.currentClipBounds;    
-        this.charSelectImage = p.charSelectImage;    
-        this.gameImage = p.gameImage;    
-        this.name = p.name;    
-        this.imageURL = p.imageURL;    
-        this.hitbox = p.hitbox;    
-        this.playerImage = p.playerImage;    
-        this.playerTimer = p.playerTimer;
-        
-        return this;
-    }
 }

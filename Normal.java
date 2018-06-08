@@ -4,15 +4,13 @@ import javafx.scene.image.ImageView;
 import javafx.geometry.Rectangle2D;
 import javafx.animation.AnimationTimer;
 /**
- * Write a description of class Normal here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * Normal class: " Normal " version of player/fighter. No fancy design like ninja
  */
 public class Normal extends Player
 {
    public Normal(int startingDirection, int playerID)
    {
+       //intial values
        super.setHealth(3);
        super.setCharImage(new Image("normalProfile.png"));
        super.setGameImage(new Image("normalSpriteSheet.png")); 
@@ -24,6 +22,8 @@ public class Normal extends Player
        super.setCanFire(true);
        super.setCanMelee(true);
        super.setCanTakeDamage(true);
+       
+       //animations
        super.setPlayerImage(new ImageView(getGameImage()));
        if(super.getDirection() < 0)
             super.setImagePort(new Rectangle2D(800, 200, 200, 200));
@@ -58,20 +58,8 @@ public class Normal extends Player
    }
    public Projectile useMeleeAttack()
    {
-       //replace this later
        Punch punch = new Punch(this, getDirection());
        return punch; 
    }
-   public void pickUp()
-   {
-   }
-   public void jump()
-   {
-   }
-   public void move()
-   {
-   }
-   public void superpower()
-   {
-   }
+
 }
