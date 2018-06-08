@@ -2,7 +2,7 @@ import javafx.scene.image.Image;
 import javafx.scene.shape.Ellipse;
 /**
  * Rock class: class that sets values for rock throwing projectile (used by Normal Player)
- * @author Alan Wang
+ * @author Alan Wang, Ryan Wei
  */
 public class Rock extends Projectile
 {

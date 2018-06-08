@@ -5,14 +5,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Ellipse;
 /**
- * Write a description of class Punch here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * Method for Melee Attacks by Ninja
+ * @author Alan Wang, Ryan Wei
  */
 public class DaggerStab extends Projectile
 {
     private DoubleProperty distanceTraveled;
+    /**
+     * 
+     */
     public DaggerStab(Player player, int direction)
     {
         super.setInitialSpeed(1.5);
@@ -44,12 +45,16 @@ public class DaggerStab extends Projectile
         
     }
     @Override
+    /**
+     * Move Method: Moves the hitbox for the projectile and measures the distance
+     */
     public void move()
     {
         double newX = getX() + getDirection() * getCurrentSpeed();
         getHitbox().setCenterX(newX); 
         setX(newX);
-        distanceTraveled.set(distanceTraveled.get() + getCurrentSpeed());        setX(getX() + getDirection() * getCurrentSpeed());
+        distanceTraveled.set(distanceTraveled.get() + getCurrentSpeed());        
+        setX(getX() + getDirection() * getCurrentSpeed());
         distanceTraveled.set(distanceTraveled.get() + getCurrentSpeed());
     }
 }

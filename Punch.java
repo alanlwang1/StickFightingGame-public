@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.shape.Ellipse;
 /**
  * Punch class - handles the animations that allow the Normal Player to punch
+ * @author Alan Wang, Ryan Wei
  */
 public class Punch extends Projectile
 {
@@ -30,7 +31,7 @@ public class Punch extends Projectile
         distanceTraveled = new SimpleDoubleProperty(); 
         //add listener to mark punch as gone when traveled certain distance
         
-        
+        //delete the projectile after a certain distance
         distanceTraveled.addListener(new ChangeListener<Number>()
         {
             @Override

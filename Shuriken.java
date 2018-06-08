@@ -2,7 +2,7 @@ import javafx.scene.image.Image;
 import javafx.scene.shape.Ellipse;
 /**
  * Shuriken class: class that sets values for star throwing projectile (used by Ninja Player)
- * @author Alan Wang
+ * @author Alan Wang, Ryan Wei
  */
 public class Shuriken extends Projectile
 {
