@@ -1,9 +1,11 @@
 
 /**
- * Write a description of class PopUp here.
+ * This class only exists for the possibility of more pop up windows that could be thought
+ * up of. It also encapsulates the width and height attributes of each pop up window class.
+ * Really only here for the purpose of not having to do setWidth() and setHeight() for 
+ * every single class. 
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Daniel Chen
  */
 public abstract class PopUp
 {
