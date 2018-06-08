@@ -58,7 +58,7 @@ public class EndGame
         grid.setHalignment(align, HPos.CENTER);
         
         //creates an image with the winner's image on it
-        Image image = new Image("normal1.png");
+        Image image = new Image(game.getMatchWinner().getImageURL());
         ImageView winner = new ImageView(image);
         //format the text box
         winner.setFitHeight(300);
