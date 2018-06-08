@@ -31,6 +31,7 @@ public class EndGame
     {
         //instantiate needed variables
         endGame = game;
+        game.getMatchWinner();
         grid = new GridPane();
         
         grid.setGridLinesVisible(true);
