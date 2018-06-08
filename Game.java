@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 /**
 * This class will contain the rules of the game, instantiate the players and map, and deal with how the 
 * graphics should be set up. 
-* @author D. Chen
+* @author R.Wei, A.Wang
 * @version b1.0
 **/
 public class Game
@@ -159,7 +159,7 @@ public class Game
   {
       if (matchState() && (player1.isDead() || player2.isDead()))
       {
-          if (player1.getWins() * 2 > getTotalGames())
+          if (player1.getWins() >= player2.getWins())
           {
               setWinnerId("player1");
               return player1;
@@ -172,26 +172,49 @@ public class Game
       }
       return null;
   }
+  /**
+   * sets ID of the winner (1 or 2)
+   * @param Player Object of Winner
+   */
   public void setWinnerId(String player)
   {
       winnerId = player.substring(6);
   }
+  /**
+   * returns the ID of the winner
+   * @return String of ID of winner
+   */
   public String getWinnerId()
   {
       return winnerId;
   }
+  /**
+   * change the state of the drawPhase (change it from true to false or vice versa)
+   * @param drawPhase true or false
+   */
   public void setDrawPhase(boolean value)
   {
       drawPhase.set(value); 
   }
+  /**
+   * return BooleanProperty representing active draw phase or not
+   * @return BooleanProperty
+   */
   public BooleanProperty getDrawProperty()
   {
       return drawPhase;
   }
+  /**
+   * return Boolean value in drawPhase
+   * @return Boolean active draw phase or not
+   */
   public boolean getDrawPhase()
   {
       return drawPhase.get(); 
   }
+  /**
+   * count lines drawn during drawphase
+   */
   public void incrementLine()
   {
       turnCount++; 
@@ -199,26 +222,49 @@ public class Game
           //end drawPhase
           setDrawPhase(false);
   }
+  /**
+   * get if it's player1 or player 2's turn
+   * @return the player whose turn it is
+   */
   public int getCurrentTurn()
   {
       return currentTurn.get(); 
   }
+  /**
+   * change whose turn it is
+   */
   public void setCurrentTurn(int newCurrentTurn)
   {
       currentTurn.set(newCurrentTurn);
   }
+  /**
+   * return the max value of turns available to players
+   * @return max turns available
+   */
   public int getMaxTurns()
   {
       return maxTurns;
   }
+  /**
+   * set max draw turns available
+   * @param max num of draw turns
+   */
   public void setMaxTurns(int newMaxTurns)
   {
       maxTurns = newMaxTurns;
   }
+  /**
+   * return the current Turn it is
+   * @return IntegerProperty currentTurn
+   */
   public IntegerProperty getTurnProperty()
   {
       return currentTurn; 
   }
+  /**
+   * get the total number of games played
+   * @return total games played
+   */
   public int getTotalGames()
   {
       return totalGames;

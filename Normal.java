@@ -5,9 +5,14 @@ import javafx.geometry.Rectangle2D;
 import javafx.animation.AnimationTimer;
 /**
  * Normal class: " Normal " version of player/fighter. No fancy design like ninja
+ * @author A.Wang, R.Wei
  */
 public class Normal extends Player
 {
+   /**
+    * Normal constructor: creates a character with a starting id and direction
+    * @param startingDirection, id
+    */
    public Normal(int startingDirection, int playerID)
    {
        //intial values
@@ -51,11 +56,19 @@ public class Normal extends Player
             }
        });
    }
+   /**
+    * return the object of the projectile thrown
+    * @return ranged projectile
+    */
    public Projectile fireRangedAttack()
    {
        Rock rock = new Rock(this, getDirection()); 
        return rock;
    }
+   /**
+    * return object of the melee attack
+    * @return melee projectile
+    */
    public Projectile useMeleeAttack()
    {
        Punch punch = new Punch(this, getDirection());

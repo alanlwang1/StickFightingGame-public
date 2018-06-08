@@ -5,9 +5,14 @@ import javafx.geometry.Rectangle2D;
 import javafx.animation.AnimationTimer; 
 /**
  * Ninja class: type of fighter with different images
+ * @author A.Wang, R.Wei
  */
 public class Ninja extends Player
 {
+   /**
+    * Ninja constructor: creates a ninja with a playerID and starting Direction
+    * @param starting Direction, and ID (1 or 2)
+    */
    public Ninja(int startingDirection, int playerID)
    {
        //intial status of character
@@ -51,11 +56,19 @@ public class Ninja extends Player
             }
        });
    }
+   /**
+    * returns the object of the ranged attack
+    * @return Shuriken class
+    */
    public Projectile fireRangedAttack()
    {
        Shuriken shuriken = new Shuriken(this, getDirection());
        return shuriken;
    }
+   /**
+    * returns the object of the melee attack
+    * @return daggerStab (subclass of Projectile)
+    */
    public Projectile useMeleeAttack()
    {
        //replace this later
