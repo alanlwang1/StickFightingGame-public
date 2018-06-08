@@ -67,7 +67,7 @@ public class EndGame
         //request to close program when clicked
         quit.setOnAction(e -> MainStage.closeProgram());
         quit.setFont(new Font(90));
-        //positino the text box
+        //position the text box
         grid.setConstraints(quit,1, 3);
         grid.setHalignment(quit, HPos.CENTER);
         
@@ -78,8 +78,8 @@ public class EndGame
         
         //instantiate the scene
         endScene = new Scene(grid, 1800, 900);
-        //allow css attributes inside class
         
+        //allow css attributes inside class
         endScene.getStylesheets().addAll(this.getClass().getResource("background.css").toExternalForm());
     }
     /**

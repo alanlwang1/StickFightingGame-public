@@ -33,7 +33,7 @@ public class StartScreen
     {
         //Assign reference to mainStage
         mainStage = ms;
-        
+        //instantiate grid
         grid = new GridPane();
     
         //make the text box for the main screen (welcome to game...)
