@@ -25,7 +25,7 @@ public class CharacterSelect
     private final int HEIGHT = 900;
     private MainStage mainStage;
     private int myGameType;
-    private Scene csScene;
+    private Scene scene;
     private Pane root; 
     private Canvas layer;
     private Button confirmButton; 
@@ -46,16 +46,14 @@ public class CharacterSelect
     public CharacterSelect(int gameType, MainStage ms)
     {        
         //instantiable variables
-        mainStage = ms; //so on the same main stage as MainStage
+        mainStage = ms;
         myGameType = gameType; //so on the same game type as entered in StartScreen
         
         //make a text box
         Text select = new Text();
         select.setText("Choose Your Champion");
         select.setFont(new Font(90));
-        //position the textbox
-        select.layoutXProperty().bind(csScene.widthProperty().subtract(select.prefWidth(-1)).divide(2));
-        select.layoutYProperty().bind(csScene.heightProperty().divide(2).subtract(300));
+
         
         //make a canvas to display images on
         layer = new Canvas(WIDTH, HEIGHT);
@@ -115,15 +113,9 @@ public class CharacterSelect
             setPlayers();
             if(player1 != null && player2 != null)
             {
-                if (myGameType == 1)
-                    game = new Game(player1, player2, 2, 3);
-                else
-                    if(myGameType == 2)
-                        game = new Game(player1, player2, 3, 5);
+                mainStage.beginGame(myGameType, player1, player2); 
                 //create new scene with game and send
-                MainDrawPhase mdp = new MainDrawPhase(game, mainStage);
-                Scene mainGameScene = mdp.getScene();
-                mainStage.changeScene(mainGameScene);  
+
             }
             else
             {
@@ -137,13 +129,15 @@ public class CharacterSelect
         root = new Pane(layer, cursorOne, cursorTwo, confirmButton, select);
         root.setId("pane");
         //make the scene
-        csScene = new Scene(root, WIDTH, HEIGHT);
+        scene = new Scene(root, WIDTH, HEIGHT);
         //allow css attributes into the class
-        csScene.getStylesheets().addAll(this.getClass().getResource("background.css").toExternalForm());
-        
+        scene.getStylesheets().addAll(this.getClass().getResource("background.css").toExternalForm());
+        //position the textbox
+        select.layoutXProperty().bind(scene.widthProperty().subtract(select.prefWidth(-1)).divide(2));
+        select.layoutYProperty().bind(scene.heightProperty().divide(2).subtract(300));
         //moves the cursor when the user moves cursor to left or right (a and d for first player,
         //left and right for second player)
-        csScene.setOnKeyPressed(ke -> {
+        scene.setOnKeyPressed(ke -> {
             KeyCode keyCode = ke.getCode();
             if(keyCode.equals(KeyCode.A))
             {
@@ -179,9 +173,9 @@ public class CharacterSelect
      * Returns the scene used in this class
      * @return the scene used in this class
      */
-    public Scene getCSScene()
+    public Scene getScene()
     {
-        return csScene;
+        return scene;
     }
     /**
      * Returns the game instantiated by this class (sets up next scene)

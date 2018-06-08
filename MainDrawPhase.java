@@ -57,21 +57,6 @@ public class MainDrawPhase
         //assign reference to Game and MainStage objects
         game = g;
         mainStage = ms;
-        //create new canvas and graphics to draw points
-        canvas = new Canvas(1800, 900);
-        gc = canvas.getGraphicsContext2D(); 
-        //banner displaying state of drawphase
-        topBanner = new Text(); 
-        topBanner.setText("Draw Phase: Player 1's Turn");
-        topBanner.setFont(new Font(45));
-        topBanner.setFill(Color.BLACK);
-        topBanner.setStrokeWidth(1.5);
-        topBanner.setStroke(Color.BLACK);
-        topBanner.setTextOrigin(VPos.TOP);
-
-        //display cursors, move to positions 
-        cursor1 = new ImageView("pointer1.png");
-        cursor2 = new ImageView("pointer2.png");
         
         //Timer for drawing cursor movement and repainting
         cursorTimer = new AnimationTimer() 
@@ -115,162 +100,9 @@ public class MainDrawPhase
                 }
             }  
         };
-        //add listener for draw phase start/end
-        game.getDrawProperty().addListener(new ChangeListener<Boolean>()
-            {
-                @Override 
-                public void changed(ObservableValue<? extends Boolean> o, Boolean oldVal, Boolean newVal)
-                {
-                    //if the drawphase is over
-                    if (newVal.booleanValue() == false)
-                    {
-                        cursorTimer.stop();
-                        startCombat(); 
-                    }
-                }
-            });    
-        //add listener for turn change
-        game.getTurnProperty().addListener(new ChangeListener<Number>()
-            {
-                @Override
-                public void changed(ObservableValue<? extends Number> o, Number oldVal, Number newVal)
-                {
-                    //when the turn changes
-                    if(newVal.intValue() == 1)
-                    {
-                        topBanner.setText("Draw Phase: Player 1's Turn");
-                    }
-                    else
-                        topBanner.setText("Draw Phase: Player 2's Turn");
-                }
-            });
-            
-        //create scene and send 
-        root = new Group(canvas, topBanner, cursor1, cursor2);
-        scene = new Scene(root, 1800, 900); 
-
-        //format topBanner and cursors 
-        topBanner.layoutXProperty().bind(scene.widthProperty().subtract(topBanner.prefWidth(-1)).divide(2));
-        topBanner.layoutYProperty().bind(scene.heightProperty().subtract(850));
-
-        //format cursor1 and cursor2
-        cursor1.relocate(0 + cursor1.getImage().getWidth(), scene.getHeight() - cursor1.getImage().getHeight());
-        cursor2.relocate(scene.getWidth() - cursor2.getImage().getWidth(), scene.getHeight() - cursor2.getImage().getHeight());
-
-        //instantiate arraylists to hold points and lines
-        selectedPoints = new ArrayList<Point2D.Double>();
-        createdLines = new ArrayList<Line>(); 
-        //start the game
-        setKeyBinds();
-        runGame(); 
-    }
-    /**
-     * Constructor to create intermediate draw phase
-     * 
-     * @param g a reference to the Game object
-     * @param ms a reference to the MainStage object
-     * @param lines ArrayList of Line objects already created
-     * @param currentTurn id of player who will be drawing
-     */
-    public MainDrawPhase(Game g, MainStage ms, ArrayList<Line> lines, int currentTurn)
-    {
-        //set references to Game and MainStage
-        game = g;
-        game.setMaxTurns(1); 
-        game.setCurrentTurn(currentTurn);  
-        mainStage = ms;
-        //create canvas for drawing points
-        canvas = new Canvas(1800, 900);
-        gc = canvas.getGraphicsContext2D(); 
-        //create banner for displaying game state
-        topBanner = new Text(); 
-        topBanner.setText("Draw Phase: Player " + currentTurn + "'s Turn");
-        topBanner.setFont(new Font(45));
-        topBanner.setFill(Color.BLACK);
-        topBanner.setStrokeWidth(1.5);
-        topBanner.setStroke(Color.BLACK);
-        topBanner.setTextOrigin(VPos.TOP);
-
-        //display cursors, move to positions 
-        cursor1 = new ImageView("pointer1.png");
-        cursor2 = new ImageView("pointer2.png");
         
-        //Timer for drawing cursor movement and repainting
-        cursorTimer = new AnimationTimer() 
-        {
-            @Override
-            public void handle(long now)
-            {
-                //reset dx, dy
-                double dx1 = 0; 
-                double dy1 = 0;
-                double dx2 = 0;
-                double dy2 = 0;
-                //calculate dx dy based on buttons pressed
-                if (goUp1)
-                    dy1 -= 5;
-                if (goLeft1)
-                    dx1 -= 5;
-                if (goDown1)
-                    dy1 += 5;
-                if (goRight1)
-                    dx1 += 5;
-                if (goUp2)
-                    dy2 -= 5;
-                if (goLeft2)
-                    dx2 -= 5;
-                if (goDown2)
-                    dy2 += 5;
-                if (goRight2)
-                    dx2 += 5; 
-                //move both cursors
-                moveCursor(cursor1, dx1, dy1); 
-                moveCursor(cursor2, dx2, dy2); 
-
-                //repaint selected points, if any 
-                gc.setFill(Color.WHITE); 
-                gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                gc.setFill(Color.BLUE); 
-                for(Point2D.Double point: selectedPoints)
-                {
-                    gc.fillOval(point.getX(), point.getY(), 5, 5); 
-                }
-            }  
-        };
-        //add listener for draw phase start/end
-        game.getDrawProperty().addListener(new ChangeListener<Boolean>()
-            {
-                @Override 
-                public void changed(ObservableValue<? extends Boolean> o, Boolean oldVal, Boolean newVal)
-                {
-                    //if drawphase is over
-                    if (newVal.booleanValue() == false)
-                    {
-                        cursorTimer.stop();
-                        startCombat();
-                    }
-                }
-            });    
-            
-        //create scene and send 
-        root = new Group(canvas, topBanner, cursor1, cursor2);
-        scene = new Scene(root, 1800, 900); 
-
-        //format topBanner and cursors 
-        topBanner.layoutXProperty().bind(scene.widthProperty().subtract(topBanner.prefWidth(-1)).divide(2));
-        topBanner.layoutYProperty().bind(scene.heightProperty().subtract(850));
-
-        //format cursor1 and cursor2
-        cursor1.relocate(0 + cursor1.getImage().getWidth(), scene.getHeight() - cursor1.getImage().getHeight());
-        cursor2.relocate(scene.getWidth() - cursor2.getImage().getWidth(), scene.getHeight() - cursor2.getImage().getHeight());
-
-        //instantiate arraylists to hold points and lines
-        selectedPoints = new ArrayList<Point2D.Double>();
-        createdLines = lines;
-        root.getChildren().addAll(createdLines);
         //start the game
         setKeyBinds();
-        runGame(); 
     }
     /**
      * method getScene - method returns the scene for this object, to display on a MainStage object
@@ -281,49 +113,53 @@ public class MainDrawPhase
     {
         return scene;
     }
-    /**
-     * method runGame - method creates bottom line and starts the draw phase
-     */
-    public void runGame()
+    public ArrayList<Line> getCreatedLines()
     {
-
-        //add bottom line
-        Line bottomLine = new Line(0, canvas.getHeight() - 100, canvas.getWidth(), canvas.getHeight() - 100); 
-        bottomLine.setStrokeWidth(10); 
-        root.getChildren().add(bottomLine); 
-        createdLines.add(bottomLine);
+        return createdLines; 
+    }
+    /**
+     * method startNewRound
+     */
+    public void startNewRound(ArrayList<Line> createdLines)
+    {
+        //stop cursor timer while drawphase is being refreshed
+        cursorTimer.stop(); 
+        //create new canvas and graphics to draw points
+        canvas = new Canvas(1800, 900);
+        gc = canvas.getGraphicsContext2D(); 
+        //banner displaying state of drawphase
+        topBanner = new Text(); 
+        topBanner.setText("Draw Phase: Player " + game.getGameWinner() + "'s Turn");
+        topBanner.setFont(new Font(45));
+        topBanner.setFill(Color.BLACK);
+        topBanner.setStrokeWidth(1.5);
+        topBanner.setStroke(Color.BLACK);
+        topBanner.setTextOrigin(VPos.TOP);
         
+
+        //display cursors, move to positions 
+        cursor1 = new ImageView("pointer1.png");
+        cursor2 = new ImageView("pointer2.png");
+        
+        //create scene and send 
+        root = new Group(canvas, topBanner, cursor1, cursor2);
+        scene = new Scene(root, 1800, 900); 
+
+        //format topBanner and cursors 
+        topBanner.layoutXProperty().bind(scene.widthProperty().subtract(topBanner.prefWidth(-1)).divide(2));
+        topBanner.layoutYProperty().bind(scene.heightProperty().subtract(850));
+
+        //format cursor1 and cursor2
+        cursor1.relocate(0 + cursor1.getImage().getWidth(), scene.getHeight() - cursor1.getImage().getHeight());
+        cursor2.relocate(scene.getWidth() - cursor2.getImage().getWidth(), scene.getHeight() - cursor2.getImage().getHeight());
+        
+        selectedPoints = new ArrayList<Point2D.Double>();
+        this.createdLines =  createdLines; 
+        //add lines from array
+        root.getChildren().addAll(createdLines); 
         //start the drawPhase
         cursorTimer.start();
         game.setDrawPhase(true); 
-    }
-    /**
-     * method startCombat - method starts countdown and then moves scene to MainCombatPhase
-     */
-    public void startCombat()
-    {
-        //change top banner
-        topBanner.setText("Combat Phase");
-        //countdown
-        //hide cursors
-        root.getChildren().remove(cursor1);
-        root.getChildren().remove(cursor2);
-        
-        //start countdown
-        ImageView countdown = new ImageView("countdown.png");
-        countdown.relocate(800, 350); 
-        root.getChildren().add(countdown);
-        CountDownAnimation cdA = new CountDownAnimation(countdown, Duration.seconds(3), 4);
-        cdA.setCycleCount(1);
-        //when countdown is over
-        cdA.setOnFinished(e -> 
-        {
-            //move to MainCombatPhase scene
-            MainCombatPhase mcp = new MainCombatPhase(game, mainStage, createdLines);
-            Scene mainCombatScene = mcp.getScene();
-            mainStage.changeScene(mainCombatScene); 
-        });
-        cdA.play();
     }
     /**
      * method moveCursor - moves the provided cursor by deltaX and deltaY, 
@@ -389,7 +225,7 @@ public class MainDrawPhase
                                     Point2D.Double point2 = selectedPoints.get(1);
                                     
                                     double differenceX = Math.abs(point1.getX() - point2.getX());
-                                    double differenceY = Math.abs(point1.getY() - point2.getY());
+                                    double differenceY = Math.abs(point2.getY() - point2.getY());
                                     //if line is diagonal, create line with the greater leg
                                     if(differenceX > differenceY)
                                         if(point1.getX() < point2.getX())
@@ -526,6 +362,17 @@ public class MainDrawPhase
                     }
                 }
             });
+    }
+    public void playCountDownAnimation()
+    {
+        topBanner.setText("Combat Phase");
+        
+        ImageView countdown = new ImageView("countdown.png");
+        countdown.relocate(800, 350); 
+        root.getChildren().add(countdown);
+        CountDownAnimation cdA = new CountDownAnimation(countdown, Duration.seconds(3), 4);
+        cdA.setCycleCount(1);
+        cdA.play(); 
     }
 }
 

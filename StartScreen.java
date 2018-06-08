@@ -33,7 +33,7 @@ public class StartScreen
     {
         //Assign reference to mainStage
         mainStage = ms;
-        //instantiate grid
+        
         grid = new GridPane();
     
         //make the text box for the main screen (welcome to game...)
@@ -96,9 +96,7 @@ public class StartScreen
         //move to Character Select when button is clicked
         bestOfThree.setOnAction(e ->
         {
-            CharacterSelect cs = new CharacterSelect(1, mainStage);
-            Scene csScene = cs.getCSScene(); 
-            mainStage.changeScene(csScene);
+            mainStage.startCharSelect(1); 
         });
         //position button
         grid.setConstraints(bestOfThree, 2, 8);
@@ -113,9 +111,7 @@ public class StartScreen
         //move to Character Select when button is clicked
         bestOfFive.setOnAction(e ->
         {
-            CharacterSelect cs = new CharacterSelect(2, mainStage);
-            Scene csScene = cs.getCSScene(); 
-            mainStage.changeScene(csScene);
+            mainStage.startCharSelect(2); 
         });
         //position button
         grid.setConstraints(bestOfFive, 2, 8);

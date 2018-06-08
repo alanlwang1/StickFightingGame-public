@@ -54,67 +54,19 @@ public class MainCombatPhase
      * @param ms a reference to the MainStage object
      * @param lines ArrayList containing the created lines
      */
-    public MainCombatPhase(Game g, MainStage ms, ArrayList<Line> lines)
+    public MainCombatPhase(Game g, MainStage ms)
     {
-        //assign reference to Game object, refresh game
+        //assign reference to Game object and players
         game = g;
-        game.refreshGameState(); 
+        player1 = game.getPlayer1();
+        player2 = game.getPlayer2();
         //reset values for movement 
         dx1 = 0;
         dy1 = 0;
         dx2 = 0;
         dy2 = 0;
         //assign reference to MainStage object, reset players
-        mainStage = ms; 
-        player1 = game.getPlayer1();
-        player1.setWalking(false);
-        player2 = game.getPlayer2();
-        
-        player2.setWalking(false); 
-
-        //assign reference to lines Arraylist, create projectile array
-        createdLines = lines;
-        createdProjectiles = new ArrayList<Projectile>();
-        //create canvas for displaying projecti;es
-        canvas = new Canvas(1800, 900);
-        gc = canvas.getGraphicsContext2D(); 
-        
-        root = new Group(canvas, player1.getPlayerImage(), player2.getPlayerImage());
-        
-        //move players to starting positions
-        player1.move(0 + 100, canvas.getHeight() - player1.getPlayerImage().getImage().getHeight() - 100);
-        player2.move(canvas.getWidth() - 100, canvas.getHeight() - player2.getPlayerImage().getImage().getHeight() - 100);
-        
-        //create health bars
-        Rectangle r1=new Rectangle();
-        r1.setX(0);
-        r1.setY(0);
-        r1.setHeight(50);
-        r1.setWidth(400);
-        r1.setStroke(Color.BLACK); 
-        r1.setFill(javafx.scene.paint.Color.GREEN);
-        root.getChildren().add(r1);
-
-        Rectangle r2=new Rectangle();
-        r2.setX(1400);
-        r2.setY(0);
-        r2.setHeight(50);
-        r2.setWidth(400);
-        r1.setStroke(Color.BLACK);
-        r2.setFill(javafx.scene.paint.Color.GREEN);
-        root.getChildren().add(r2);
-
-        Text t2 = new Text(0, 25, "Player1 Health");
-        t2.setFont(new Font(20));
-
-        Text t1 = new Text(1674, 25, "Player2 Health");
-        t1.setFont(new Font(20));
-        root.getChildren().add(t1);
-        root.getChildren().add(t2);
-        
-        //display creates lines
-        for(Line line : createdLines)
-            root.getChildren().add(line);
+        mainStage = ms;
         
         //timer for character/projectile movement in combat phase 
         moveTimer = new AnimationTimer()
@@ -174,7 +126,7 @@ public class MainCombatPhase
                 gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 for(int i = 0; i < createdProjectiles.size(); i++)
                 {
-                    Projectile projectile= createdProjectiles.get(i);
+                    Projectile projectile = createdProjectiles.get(i);
                     projectile.move(); 
                     if(projectile.isVisible())
                         gc.drawImage(projectile.getGameImage(), projectile.getX() - projectile.getWidth() / 2, projectile.getY() - projectile.getHeight() / 2);
@@ -197,7 +149,6 @@ public class MainCombatPhase
                     if(checkCollisions(projectile.getHitbox(), player1.getHitbox()) && projectile.getPlayer().getPlayerID() == 2 && player1.canTakeDamage())
                     {
                         player1.takeDamage(1);
-                        damage1(r1);
                         player1.setCanTakeDamage(false);
                         createdProjectiles.remove(projectile);
                         i--;
@@ -205,73 +156,21 @@ public class MainCombatPhase
                     if(checkCollisions(projectile.getHitbox(), player2.getHitbox()) && projectile.getPlayer().getPlayerID() == 1 && player2.canTakeDamage())
                     {
                         player2.takeDamage(1);
-                        damage2(r2);
                         player2.setCanTakeDamage(false);
                         createdProjectiles.remove(projectile);
                         i--;
                     }
                 }
+                //redraw health bars
+                gc.setFill(Color.GREEN);
+                gc.fillRect(0, 0, player1.getHealth() * 100, 50);
+                gc.fillRect(1400, 0, player2.getHealth() * 100, 50); 
+                //check if a player has won/lost
                 game.checkWinCondition(); 
             }
         };
-        //listener for checking when the game ends
-        game.getEndGameProperty().addListener(new ChangeListener<Boolean>()
-        {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> o, Boolean oldVal, Boolean newVal)
-            {
-                if (newVal.booleanValue() == true)
-                {
-                    //if match is over
-                    moveTimer.stop();
-                    dx1 = 0;
-                    dy1 = 0;
-                    dx2 = 0;
-                    dy2 = 0;
-                    //display text
-                    Text gameEndText = new Text(600, 450, "GAME!\nWinner: Player " + game.getWinner());
-                    gameEndText.setFont(new Font(75));
-                    gameEndText.setFill(Color.BLACK);
-                    gameEndText.setStrokeWidth(1.5);
-                    gameEndText.setStroke(Color.BLACK);
-                    root.getChildren().add(gameEndText);
-                    //play fade transition
-                    FadeTransition ft = new FadeTransition(Duration.seconds(1), gameEndText);
-                    ft.setFromValue(1.0);
-                    ft.setToValue(0);
-                    ft.setCycleCount(1);
-                    //when the animation is finished
-                    ft.setOnFinished(e ->
-                    {
-                        //if the match is over
-                        if(game.matchState())
-                        {
-                            //move to endGame screen
-                            //EndGame eg = new EndGame(mainStage, game.getWinner());
-                            //Scene endGameScene = eg.getScene();
-                            //mainStage.changeScene(endGameScene);
-                            EndGame eg = new EndGame(mainStage, game);
-                            Scene endGameScene = eg.getScene();
-                            mainStage.changeScene(endGameScene);
-                        }
-                        //if match is not over
-                        else
-                        {
-                            //move to intermediate draw phase
-                            MainDrawPhase intermediate = new MainDrawPhase(game, mainStage, createdLines, game.getWinner());
-                            Scene intermediateDrawScene = intermediate.getScene();
-                            mainStage.changeScene(intermediateDrawScene);
-                            mainStage.changeScene(scene);
-                        }
-                    }); 
-                    ft.play();
-                }
-            }
-        }); 
         //create new scene, set keybinds, and start combat
-        scene = new Scene(root, 1800, 900);
         setKeyBinds();
-        moveTimer.start();
     }
     /**
      * method getScene - method returns the scene for this MainCombatPhase object
@@ -281,6 +180,10 @@ public class MainCombatPhase
     public Scene getScene()
     {
         return scene;
+    }
+    public ArrayList<Line> getCreatedLines()
+    {
+        return createdLines; 
     }
     /**
      * method movePlayer - method moves the player object by deltaX and deltaY, 
@@ -307,23 +210,24 @@ public class MainCombatPhase
         {
             if(checkCollisions(player.getHitbox(), line))
             {
-                if(player.getX() <= line.getStartX() && deltaX >= 0)
+                if(player.getX() < line.getStartX() && deltaX > 0)
                 {
                     newX = player.getX(); 
                 }
-                if(player.getX() >= line.getEndX() && deltaX <= 0)
+                if(player.getX() > line.getEndX() && deltaX < 0)
                 {
                     newX = player.getX();
                 }
                 //if player falls onto a line
-                if(player.getY() <= line.getStartY() && deltaY >= 0)
+                if(player.getY() < line.getStartY() && deltaY > 0)
                 {
+                    
                     newY = player.getY();
                     player.setWalking(true);
                     //allow player to jump again
                     player.setCanJump(true);
                 }
-                if(player.getY() >= line.getEndY() && deltaY <= 0)
+                if(player.getY() > line.getEndY() && deltaY < 0)
                 {
                     newY = player.getY();
                 }
@@ -550,16 +454,69 @@ public class MainCombatPhase
             return false;
         }
     }
-
-    public void damage1(Rectangle r)
+    public void startNewRound(ArrayList<Line> createdLines)
     {
-        r.setWidth(r.getWidth() -133.3333333333333);
+        //stop movetimer while game is being refreshed
+        moveTimer.stop(); 
+        //refresh game and players
+        game.refreshGameState(); 
+
+
+        //create canvas for displaying projectiles
+        canvas = new Canvas(1800, 900);
+        gc = canvas.getGraphicsContext2D(); 
+        
+        //create root group
+        root = new Group(canvas, player1.getPlayerImage(), player2.getPlayerImage());
+        
+        //move players to starting positions
+        player1.move(0 + 100, canvas.getHeight() - player1.getPlayerImage().getImage().getHeight() - 100);
+        player2.move(canvas.getWidth() - 100, canvas.getHeight() - player2.getPlayerImage().getImage().getHeight() - 100);
+        
+        //if arrayList null - no lines created so far
+        if(createdLines == null)
+        {
+            //create initial lines array 
+            this.createdLines = new ArrayList<Line>();
+
+            //add initial lines
+            Line bottomLine = new Line(0, scene.getHeight() - 100, scene.getWidth(), scene.getHeight() - 100);
+            createdLines.add(bottomLine);
+            
+            root.getChildren().addAll(this.createdLines); 
+        }
+        else
+        {
+            //add lines from array
+            root.getChildren().addAll(createdLines);
+        }
+        //create projectile array
+        createdProjectiles = new ArrayList<Projectile>();
+        //create text displaying player information
+        Text t2 = new Text(0, 25, "Player1 Health");
+        t2.setFont(new Font(20));
+
+        Text t1 = new Text(1674, 25, "Player2 Health");
+        t1.setFont(new Font(20));
+        root.getChildren().add(t1);
+        root.getChildren().add(t2);
+        
+        scene = new Scene(root, 1800, 900);
+        moveTimer.start(); 
     }
-
-    public void damage2(Rectangle r)
+    public void playEndAnimation()
     {
-        r.setWidth(r.getWidth() -133.33333333333333);
-        r.setX(r.getX() + 133.33333333333333333);
+        Text gameEndText = new Text(600, 450, "GAME!\nWinner: Player " + game.getGameWinner());
+        gameEndText.setFont(new Font(75));
+        gameEndText.setFill(Color.BLACK);
+        gameEndText.setStrokeWidth(1.5);
+        gameEndText.setStroke(Color.BLACK);
+        root.getChildren().add(gameEndText);
+        //play fade transition
+        FadeTransition ft = new FadeTransition(Duration.seconds(1), gameEndText);
+        ft.setFromValue(1.0);
+        ft.setToValue(0);
+        ft.setCycleCount(1);
     }
 }
 

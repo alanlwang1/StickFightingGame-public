@@ -50,7 +50,9 @@ public class Game
   public void refreshGameState()
   {
       player1.setHealth(3);
+      player1.setWalking(false);
       player2.setHealth(3);
+      player2.setWalking(false); 
       endGame.set(false); 
   }
   /**
@@ -138,7 +140,7 @@ public class Game
   * Returns the winner of the game.
   * @return The winner of the game
   **/
-  public int getWinner()
+  public int getGameWinner()
   {
     if (player1.isDead())
       return 2;

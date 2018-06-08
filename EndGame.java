@@ -20,7 +20,6 @@ public class EndGame
     private MediaPlayer endMusic;
     private Scene endScene;
     private GridPane grid;
-    private MainStage mainStage;
     private Game endGame;
     /**
      * Constructor - creates a EndGame object with a reference to MainStage
@@ -28,10 +27,9 @@ public class EndGame
      * @param ms - the reference to a MainStage object
      * @param game - the finished game
      */
-    public EndGame(MainStage ms, Game game)
+    public EndGame( Game game)
     {
         //instantiate needed variables
-        mainStage = ms;
         endGame = game;
         grid = new GridPane();
         
