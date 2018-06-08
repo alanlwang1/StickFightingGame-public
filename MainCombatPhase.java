@@ -140,7 +140,7 @@ public class MainCombatPhase
                 //redraw health bars
                 gc.setFill(Color.GREEN);
                 gc.fillRect(0, 0, player1.getHealth() * 100, 50);
-                gc.fillRect(1500, 0, player2.getHealth() * 100, 50); 
+                gc.fillRect(1800 - (player2.getHealth()*100), 0, player2.getHealth() * 100, 50); 
                 //check if a player has won/lost
                 game.checkWinCondition(); 
             }
