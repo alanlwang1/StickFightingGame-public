@@ -104,12 +104,12 @@ public class MainStage extends Application
                     //if game has ended
                     if (newVal.booleanValue() == true)
                     {
-                        //play transition animation between combatphase and drawphase
-                        mainCombatPhase.playEndAnimation();
                         if (player1.isDead()) //give the win to the player who won 
                             player2.addWin();
                         else
                             player1.addWin();
+                        //play transition animation between combatphase and drawphase
+                        mainCombatPhase.playEndAnimation();
                     }
                 }
             });
