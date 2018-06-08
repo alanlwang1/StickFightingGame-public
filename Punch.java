@@ -36,7 +36,7 @@ public class Punch extends Projectile
             @Override
                 public void changed(ObservableValue<? extends Number> o, Number oldVal, Number newVal)
                 {
-                    if(newVal.doubleValue() >= 1000)
+                    if(newVal.doubleValue() >= 60)
                         setExisting(false);
                 }
         });

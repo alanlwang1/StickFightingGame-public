@@ -140,7 +140,7 @@ public class MainCombatPhase
                 //redraw health bars
                 gc.setFill(Color.GREEN);
                 gc.fillRect(0, 0, player1.getHealth() * 100, 50);
-                gc.fillRect(1800 - (player2.getHealth()*100), 0, player2.getHealth() * 100, 50); 
+                gc.fillRect(1800 - player2.getHealth() * 100, 0, 1800, 50); 
                 //check if a player has won/lost
                 game.checkWinCondition(); 
             }
@@ -462,6 +462,21 @@ public class MainCombatPhase
             bottomLine.setStrokeWidth(10);
             this.createdLines.add(bottomLine);
             
+            Line Left1 = new Line(200, scene.getHeight() - 350, 600, scene.getHeight() - 350);
+            Left1.setStrokeWidth(10);
+            this.createdLines.add(Left1);
+            
+            Line Left2 = new Line(400, 300, 500, 300);
+            Left2.setStrokeWidth(10);
+            this.createdLines.add(Left2);
+            
+            Line Right1 = new Line(1200, scene.getHeight() - 350, 1600, scene.getHeight() - 350);
+            Right1.setStrokeWidth(10);
+            this.createdLines.add(Right1);
+            
+            Line Right2 = new Line(1400, 300, 1500, 300);
+            Right2.setStrokeWidth(10);
+            this.createdLines.add(Right2);
             root.getChildren().addAll(this.createdLines); 
         }
         else
@@ -472,10 +487,10 @@ public class MainCombatPhase
         //create projectile array
 
         //create text displaying player information
-        Text t2 = new Text(0, 25, "Player1 Health");
+        Text t2 = new Text(0, 25, "Player1 - Wins: " + player1.getWins());
         t2.setFont(new Font(20));
 
-        Text t1 = new Text(1674, 25, "Player2 Health");
+        Text t1 = new Text(1674, 25, "Player2 - Wins: " + player2.getWins());
         t1.setFont(new Font(20));
         root.getChildren().add(t1);
         root.getChildren().add(t2);
