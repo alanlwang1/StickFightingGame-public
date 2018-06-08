@@ -102,7 +102,7 @@ public class MainDrawPhase
         };
         
         //start the game
-        setKeyBinds();
+
     }
     /**
      * method getScene - method returns the scene for this object, to display on a MainStage object
@@ -144,7 +144,7 @@ public class MainDrawPhase
         //create scene and send 
         root = new Group(canvas, topBanner, cursor1, cursor2);
         scene = new Scene(root, 1800, 900); 
-
+        setKeyBinds();
         //format topBanner and cursors 
         topBanner.layoutXProperty().bind(scene.widthProperty().subtract(topBanner.prefWidth(-1)).divide(2));
         topBanner.layoutYProperty().bind(scene.heightProperty().subtract(850));
@@ -156,7 +156,7 @@ public class MainDrawPhase
         selectedPoints = new ArrayList<Point2D.Double>();
         this.createdLines =  createdLines; 
         //add lines from array
-        root.getChildren().addAll(createdLines); 
+        root.getChildren().addAll(this.createdLines); 
         //start the drawPhase
         cursorTimer.start();
         game.setDrawPhase(true); 

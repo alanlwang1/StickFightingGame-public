@@ -67,7 +67,7 @@ public class MainCombatPhase
         dy2 = 0;
         //assign reference to MainStage object, reset players
         mainStage = ms;
-        
+        createdProjectiles = new ArrayList<Projectile>();
         //timer for character/projectile movement in combat phase 
         moveTimer = new AnimationTimer()
         {
@@ -170,7 +170,6 @@ public class MainCombatPhase
             }
         };
         //create new scene, set keybinds, and start combat
-        setKeyBinds();
     }
     /**
      * method getScene - method returns the scene for this MainCombatPhase object
@@ -468,7 +467,8 @@ public class MainCombatPhase
         
         //create root group
         root = new Group(canvas, player1.getPlayerImage(), player2.getPlayerImage());
-        
+        scene = new Scene(root, 1800, 900);
+        setKeyBinds();
         //move players to starting positions
         player1.move(0 + 100, canvas.getHeight() - player1.getPlayerImage().getImage().getHeight() - 100);
         player2.move(canvas.getWidth() - 100, canvas.getHeight() - player2.getPlayerImage().getImage().getHeight() - 100);
@@ -491,7 +491,7 @@ public class MainCombatPhase
             root.getChildren().addAll(createdLines);
         }
         //create projectile array
-        createdProjectiles = new ArrayList<Projectile>();
+
         //create text displaying player information
         Text t2 = new Text(0, 25, "Player1 Health");
         t2.setFont(new Font(20));
@@ -500,8 +500,7 @@ public class MainCombatPhase
         t1.setFont(new Font(20));
         root.getChildren().add(t1);
         root.getChildren().add(t2);
-        
-        scene = new Scene(root, 1800, 900);
+
         moveTimer.start(); 
     }
     public void playEndAnimation()
