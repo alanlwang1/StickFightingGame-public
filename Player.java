@@ -47,7 +47,7 @@ public abstract class Player implements Cloneable
 
     public void setImagePort(Rectangle2D newClipBounds)
     {
-        currentClipBounds = newClipBounds; 
+        currentClipBounds = newClipBounds;  
         playerImage.setViewport(newClipBounds); 
     }
 
@@ -99,8 +99,6 @@ public abstract class Player implements Cloneable
         animation.setCycleCount(1);
         animation.setOnFinished(e -> 
             {
-                projectile.setVisible(true);
-                projectile.setCurrentSpeed(projectile.getFinalSpeed()); 
                 if(getDirection() < 0)
                 {
                     setImagePort(new Rectangle2D(800, 200, 200, 200));
@@ -130,7 +128,7 @@ public abstract class Player implements Cloneable
         animation.setCycleCount(1);
         animation.setOnFinished(e -> 
             {
-                projectile.setVisible(true);
+                projectile.getProjectileImage().setVisible(true);
                 projectile.setCurrentSpeed(projectile.getFinalSpeed()); 
                 if(getDirection() < 0)
                 {

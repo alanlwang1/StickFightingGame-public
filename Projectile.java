@@ -1,4 +1,5 @@
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView; 
 import javafx.scene.shape.Ellipse;
 /**
  * Builds a custom weapon from this class (need to make a subclass for it).  
@@ -16,6 +17,7 @@ public abstract class Projectile
     private double x, y;
     private double width, height; 
     private Image gameImage;  
+    private ImageView projectileImage; 
     private Player player;
     private boolean isVisible; 
     private boolean isExisting; 
@@ -35,6 +37,7 @@ public abstract class Projectile
     {
         double newX = x + direction * currentSpeed;
         getHitbox().setCenterX(newX); 
+        projectileImage.setX(newX - (width / 2));
         x = newX;
     }
     
@@ -212,7 +215,16 @@ public abstract class Projectile
      */
     public void setGameImage(Image newGameImage)
     {
+        
         gameImage = newGameImage; 
+    }
+    public ImageView getProjectileImage()
+    {
+        return projectileImage;
+    }
+    public void setProjectileImage(ImageView newProjectileImage)
+    {
+        projectileImage = newProjectileImage;
     }
     /**
      * returns player the projectile is associated with

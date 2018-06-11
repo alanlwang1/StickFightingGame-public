@@ -38,7 +38,8 @@ public class MainCombatPhase
     private boolean goLeft2, goRight2; //booleans controlling player2's movement
     private double dx1, dy1, dx2, dy2; //doubles controlling movement distance for both players
     private ArrayList<Line> createdLines; 
-    private ArrayList<Projectile> createdProjectiles;  
+    private ArrayList<Projectile> createdProjectiles;
+    private ArrayList<ImageView> projectileImages; 
     private Group root;
     private AnimationTimer moveTimer;
     /**
@@ -90,9 +91,6 @@ public class MainCombatPhase
                 movePlayer(player2, dx2, dy2);
                 //move players and hitboxesto new locations
 
-
-                //move and repaint projectiles, if any 
-                gc.drawImage(new Image("notebook3.png"), 0, 0, 2020, 2500);
                 for(int i = 0; i < createdProjectiles.size(); i++)
                 {
                     Projectile projectile = createdProjectiles.get(i);
@@ -100,14 +98,14 @@ public class MainCombatPhase
                     if(projectile.getX() < 0 || projectile.getX() > 1800)  
                     {
                         createdProjectiles.remove(projectile);
+                        root.getChildren().remove(projectile.getProjectileImage());
                         i--;
                     }
-                    if(projectile.isVisible())
-                        gc.drawImage(projectile.getGameImage(), projectile.getX() - projectile.getWidth() / 2, projectile.getY() - projectile.getHeight() / 2);
                     //if projectile is no longer existing, remove it   
                     if(!projectile.isExisting())
                     {
                         createdProjectiles.remove(projectile);
+                        root.getChildren().remove(projectile.getProjectileImage());
                         i--;
                     }    
                     //if projectile collides with line, remove it
@@ -116,6 +114,7 @@ public class MainCombatPhase
                         if(checkCollisions(projectile.getHitbox(), line))
                         {
                             createdProjectiles.remove(projectile);
+                            root.getChildren().remove(projectile.getProjectileImage());
                             i--;
                         }
                     }
@@ -125,6 +124,7 @@ public class MainCombatPhase
                         player1.takeDamage(1);
                         player1.setCanTakeDamage(false);
                         createdProjectiles.remove(projectile);
+                        root.getChildren().remove(projectile.getProjectileImage());
                         i--;
                     }
                     if(checkCollisions(projectile.getHitbox(), player2.getHitbox()) && projectile.getPlayer().getPlayerID() == 1 && player2.canTakeDamage())
@@ -132,6 +132,7 @@ public class MainCombatPhase
                         player2.takeDamage(1);
                         player2.setCanTakeDamage(false);
                         createdProjectiles.remove(projectile);
+                        root.getChildren().remove(projectile.getProjectileImage());
                         i--;
                     }
                 }
@@ -280,6 +281,8 @@ public class MainCombatPhase
                                 player1.setCanFire(false);
                                 //generate projectile
                                 Projectile projectile = player1.fireRangedAttack();
+                                projectile.getProjectileImage().setVisible(false); 
+                                root.getChildren().add(projectile.getProjectileImage()); 
                                 createdProjectiles.add(projectile);
                                 //create and play animation
                                 player1.playRangedAnimation(projectile);
@@ -338,6 +341,8 @@ public class MainCombatPhase
                             {
                                 player2.setCanFire(false);
                                 Projectile projectile = player2.fireRangedAttack();
+                                projectile.getProjectileImage().setVisible(false); 
+                                root.getChildren().add(projectile.getProjectileImage()); 
                                 createdProjectiles.add(projectile);
                                 player2.playRangedAnimation(projectile);
                             }
@@ -469,6 +474,11 @@ public class MainCombatPhase
         //create new root group and assign to scene
         root = new Group(canvas, player1.getPlayerImage(), player2.getPlayerImage());
         scene.setRoot(root); 
+        
+        Image image = new Image("notebook3.png", 2020, 2500, true, true);
+        ImageView background = new ImageView(image);
+        root.getChildren().add(background); 
+        background.toBack(); 
         
         //move players to starting positions
         player1.move(0 + 100, canvas.getHeight() - player1.getPlayerImage().getImage().getHeight() - 100);
