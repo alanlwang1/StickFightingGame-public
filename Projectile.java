@@ -37,7 +37,7 @@ public abstract class Projectile
     {
         double newX = x + direction * currentSpeed;
         getHitbox().setCenterX(newX); 
-        projectileImage.setX(newX - (width / 2));
+        projectileImage.relocate(newX - (width / 2), getY() - height / 2); 
         x = newX;
     }
     

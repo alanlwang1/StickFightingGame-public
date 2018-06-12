@@ -26,7 +26,8 @@ public class Rock extends Projectile
         super.setPlayer(player); 
         super.setGameImage(new Image("rock.png"));
         super.setProjectileImage(new ImageView(getGameImage()));
-        super.getProjectileImage().relocate(getX() - getWidth() / 2, getY() - getHeight() - 2);  
+        super.getProjectileImage().relocate(getX() - getWidth() / 2, getY() - getHeight() / 2);  
+        super.getProjectileImage().setVisible(false);
         super.setHitbox(new Ellipse(getX(), getY(), 24, 24)); 
     }
 }

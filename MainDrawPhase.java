@@ -84,7 +84,8 @@ public class MainDrawPhase
                 //move both cursors     
                 moveCursor(cursor1, dx1, dy1); 
                 moveCursor(cursor2, dx2, dy2); 
-
+                //refresh canvas
+                gc.clearRect(0, 0, 1800, 900); 
                 //repaint selected points, if any 
                 gc.setFill(Color.BLUE); 
                 for(Point2D.Double point: selectedPoints)
@@ -144,8 +145,11 @@ public class MainDrawPhase
         scene = new Scene(root, 1800, 900); 
         setKeyBinds();
         
-        Image image = new Image("notebook3.png", 2020, 2500, true, true);
-        ImageView background = new ImageView(image);
+        ImageView background = new ImageView("notebook3.png");
+        background.setFitHeight(2500);
+        background.setFitWidth(2020);
+        background.setPreserveRatio(true);
+        background.setSmooth(true); 
         root.getChildren().add(background); 
         background.toBack(); 
         

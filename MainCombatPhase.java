@@ -39,7 +39,6 @@ public class MainCombatPhase
     private double dx1, dy1, dx2, dy2; //doubles controlling movement distance for both players
     private ArrayList<Line> createdLines; 
     private ArrayList<Projectile> createdProjectiles;
-    private ArrayList<ImageView> projectileImages; 
     private Group root;
     private AnimationTimer moveTimer;
     /**
@@ -136,6 +135,8 @@ public class MainCombatPhase
                         i--;
                     }
                 }
+                //clear canvas
+                gc.clearRect(0, 0, 1800, 900); 
                 //redraw health bars
                 gc.setFill(Color.GREEN);
                 gc.fillRect(0, 0, player1.getHealth() * 100, 50);
@@ -281,7 +282,6 @@ public class MainCombatPhase
                                 player1.setCanFire(false);
                                 //generate projectile
                                 Projectile projectile = player1.fireRangedAttack();
-                                projectile.getProjectileImage().setVisible(false); 
                                 root.getChildren().add(projectile.getProjectileImage()); 
                                 createdProjectiles.add(projectile);
                                 //create and play animation
@@ -341,7 +341,6 @@ public class MainCombatPhase
                             {
                                 player2.setCanFire(false);
                                 Projectile projectile = player2.fireRangedAttack();
-                                projectile.getProjectileImage().setVisible(false); 
                                 root.getChildren().add(projectile.getProjectileImage()); 
                                 createdProjectiles.add(projectile);
                                 player2.playRangedAnimation(projectile);
@@ -475,8 +474,12 @@ public class MainCombatPhase
         root = new Group(canvas, player1.getPlayerImage(), player2.getPlayerImage());
         scene.setRoot(root); 
         
-        Image image = new Image("notebook3.png", 2020, 2500, true, true);
-        ImageView background = new ImageView(image);
+        
+        ImageView background = new ImageView("notebook3.png");
+        background.setFitHeight(2500);
+        background.setFitWidth(2020);
+        background.setPreserveRatio(true);
+        background.setSmooth(true); 
         root.getChildren().add(background); 
         background.toBack(); 
         
