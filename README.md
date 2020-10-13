@@ -1,5 +1,5 @@
 # StickFightingGame
-Stick Figure Fighting Game for APCS project
+Stick Figure Fighting Game for APCS project  
 Coded in Java using JavaFX libraries 
 
 Notes on game
